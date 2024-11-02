@@ -1,0 +1,259 @@
+body {
+    background-color: #0F0F0F;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Fira Code';
+    margin: 0;
+    max-width: 100%;
+}
+
+.footer {
+    width: 100%;
+    max-width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;   
+    align-items: center;
+    color: #D3D3D3;
+    background-color: #0c0c0c;
+}
+
+.footer h1 {
+    width: 100%;
+    font-size: 12pt;
+    margin-left: 5%;
+    letter-spacing: 5px;
+    text-align: center;
+}
+
+.header {
+    width: 100%;
+    max-width: 100%;
+    height: 70px;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;   
+    align-items: center; 
+    background-color: #0c0c0c;
+}
+
+.header-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    width: 50%;
+    margin-right: 10%;
+}
+
+.header-buttons button {
+    background-color: #ffb343;
+    color:#0F0F0F;
+    border: none;
+    padding: 7px;
+    margin: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15pt;
+    font-weight: 600;
+    font-family: 'Fira Code';
+}
+
+.header-buttons button:hover {
+    background-color: #db9a39;
+    color: #0F0F0F;
+}
+
+.header img {
+    margin-left: 9.1%;
+    width: 40px;
+    height: 40px;
+}
+
+.header h1 {
+    width: 100%;
+    font-size: 25px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.line {
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+    height: 0.1px;
+    background-color: #fff;
+}
+
+.container {
+    width: 100%;
+    min-height: 100%;    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.left-space {
+    width: 30%;
+    height: 100vh;
+    font-size: 6pt;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #D3D3D3;
+}
+
+.left-space h1, .right-space .top-creators h1 {
+    background-color: #212121;
+}
+
+.left-space h1 {
+    width: 250px;
+}
+
+.left-space .menu, .left-space .page-actions, .left-space .pinned-projects {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.left-space .menu {
+    margin-top: 24%;
+    width: 100%;
+    height: 30%; 
+}
+
+.left-space .page-actions {
+    width: 100%;
+    height: 20%; 
+}
+
+.left-space .pinned-projects {
+    width: 100%;
+    height: 50%;
+}
+
+.left-space a {
+    margin-left: 30%;
+    width: 47%;
+    padding: 10px;
+    font-size: 12pt;
+    text-decoration: none;
+    color:#D3D3D3;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+.left-space .menu h1 {
+    margin-left: 31%;
+}
+
+.left-space a:hover, .right-space a:hover {
+    background-color:#ffb343;
+    color: #0F0F0F;
+}
+
+.page-actions h1, .pinned-projects h1 {
+    margin-left: 31.5%;
+}
+
+.middle-space {
+    width: 40%;
+    min-height: 100%;    
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+.middle-space .posts {
+    margin-bottom: 7%;
+    width: 100%;
+    height: 500px;
+    background-color: #161616;
+    color: #D3D3D3;
+}
+
+.middle-space h1 {
+    background-color: #ffb343;
+    margin-top: 8%;
+    margin-bottom: 5%;
+    color: #0c0c0c;
+    text-align: left;
+    /* width: 100%; */
+}
+
+.right-space {
+    width: 30%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 6pt;
+    color: #D3D3D3;
+    align-items: end;
+}
+
+.right-space .top-creators {
+    margin-top: 24%;
+    width: 75%;
+    height: 53%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.right-space .top-creators h1 {
+    text-align: left;
+    margin-left: 1.5%;
+    width: 60%;
+}
+
+.right-space a {
+    width: 64%;
+    color:#D3D3D3;
+    text-align: left;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 12pt;
+    text-decoration: none;
+    color:#D3D3D3;
+    font-weight: 600;
+}
+
+.right-space .contribute {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: end;
+}
+
+.right-space .cat-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    height: 200px;
+    margin-right: 2%;
+    cursor: pointer;
+}
+
+.right-space .cat-icon img {
+    width: 100%;
+    height: auto;
+}
+
+.right-space .cat-icon h1 {
+    margin: 0;
+    margin-right: 5%;
+    font-size: 16pt;
+    text-align: center;
+}
+
