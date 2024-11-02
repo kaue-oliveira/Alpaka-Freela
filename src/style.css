@@ -32,7 +32,7 @@ body {
 .header {
     width: 100%;
     max-width: 100%;
-    height: 70px;
+    height: 6vh;
     margin: 0;
     display: flex;
     flex-direction: row;
@@ -46,7 +46,7 @@ body {
     flex-direction: row;
     justify-content: end;
     align-items: center;
-    width: 50%;
+    width: 90%;
     margin-right: 10%;
 }
 
@@ -97,6 +97,19 @@ body {
     justify-content: center;
 }
 
+.reduced-left-space, .extended-left-space {
+    display: none;
+}
+
+.background-opacity {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0, 0.4);
+    z-index: 5;
+}
+
 .left-space {
     width: 30%;
     height: 100vh;
@@ -105,6 +118,7 @@ body {
     flex-direction: column;
     align-items: center;
     color: #D3D3D3;
+    order: 1;
 }
 
 .left-space h1, .right-space .top-creators h1 {
@@ -123,9 +137,13 @@ body {
 }
 
 .left-space .menu {
-    margin-top: 24%;
+    margin-top: 10%;
     width: 100%;
     height: 30%; 
+}
+
+.left-space .menu svg {
+    display: none;
 }
 
 .left-space .page-actions {
@@ -139,7 +157,7 @@ body {
 }
 
 .left-space a {
-    margin-left: 30%;
+    margin-left: 20%;
     width: 47%;
     padding: 10px;
     font-size: 12pt;
@@ -150,7 +168,7 @@ body {
 }
 
 .left-space .menu h1 {
-    margin-left: 31%;
+    margin-left: 21%;
 }
 
 .left-space a:hover, .right-space a:hover {
@@ -158,8 +176,12 @@ body {
     color: #0F0F0F;
 }
 
-.page-actions h1, .pinned-projects h1 {
-    margin-left: 31.5%;
+.left-space .page-actions h1, .left-space .pinned-projects h1 {
+    margin-left: 21%;
+}
+
+.left-space .top-creators, .left-space .contribute {
+    display: none;
 }
 
 .middle-space {
@@ -167,8 +189,10 @@ body {
     min-height: 100%;    
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: center;
     justify-content: center;
+    order: 2;
+    z-index: 0;
 }
 
 .middle-space .posts {
@@ -180,6 +204,7 @@ body {
 }
 
 .middle-space h1 {
+    width: 100%;
     background-color: #ffb343;
     margin-top: 8%;
     margin-bottom: 5%;
@@ -190,18 +215,19 @@ body {
 
 .right-space {
     width: 30%;
-    height: 100vh;
+    height: 94vh;
     display: flex;
     flex-direction: column;
     font-size: 6pt;
     color: #D3D3D3;
     align-items: end;
+    order: 3;
 }
 
 .right-space .top-creators {
-    margin-top: 24%;
+    margin-top: 10%;
     width: 75%;
-    height: 53%;
+    height: 60vh;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -227,7 +253,7 @@ body {
 
 .right-space .contribute {
     width: 100%;
-    height: 25%;
+    height: 30vh;
     display: flex;
     flex-direction: column;
     align-items: end;
@@ -239,8 +265,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 25%;
-    height: 200px;
+    width: 15%;
+    height: 140px;
     margin-right: 2%;
     cursor: pointer;
 }
@@ -253,7 +279,480 @@ body {
 .right-space .cat-icon h1 {
     margin: 0;
     margin-right: 5%;
-    font-size: 16pt;
+    font-size: 12pt;
     text-align: center;
 }
 
+@media (max-width: 1300px) {
+    .left-space {
+        width: 30%;
+    }
+
+    .left-space .menu a, .left-space .page-actions a, .left-space .pinned-projects a, .left-space .top-creators a {
+        margin-left: 10%;
+        width: 75%;
+    }
+
+    .left-space .menu h1, .left-space .page-actions h1, .left-space .pinned-projects h1 {
+        margin-left: 12%;
+    }
+
+    .left-space .top-creators, .left-space .contribute {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .left-space .menu {
+        margin-top: 10%;
+        height: 20%;
+    }
+
+    .left-space .page-actions {
+        height: 12%;
+    }
+
+    .left-space .pinned-projects {
+        height: 10%;
+    }
+
+    .left-space .top-creators {
+        width: 100%;
+        height: 28%;
+        display: flex;
+        align-items: start;
+    }
+
+    .left-space .top-creators h1 {
+        margin-left: 12%;
+    }
+
+    .left-space .contribute {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        width: 100%;
+        margin-left: 15%;
+    }
+
+    .left-space .contribute h1 {
+        font-size: 12pt;
+        background-color: transparent;
+    }
+
+    .left-space .contribute .cat-icon {
+        width: 25%;
+        height: 140px;
+        margin-left: 0;
+    }
+
+    .left-space .contribute .cat-icon img {
+        width: 100%;
+        height: auto;
+    }
+    
+    .middle-space {
+        width: 70%;
+    }
+
+    .middle-space h1 {
+        width: 90%;
+    }
+
+    .middle-space .posts {
+        width: 90%;
+    }
+
+    .right-space {
+        display: none;
+    }
+
+    .reduced-left-space, .extended-left-space {
+        display: none;
+    } 
+}
+
+@media (max-width: 1080px) {
+    .left-space {
+        width: 30%;
+        margin-right: 5%;
+    }
+
+    .left-space .menu a, .left-space .page-actions a, .left-space .pinned-projects a, .left-space .top-creators a {
+        font-size: 10pt;
+    }
+
+    .left-space .menu h1, .left-space .page-actions h1, .left-space .pinned-projects h1, .left-space .top-creators h1 {
+        font-size: 10pt;
+        width: 90%;
+    }
+
+    .left-space .menu {
+        margin-top: 10%;
+        height: 22%;
+    }
+
+    .left-space .page-actions {
+        height: 12%;
+    }
+
+    .left-space .pinned-projects {
+        height: 5%;
+    }
+
+    .left-space .top-creators {
+        width: 100%;
+        height: 28%;
+        display: flex;
+        align-items: start;
+    }
+
+    .left-space .top-creators h1 {
+        margin-left: 12%;
+    }
+
+    .left-space .contribute {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        width: 100%;
+        margin-left: 15%;
+    }
+
+    .left-space .contribute h1 {
+        font-size: 12pt;
+        background-color: transparent;
+    }
+
+    .left-space .contribute .cat-icon {
+        width: 25%;
+        height: 140px;
+        margin-left: 0;
+    }
+
+    .left-space .contribute .cat-icon img {
+        width: 100%;
+        height: auto;
+    }
+
+    .middle-space {
+        width: 65%;
+    }
+
+    .middle-space h1 {
+        font-size: 20pt;
+    }
+
+    .reduced-left-space, .extended-left-space {
+        display: none;
+    } 
+}
+
+@media (max-width: 800px) {
+    .left-space {
+        width: 30%;
+        margin-right: 10%;
+    }
+
+    .left-space .menu a, .left-space .page-actions a, .left-space .pinned-projects a, .left-space .top-creators a {
+        font-size: 8pt;
+    }
+
+    .left-space .menu h1, .left-space .page-actions h1, .left-space .pinned-projects h1, .left-space .top-creators h1 {
+        font-size: 8pt;
+        width: 100%;
+    }
+
+    .left-space .menu {
+        margin-top: 10%;
+        height: 22%;
+    }
+
+    .left-space .page-actions {
+        height: 12%;
+    }
+
+    .left-space .pinned-projects {
+        height: 5%;
+    }
+
+    .left-space .top-creators {
+        width: 100%;
+        height: 28%;
+        display: flex;
+        align-items: start;
+    }
+
+    .left-space .top-creators h1 {
+        margin-left: 12%;
+    }
+
+    .left-space .contribute {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        width: 100%;
+        margin-left: 15%;
+    }
+
+    .left-space .contribute h1 {
+        font-size: 8pt;
+        background-color: transparent;
+    }
+
+    .left-space .contribute .cat-icon {
+        width: 20%;
+        height: 120px;
+        margin-left: 0;
+    }
+
+    .left-space .contribute .cat-icon img {
+        width: 100%;
+        height: auto;
+    }
+
+    .middle-space {
+        width: 60%;
+    }
+
+    .middle-space h1 {
+        font-size: 15pt;
+    }
+
+    .header h1 {
+        font-size: 15pt;
+    }
+
+    .header img {
+        margin-left: 2.1%;
+        width: 30px;
+        height: 30px;
+    }
+
+    .header-buttons {
+        margin-right: 1%;
+    }
+
+    .header-buttons button {
+        background-color: #ffb343;
+        color:#0F0F0F;
+        border: none;
+        padding: 7px;
+        margin: 0 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12pt;
+        font-weight: 600;
+        font-family: 'Fira Code';
+    }
+
+    .reduced-left-space, .extended-left-space {
+        display: none;
+    } 
+}
+
+@media (max-width: 550px) {
+    .container {
+        justify-content: left;
+    }
+
+    .left-space {
+        display: none;
+    }
+
+    .extended-left-space {
+        display: none;
+        background-color: #db9a39;
+        flex-direction: column;
+        justify-content: space-between;
+        position: fixed;
+        width: 60%;
+        height: 95vh;
+        z-index: 10;
+    }
+    
+    .extended-left-space .menu, .extended-left-space .page-actions, .extended-left-space .pinned-projects {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .extended-left-space h1 {
+        font-size: 11pt;
+        font-weight: 600;
+        margin: 0;
+        width: 92%;
+    }
+    
+    .extended-left-space a {
+        width: 90%;
+        font-size: 11pt;
+        font-weight: 600;
+        text-decoration: none;
+        color: #212121;
+        margin-bottom: 2%;
+    }
+    
+    .extended-left-space .menu {
+        height: 30%;
+    }
+    
+    .extended-left-space .menu .menu-back-icon {
+        height: 30px;
+        display: flex;
+        width: 90%;
+        flex-direction: row;
+        align-items: center;
+        color: #D3D3D3;
+        background-color: #0c0c0c;
+        border-radius: 5px;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+    
+    .extended-left-space .menu .menu-back-icon svg {
+        margin-left: 3%;
+    }
+    
+    .extended-left-space .menu .menu-back-icon h1 {
+        margin-left: 3%;
+    }
+    
+    .extended-left-space .top-creators {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 45%;
+    }
+    
+    .extended-left-space .top-creators h1 {
+        margin-bottom: 2%;
+    }
+    
+    .extended-left-space .contribute {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: end;
+        width: 100%;
+        height: auto;
+        /* background-color: #0c0c0c; */
+    }
+    
+    .extended-left-space .contribute .cat-icon {
+        margin-left: 5%;
+        margin-bottom: 5%;
+        width: 40%;
+        height: 100%;
+    }
+    
+    .extended-left-space .contribute img {
+        width: 100%;
+        height: auto;
+    }
+    
+    .extended-left-space .contribute h1 {
+        text-align: center;
+    }
+
+    .reduced-left-space {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 10%;
+    }
+
+    .reduced-left-space svg {
+        margin-top: 50%;
+    }
+
+    .reduced-left-space h1 {
+        font-size: 15pt;
+    }
+
+    .reduced-left-space .menu, .reduced-left-space .page-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .middle-space {
+        width: 90%;
+        align-items: center;
+    }
+
+    .middle-space h1 {
+        width: 80%;
+        font-size: 10pt;
+    }
+
+    .middle-space .posts {
+        width: 80%;
+        align-items: center;
+    }
+
+    .header {
+        height: 5vh;
+    }
+
+    .header h1 {
+        font-size: 12pt;
+    }
+
+    .header img {
+        margin-left: 2.1%;
+        width: 30px;
+        height: 30px;
+    }
+
+    .header-buttons {
+        margin-right: 1%;
+    }
+
+    .header-buttons button {
+        padding: 4px;
+        margin: 0 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 10pt;
+        font-weight: 600;
+        font-family: 'Fira Code';
+    }
+
+}
+
+@media (max-width: 400px) {
+    .header {
+        height: 5vh;
+    }
+
+    .header h1 {
+        font-size: 10pt;
+    }
+
+    .header img {
+        margin-left: 2.1%;
+        width: 20px;
+        height: 20px;
+    }
+
+    .header-buttons {
+        margin-right: 1%;
+    }
+
+    .header-buttons button {
+        padding: 4px;
+        margin: 0 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 8pt;
+        font-weight: 600;
+        font-family: 'Fira Code';
+    }
+
+    .reduced-left-space h1 {
+        font-size: 10pt;
+    }
+}
