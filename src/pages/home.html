@@ -4,19 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Fira Code' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&family=Fira+Code:wght@100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/home.css">
 </head>
-<body id="height width">
+<body>
     <div class="header">
-        <img src="../public/images/alpaca-rock-cyberpunk.png" alt="">
+        <img src="../img/alpaca-rock-cyberpunk.png" alt="">
         <h1>&lt;Alpaka Space/></h1>
         <div class="header-buttons">
-           <button>Sign-in</button>
-           <button>Sign-up</button>
+            <div class="theme-switcher">
+                <input type="radio" id="light-theme" name="themes" checked />
+                <label for="light-theme">
+                    <span>
+                        <i data-feather="sun"></i>
+                    </span>
+                </label>
+                <input type="radio" id="dark-theme" name="themes" />
+                <label for="dark-theme">
+                    <span>
+                        <i data-feather="moon"></i>
+                    </span>
+                </label>
+                <input type="radio" id="black-theme" name="themes" />
+                <label for="black-theme">
+                    <span>
+                        <i data-feather="star"></i>
+                    </span>
+                </label>
+                <span class="slider"></span>
+            </div>
+            <a href="">Sign-in</a>
+            <a href="">Sign-up</a>
+            <a href="../../index.html" class="logout-button">Logout</a>
         </div>
     </div>
-    <!-- <div class="line"></div> -->
+    <div class="horizontal-line"></div>
     <div class="container">
         <div class="reduced-left-space">
             <div class="menu">
@@ -39,50 +66,33 @@
                     </svg>
                     <h1>Back</h1>
                 </div>
-                <a href="">💻 Find a professional</a>
+                <a href="">💻 Find a Freelancer</a>
                 <a href="">🧑🏻‍💼 Advertise projects</a>
-                <a href="">🌍 Open Source projects</a>
+                <a href="">🌍 Open source space</a>
                 <a href="">🦖 Share your project</a>
+                <a href="">🧑🏻‍💼 Profile</a>
             </div>
             <div class="top-creators">
                 <h1>🔥 Top Creators page’s:</h1>
                 <a href="">🎠 paulohenrique64</a>
-            </div>
-            <div class="contribute">
-                <a href="" class="cat-icon">
-                    <img src="../public/images/alpaca-rock-cyberpunk.png" alt="">
-                    <h1>Contribute<br>on GitHub</h1>
-                </a>
             </div>
         </div>
         <div class="background-opacity"></div>
         <div class="left-space">
             <div class="menu">
                 <h1>📦 Menu:</h1>
-                <a href="">💻 Find a professional</a>
+                <a href="">💻 Find a Freelancer</a>
                 <a href="">🧑🏻‍💼 Advertise projects</a>
-                <a href="">🌍 Open Source projects 👈</a>
-            </div>
-            <div class="page-actions">
-                <h1>🐪 Page actions:</h1>
+                <a href="">🌍 Open source space 👈</a>
                 <a href="">🦖 Share your project</a>
-            </div>
-            <div class="pinned-projects">
-                <h1>📌 Pinned projects:</h1>
-            </div>
-            <div class="top-creators">
-                <h1>🔥 Top Creators page’s:</h1>
+                <a href="">📌 Archive</a>
+                <a href="">🧑🏻‍💼 Profile</a>
+                <h1 class="top-creators-h1">🔥 Top Creators page’s:</h1>
                 <a href="">🎠 paulohenrique64</a>
-            </div>
-            <div class="contribute">
-                <a href="" class="cat-icon">
-                    <img src="../public/images/alpaca-rock-cyberpunk.png" alt="">
-                    <h1>Contribute<br>on GitHub</h1>
-                </a>
             </div>
         </div>
         <div class="middle-space">
-            <h1>🌍 Open Source projects</h1>
+            <h1>🌍 Open source space</h1>
             <div class="posts">
                 post 1
             </div>
@@ -102,23 +112,11 @@
                 post 6
             </div>
         </div>
-        <div class="right-space">
-            <div class="top-creators">
-                <h1>🔥 Top Creators page’s:</h1>
-                <a href="">🎠 paulohenrique64</a>
-            </div>
-            <div class="contribute">
-                <a href="" class="cat-icon">
-                    <img src="../public/images/alpaca-rock-cyberpunk.png" alt="">
-                    <h1>Contribute<br>on GitHub</h1>
-                </a>
-            </div>
-        </div>
     </div>
-    <!-- <div class="line"></div> -->
+    <div class="horizontal-line"></div>
     <div class="footer">
         <h1>Crated by Paulo Henrique @2024</h1>
     </div>
-    <script src="index.js"></script>
+    <script src="../js/home.js"></script>
 </body>
 </html>

@@ -1,11 +1,14 @@
 {
   "name": "the-alpaka-project",
-  "source": "src/index.html",
+  "source": "index.html",
   "scripts": {
     "start": "parcel",
     "build": "parcel build"
   },
   "devDependencies": {
     "parcel": "^2.12.0"
+  },
+  "dependencies": {
+    "feather-icons": "^4.29.2"
   }
 }
