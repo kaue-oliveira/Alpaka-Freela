@@ -139,7 +139,7 @@ body {
 .theme-switcher {
     font-family: "Inter", sans-serif;
 	background-color: var(--c-bg-secondary);
-	border-radius: 10px;
+	border-radius: 5px;
 	display: flex;
 	padding: 0 3px;
 	align-items: center;
@@ -275,6 +275,12 @@ body {
     height: 30%; 
 }
 
+.left-space img {
+    width: 10%;
+    height: auto;
+    margin-right: 3%;
+}
+
 .left-space .menu svg {
     display: none;
 }
@@ -290,6 +296,9 @@ body {
 }
 
 .left-space a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     margin-left: 10%;
     width: 67%;
     padding: 10px;
@@ -315,6 +324,9 @@ body {
 }
 
 .left-space .page-actions h1, .left-space .pinned-projects h1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     margin-left: 21%;
 }
 
@@ -329,7 +341,6 @@ body {
 .middle-space {
     width: 100%;
     margin-top: 0.1%;
-    /* margin-left:20.1%; */
     min-height: 100%;    
     display: flex;
     flex-direction: column;
@@ -355,12 +366,21 @@ body {
 }
 
 .middle-space h1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     width: 80%;
     margin-top: 3%;
     margin-bottom: 2%;
     color: var(--c-text-primary);
     text-align: left;
     font-size: 40pt;
+}
+
+.middle-space h1 img {
+    width: 6%;
+    height: auto;
+    margin-right: 2%;
 }
 
 .right-space {
@@ -522,7 +542,6 @@ body {
 @media (max-width: 1080px) {
     .left-space {
         width: 30%;
-        margin-right: 5%;
     }
 
     .left-space .menu a, .left-space .page-actions a, .left-space .pinned-projects a, .left-space .top-creators a {
@@ -549,7 +568,7 @@ body {
     }
 
     .middle-space {
-        width: 65%;
+        width: 100%;
     }
 
     .middle-space h1 {
@@ -564,7 +583,6 @@ body {
 @media (max-width: 800px) {
     .left-space {
         width: 30%;
-        margin-right: 10%;
     }
 
     .left-space .menu a, .left-space .page-actions a, .left-space .pinned-projects a, .left-space .top-creators a {
@@ -588,7 +606,7 @@ body {
     }
 
     .middle-space {
-        width: 60%;
+        width: 100%;
     }
 
     .middle-space h1 {
@@ -597,6 +615,7 @@ body {
 
     .header h1 {
         font-size: 15pt;
+        width: 40%;
     }
 
     .header img {
@@ -604,19 +623,19 @@ body {
         width: 30px;
         height: 30px;
     }
+    
+    .theme-switcher {
+        transform: scale(0.8);
+    }
 
     .header-buttons {
-        margin-right: 1%;
+
     }
 
     .header-buttons a {
-        color:#0F0F0F;
-        border: none;
         padding: 7px;
-        margin: 0 10px;
         border-radius: 5px;
-        cursor: pointer;
-        font-size: 12pt;
+        font-size: 8pt;
         font-weight: 600;
     }
 
@@ -662,6 +681,9 @@ body {
     }
     
     .extended-left-space a {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         width: 90%;
         font-size: 11pt;
         font-weight: 600;
@@ -674,6 +696,12 @@ body {
     
     .extended-left-space .menu {
         height: 23%;
+    }
+
+    .extended-left-space img {
+        width: 10%;
+        height: auto;
+        margin-right: 3%;
     }
     
     .extended-left-space .menu .menu-back-icon {
@@ -690,10 +718,6 @@ body {
         margin-left: 5%;
         cursor: pointer;
     }
-    
-    /* .extended-left-space .menu .menu-back-icon svg {
-        margin-left: 1%;
-    } */
     
     .extended-left-space .menu .menu-back-icon h1 {
         margin-left: 3%;
@@ -751,6 +775,13 @@ body {
         border-top: #000;
     }
 
+    .reduced-left-space img {
+        margin-top: 20%;
+        width: 60%;
+        height: auto;
+        cursor: pointer;
+    }
+
     .reduced-left-space svg {
         margin-top: 50%;
         cursor: pointer;
@@ -785,7 +816,7 @@ body {
     }
 
     .header h1 {
-        font-size: 14pt;
+        font-size: 16pt;
     }
 
     .header img {
@@ -795,16 +826,11 @@ body {
     }
 
     .header-buttons {
-        margin-right: 1%;
+     
     }
 
     .header-buttons a {
-        padding: 6px;
-        margin: 0 10px;
-        border-radius: 3px;
-        cursor: pointer;
-        font-size: 10pt;
-        font-weight: 600;
+        display: none;
     }
 
 }
@@ -823,7 +849,8 @@ body {
     }
 
     .header h1 {
-        font-size: 10pt;
+        font-size: 14pt;
+        width: 80%;
     }
 
     .header img {
@@ -848,5 +875,15 @@ body {
 
     .reduced-left-space h1 {
         font-size: 10pt;
+    }
+}
+
+@media (max-height: 768px) {
+    .header {
+        height: 8vh;
+    }
+
+    .horizontal-line {
+        margin-top: 8vh;
     }
 }

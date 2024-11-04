@@ -6,9 +6,13 @@
     "build": "parcel build"
   },
   "devDependencies": {
-    "parcel": "^2.12.0"
+    "parcel": "^2.12.0",
+    "process": "^0.11.10"
   },
   "dependencies": {
-    "feather-icons": "^4.29.2"
+    "feather-icons": "^4.29.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.27.0"
   }
 }
