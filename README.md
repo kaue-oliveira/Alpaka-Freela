@@ -1,16 +1,33 @@
-## ??? Project
+<h1 align="center">Alpaka Freela</h1>
 
-### Requirements
+<h3 align="center">Sistema de Gerenciamento de Freelancers</h3>
 
+<p align="center">
+  Uma plataforma intuitiva e para gerenciar perfis de freelancers, ofertas de trabalho e projetos pessoais.
+</p>
+
+<p align="center">
+ <img src="./react-frontend/src/img/alpaca-astronaut.png" width="15%" alt="Image description">
+</p> 
+  
+  
+## Tecnologias Utilizadas
+
+- Javalin 6.3.0 para o backend
+- React 18.3.1 para o frontend
+- MySql para o banco de Dados
+
+## Requisitos
 - npm package manager
-- java development kit
+- Java Development Kit (JDK)
 
-### Running frontend locally
+## Executando o Frontend Localmente
+
 ```sh
 ./run-frontend.sh
 ```
 
-### Running backend locally
+## Executando o Backend Localmente
 ```sh
 ./run-backend.sh
 ```
