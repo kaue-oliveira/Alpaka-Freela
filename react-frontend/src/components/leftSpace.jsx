@@ -15,13 +15,11 @@ export default function LeftSpace() {
         <div className={styles["left-space"]}>
             <div className={styles.menu}>
                 <h1><img src={boxEmoji} alt=""></img> Menu:</h1>
-                <a href=""><img src={manTechEmoji} alt=""></img> Find a Freelancer</a>
-                <a href=""><img src={briefCaseEmoji} alt=""></img> Advertise projects</a>
-                <a href=""><img src={globeEmoji} alt=""></img> Open source space 👈</a>
-                <a href=""><img src={hammerEmoji} alt=""></img> Share your project</a>
-                <a href=""><img src={pushpinEmoji} alt=""></img> Archive</a>
-                <a href=""><img src={laptopEmoji} alt=""></img> Profile</a>
-                <h1 className={styles["top-creators-h1"]}><img src={rocketEmoji} alt=""></img> Top Creators page’s:</h1>
+                <a href=""><img src={manTechEmoji} alt=""></img> Freelancer</a>
+                <a href=""><img src={briefCaseEmoji} alt=""></img> Freela</a>
+                <a href=""><img src={globeEmoji} alt=""></img> Projetos da comunidade</a>
+                <a href=""><img src={laptopEmoji} alt=""></img> Perfil</a>
+                <h1 className={styles["top-creators-h1"]}><img src={rocketEmoji} alt=""></img> Top Contribuidores:</h1>
                 <a href=""><img src={dragonEmoji} alt=""></img> paulohenrique64</a>
             </div>
         </div>

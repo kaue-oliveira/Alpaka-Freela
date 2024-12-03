@@ -7,12 +7,12 @@ export default function HeaderHomePage() {
   return (
     <div className={styles.header}>
         <img src={logoImg} alt=""></img>
-        <h1>&lt;Alpaka Space/&gt;</h1>
+        <h1>&lt;Alpaka Freela/&gt;</h1>
         <div className={styles["header-buttons"]}>
             <ThemeSwitcher></ThemeSwitcher>
-            <a href="">Sign-in</a>
-            <a href="">Sign-up</a>
-            <a href="/" className={styles["logout-button"]}>Logout</a>
+            <a href="">Entrar</a>
+            <a href="">Registrar</a>
+            <a href="/" className={styles["logout-button"]}>Sair</a>
         </div>
         <script src="../js/home.js"/>
     </div>

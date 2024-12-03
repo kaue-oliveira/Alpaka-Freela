@@ -361,7 +361,7 @@ body {
     margin-bottom: 7%;
     width: 80%;
     height: 500px;
-    background-color: var(--c-bg-primary);
+    background-color: transparent;
     color: var(--c-text-primary);
 }
 
@@ -374,11 +374,12 @@ body {
     margin-bottom: 2%;
     color: var(--c-text-primary);
     text-align: left;
-    font-size: 40pt;
+    font-size: 35pt;
+    font-weight: 600;
 }
 
 .middle-space h1 img {
-    width: 6%;
+    width: 4%;
     height: auto;
     margin-right: 2%;
 }
