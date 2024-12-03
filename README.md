@@ -1,9 +1,9 @@
 <h1 align="center">Alpaka Freela</h1>
 
-<h3 align="center">Sistema de Gerenciamento de Freelancers</h3>
+<h3 align="center">Sistema de gerenciamento de Freelancers</h3>
 
 <p align="center">
-  Uma plataforma intuitiva e para gerenciar perfis de freelancers, ofertas de trabalho e projetos pessoais.
+  Uma plataforma intuitiva para gerenciar perfis de desenvolvedores freelancers e ofertas de trabalho
 </p>
 
 <p align="center">
@@ -20,6 +20,9 @@
 ## Requisitos
 - npm package manager
 - Java Development Kit (JDK)
+
+## Protótipo no Figma
+[https://www.figma.com/design/CkWKdR1lSCyqwYz5lU2MjD/Projeto-engenharia-de-software?node-id=0-1&t=dHIkcObH6UIrWE4X-1](https://www.figma.com/design/CkWKdR1lSCyqwYz5lU2MjD/Projeto-engenharia-de-software?node-id=0-1&t=dHIkcObH6UIrWE4X-1)
 
 ## Executando o Frontend Localmente
 
