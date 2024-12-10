@@ -13,7 +13,7 @@
   
 ### Tecnologias Utilizadas
 
-- Javalin 6.3.0 para o backend
+- Spring Boot 3.4.0 para o backend
 - React 18.3.1 para o frontend
 - MySql para o banco de Dados
 
