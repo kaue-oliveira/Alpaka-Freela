@@ -1,9 +1,9 @@
 <h1 align="center">Alpaka Freela</h1>
 
-<h3 align="center">Sistema de Gerenciamento de Freelancers</h3>
+<h3 align="center">Sistema de gerenciamento de Freelancers</h3>
 
 <p align="center">
-  Uma plataforma intuitiva e para gerenciar perfis de freelancers, ofertas de trabalho e projetos pessoais.
+  Uma plataforma intuitiva para gerenciar perfis de desenvolvedores freelancers e ofertas de trabalho
 </p>
 
 <p align="center">
