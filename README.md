@@ -1,6 +1,6 @@
 <h2 align="center">Alpaka Freela</h2>
 
-<h3 align="center">Conecte-se com Profissionais Freelancers Qualificados e Prontos para Atender Suas Necessidades</h3>
+<h3 align="center">O ponto de encontro entre profissionais Freelancers e grandes oportunidades</h3>
 
 <p align="center">
  <img src="./react-frontend/src/img/alpaca-astronaut.png" width="10%" alt="Image description">
