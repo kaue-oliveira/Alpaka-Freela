@@ -1,19 +1,28 @@
 <h2 align="center">Alpaka Freela</h2>
 
-<h3 align="center">Encontre e Contrate Desenvolvedores Freelancers Qualificados</h3>
+<h3 align="center">Encontre e Contrate Profissionais Freelancers Qualificados</h3>
 
 <p align="center">
  <img src="./react-frontend/src/img/alpaca-astronaut.png" width="10%" alt="Image description">
 </p> 
 
 ### Descrição
-Uma plataforma intuitiva onde desenvolvedores podem compartilhar serviços de desenvolvimento freelance e contratantes fazem propostas de contratação. Os contratantes também podem compartilhar ofertas de trabalho, onde os desenvolvedores farão propostas.
-  
+Plataforma simples e objetiva para conectar freelancers a clientes que necessitam de serviços. Os freelancers podem divulgar suas ofertas de serviços, enquanto os clientes (ou contratantes) podem publicar oportunidades de trabalho, facilitando ainda mais a busca por profissionais qualificados.
+
+Características principais da plataforma Alpaka Freela:
+
+- Autenticação e autorização para garantir a segurança dos usuários.
+- Dados de login e senha são criptografados no banco de dados.
+- CRUDs que permitem gerenciar publicações de ofertas de serviço (mão de obra) e de trabalho.
+- Possibilidade de enviar propostas de contratação para ofertas de serviços publicadas por usuários freelancers.
+- Possibilidade de enviar propostas de serviços para ofertas de trabalho publicadas por usuários contratantes.
+- A plataforma oferece um ambiente seguro para as conexões, sem assumir responsabilidade sobre pagamentos ou contratos, que são de total responsabilidade dos envolvidos.
+- A plataforma permite o acesso de usuários não cadastrados/autenticados, porém com limitação de apenas visualizar as publicações de ofertas de serviços e de trabalho.
   
 ### Tecnologias Utilizadas
 
-- Javalin 6.3.0 para o backend
 - React 18.3.1 para o frontend
+- Javalin 6.3.0 para o backend
 - MySql para o banco de Dados
 
 ### Requisitos
