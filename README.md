@@ -21,7 +21,8 @@ Plataforma simples e objetiva para conectar freelancers a clientes que necessita
 ### Tecnologias Utilizadas
 
 - React 18.3.1 para o frontend
-- Javalin 6.3.0 para o backend
+- Spring-boot 3.4.0 para o backend
+- Java 23 para o backend
 - MySql para o banco de Dados
 
 ### Requisitos
