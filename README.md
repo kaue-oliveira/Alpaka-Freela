@@ -3,7 +3,7 @@
 <h3 align="center">O Ponto de Encontro Entre Profissionais Freelancers e Grandes Oportunidades</h3>
 
 <p align="center">
- <img src="./react-frontend/src/img/alpaca-astronaut.png" width="10%" alt="Image description">
+ <img src="./react-frontend/src/img/alpaca-astronaut.png" width="15%" alt="Image description">
 </p> 
 
 ### Descrição
