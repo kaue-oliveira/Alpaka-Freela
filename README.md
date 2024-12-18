@@ -28,6 +28,37 @@ Plataforma simples e objetiva para conectar freelancers a clientes que necessita
 - npm package manager
 - Java Development Kit (JDK)
 
+### Estrutura de Diretórios
+```
+├── docs
+│   ├── diagramas
+│   ├── documento-de-requisitos
+│   ├── documentos
+│   └── padroes-adotados
+│
+├── react-frontend
+│   ├── index.html
+│   ├── index.js
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── README.md
+│   └── src
+│
+├── spring-boot-back-end
+│    ├── mvnw
+│    ├── mvnw.cmd
+│    ├── pom.xml
+│    └── src
+│        ├── main
+│        └── test
+│
+├── README.md
+├── run-backend.sh
+└── run-frontend.sh
+
+25 directories, 48 files
+```
+
 ### Protótipo no Figma
 [https://www.figma.com/design/CkWKdR1lSCyqwYz5lU2MjD/Projeto-engenharia-de-software?node-id=0-1&t=dHIkcObH6UIrWE4X-1](https://www.figma.com/design/CkWKdR1lSCyqwYz5lU2MjD/Projeto-engenharia-de-software?node-id=0-1&t=dHIkcObH6UIrWE4X-1)
 
