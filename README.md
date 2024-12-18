@@ -1,6 +1,6 @@
 <h1 align="center">Alpaka Freela</h1>
 
-<h2 align="center">O Ponto de Encontro Entre Profissionais Freelancers e Grandes Oportunidades</h2>
+<h3 align="center">O Ponto de Encontro Entre Profissionais Freelancers e Grandes Oportunidades</h3>
 
 <p align="center">
  <img src="./react-frontend/src/img/alpaca-astronaut.png" width="15%" alt="Image description">
