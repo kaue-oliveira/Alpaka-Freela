@@ -33,7 +33,6 @@ Plataforma simples e objetiva para conectar freelancers a clientes que necessita
 ```
 ├── docs
 │   ├── diagramas
-│   ├── documento-de-requisitos
 │   ├── documentos
 │   └── padroes-adotados
 │
