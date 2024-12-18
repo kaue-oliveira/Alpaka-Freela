@@ -1,6 +1,6 @@
 <h1 align="center">Alpaka Freela</h1>
 
-<h3 align="center">O Ponto de Encontro Entre Profissionais Freelancers e Grandes Oportunidades</h3>
+<h2 align="center">O Ponto de Encontro Entre Profissionais Freelancers e Grandes Oportunidades</h2>
 
 <p align="center">
  <img src="./react-frontend/src/img/alpaca-astronaut.png" width="15%" alt="Image description">
@@ -9,7 +9,7 @@
 ### Descrição
 Plataforma simples e objetiva para conectar freelancers a clientes que necessitam de serviços. Os freelancers podem divulgar suas ofertas de serviços, enquanto os clientes (ou contratantes) podem publicar oportunidades de trabalho, facilitando ainda mais a busca por profissionais qualificados.
 
-Características principais da plataforma Alpaka Freela:
+### Características principais da plataforma Alpaka Freela:
 
 - Autenticação e autorização para garantir a segurança dos usuários.
 - CRUDs que permitem gerenciar publicações de ofertas de serviço (mão de obra) e de trabalho.
