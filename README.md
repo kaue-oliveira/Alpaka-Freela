@@ -1,4 +1,4 @@
-<h2 align="center">Alpaka Freela</h2>
+<h1 align="center">Alpaka Freela</h1>
 
 <h3 align="center">O Ponto de Encontro Entre Profissionais Freelancers e Grandes Oportunidades</h3>
 
