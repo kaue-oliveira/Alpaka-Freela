@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import styles from "../../css/home.module.css" 
 
 import globeEmoji from "../../img/globe-showing-europe-africa_1f30d.png"
@@ -11,27 +13,46 @@ import laptopEmoji from "../../img/laptop_1f4bb.png"
 import rocketEmoji from "../../img/rocket_1f680.png"
 import dragonEmoji from "../../img/dragon_1f409.png"
 
+import EditAccountForm from "../forms/editAccountForm"
+import HeaderAreaSwitcher from "../fixed/headerAreaSwitcher"
+
 export default function AccountManagerArea() {
+    const [currentComponent, setCurrentComponent] = useState("manager_account");
+
+    const handleButtonClick = (action) => {
+      console.log(`Ação recebida: ${action}`);
+      setCurrentComponent(action); // Atualiza o componente atual com base na ação
+    };
+
+    const renderCurrentComponent = () => {
+        switch (currentComponent) {
+          case "manager_account":
+            return <EditAccountForm />;
+          case "manager_services_offers":
+            return <div>Gerenciamento de Ofertas de Serviço</div>;
+          case "manager_work_offers":
+            return <div>Gerenciamento de Ofertas de Trabalho</div>;
+          default:
+            return <EditAccountForm />;
+        }
+    };
+
+    const buttons = [
+        { title: "Gerenciar conta", action: "manager_account", startSelected: true },
+        { title: "Gerenciar postagens de ofertas de serviço", action: "manager_services_offers", startSelected: false },
+        { title: "Gerenciar postagens de ofertas de trabalho", action: "manager_work_offers", startSelected: false },
+    ];
+
     return (
         <div className={styles["middle-space"]}>
-            <h1><img src={pushpinEmoji} alt=""></img> Gerenciar conta</h1>
-            <div className={styles.posts}>
-                {/* post 1 */}
-            </div>
-            <div className={styles.posts}>
-                {/* post 2 */}
-            </div>
-            <div className={styles.posts}>
-                {/* post 3 */}
-            </div>
-            <div className={styles.posts}>
-                {/* post 4 */}
-            </div>
-            <div className={styles.posts}>
-                {/* post 5 */}
-            </div>
-            <div className={styles.posts}>
-                {/* post 6 */}
+            <HeaderAreaSwitcher
+                title="Gerenciar conta / posts"
+                icon={globeEmoji}
+                buttons={buttons}
+                onButtonClick={handleButtonClick}
+            />
+            <div className={styles["edit-account-form-container"]}>
+                {renderCurrentComponent()}
             </div>
         </div>
     )

@@ -1,4 +1,6 @@
 
+import React, { useState } from "react";
+
 import HeaderHomePage from "../components/fixed/headerHomePage"
 import Footer from "../components/fixed/footer"
 import LeftSpace from "../components/fixed/leftSpace"
@@ -18,27 +20,22 @@ import styles from "../css/home.module.css"
 import { useEffect } from "react"
 
 export default function Dashboard() {
-    const location = useLocation();
+    const [currentComponent, setCurrentComponent] = useState("freelancer");
 
-    let ContentComponent;
-
-    switch (location.pathname) {
-        case "/freelancer":
-            ContentComponent = <FindFreelancerArea/>;
-            break;
-        case "/trabalho":
-            ContentComponent = <FindWorkArea/>;
-            break;
-        case "/conta":
-            ContentComponent = <AccountManagerArea/>;
-            break;
-        case "/caixa-de-entrada":
-            ContentComponent = <InboxArea/>;
-            break;
-        default:
-            ContentComponent = <FindFreelancerArea/>; 
-            break;
-    }
+    const renderCurrentComponent = () => {
+        switch (currentComponent) {
+            case "freelancer":
+                return <FindFreelancerArea />;
+            case "trabalho":
+                return <FindWorkArea/>;
+            case "conta":
+                return <AccountManagerArea/>;
+            case "inbox":
+                return <InboxArea/>;
+            default:
+                return <FindFreelancerArea />;
+        }
+    };
 
     useEffect(() => {
         const reducedLeftSpaceIcons = document.querySelectorAll(`.${styles["reduced-left-space"]} h1, .${styles["reduced-left-space"]} svg, .${styles["reduced-left-space"]} img`)
@@ -83,6 +80,10 @@ export default function Dashboard() {
         window.addEventListener("resize", reportWindowSize);
     })
 
+    const handleButtonClick = (action) => {
+        setCurrentComponent(action); // Atualiza o componente atual com base na ação
+    };
+
     return (
         <div>
             <HeaderHomePage/>
@@ -91,8 +92,10 @@ export default function Dashboard() {
                 <ReducedLeftSpace></ReducedLeftSpace>
                 <ExtendedLeftSpace></ExtendedLeftSpace>
                 <div className={styles["background-opacity"]}></div>
-                <LeftSpace></LeftSpace>
-                {ContentComponent}
+                <LeftSpace
+                    onButtonClick={handleButtonClick}
+                />
+                {renderCurrentComponent()}
             </div>
             <div className={styles["horizontal-line"]}></div>
             <Footer/>

@@ -1,37 +1,25 @@
 import React, { useState } from "react";
+import MenuButtonSelect from "../buttons/menuButtonSelect";
 
-const PostHeader = ({ title, buttonTitle, icon, form }) => {
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
-
-  const toggleOverlay = () => {
-    setIsOverlayOpen(!isOverlayOpen);
-  };
-
+const HeaderAreaSwitcher = ({ title, buttons, icon, onButtonClick }) => {
   return (
-      <div style={styles.container}>
-        <div style={styles.textWrapper}>
-          <img 
-            src={icon} 
-            alt="Icon" 
-            style={styles.icon} 
-          />
-          <span style={styles.text}>{title}</span>
-        </div>
-        <button style={styles.button} onClick={toggleOverlay}>
-          {buttonTitle}
-        </button>
-
-        {isOverlayOpen && (
-          <div style={styles.overlay}>
-            <div style={styles.overlayContent}>
-              <button style={styles.closeButton} onClick={toggleOverlay}>
-                X
-              </button>
-              {form}
-            </div>
-          </div>
-        )}
+    <div style={styles.container}>
+      <div style={styles.textWrapper}>
+        <img 
+          src={icon} 
+          alt="Icon" 
+          style={styles.icon} 
+        />
+        <span style={styles.text}>{title}</span>
       </div>
+
+      <div style={styles.buttonsContainer}>
+        <MenuButtonSelect
+          buttons={buttons}
+          onButtonClick={onButtonClick} 
+        />
+      </div>
+    </div>
   );
 };
 
@@ -60,6 +48,10 @@ const styles = {
     fontSize: "16px",
     color: "#333",
     fontWeight: "bold",
+  },
+  buttonsContainer: {
+    display: "flex",
+    gap: "10px",
   },
   button: {
     padding: "8px 16px",
@@ -104,4 +96,4 @@ const styles = {
   },
 };
 
-export default PostHeader;
+export default HeaderAreaSwitcher;
