@@ -1,7 +1,6 @@
-import styles from "../css/login.module.css" 
+import styles from "../../css/login.module.css" 
 
-import logoImg from "../img/alpaca-rock-cyberpunk.png"
-import ThemeSwitcher from "./themeSwitcher"
+import logoImg from "../../img/alpaca-rock-cyberpunk.png"
 
 export default function Header() {
   return (
@@ -9,7 +8,6 @@ export default function Header() {
       <img src={logoImg} alt=""></img>
       <h1>&lt;Alpaka Freela/&gt;</h1>
       <div className={styles["header-buttons"]}>
-        <ThemeSwitcher></ThemeSwitcher>
         <a href="/home" className={styles["guest-button"]}>Continuar sem autenticação</a>
         <a href="/home" className={styles["signin-button"]}>Entrar</a>
         <a href="/home" className={styles["signup-button"]}>Sair</a>

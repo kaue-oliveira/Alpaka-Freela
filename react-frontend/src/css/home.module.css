@@ -888,3 +888,13 @@ body {
         margin-top: 8vh;
     }
 }
+
+.cards {
+    height: 100%;
+    width: 97%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas com largura igual */
+    gap: 20px; /* Espaçamento entre os cards */
+    justify-content: center;
+    padding: 0px;
+}
