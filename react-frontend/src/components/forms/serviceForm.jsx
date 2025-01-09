@@ -1,204 +1,245 @@
 import React, { useState } from "react";
+import Images from "../fixed/images";
 
 const ServiceForm = ({ onClose }) => {
-  const [skills, setSkills] = useState([]);
-  const [technologies, setTechnologies] = useState([]);
-  const [skillInput, setSkillInput] = useState("");
-  const [techInput, setTechInput] = useState("");
+    const [technologies, setTechnologies] = useState([]);
+    const [techInput, setTechInput] = useState("");
+    const [skills, setSkills] = useState([]);
+    const [skillInput, setSkillInput] = useState("");
 
-  const handleAddSkill = () => {
-    if (skillInput && !skills.includes(skillInput)) {
-      setSkills([...skills, skillInput]);
-      setSkillInput("");
-    }
-  };
+    const handleAddTechnology = () => {
+        if (techInput && !technologies.includes(techInput)) {
+            setTechnologies([...technologies, techInput]);
+            setTechInput("");
+        }
+    };
 
-  const handleAddTechnology = () => {
-    if (techInput && !technologies.includes(techInput)) {
-      setTechnologies([...technologies, techInput]);
-      setTechInput("");
-    }
-  };
+    const handleRemoveTechnology = (tech) => {
+        setTechnologies(technologies.filter((t) => t !== tech));
+    };
 
-  const handleRemoveSkill = (skill) => {
-    setSkills(skills.filter((s) => s !== skill));
-  };
+    const handleAddSkill = () => {
+        if (skillInput && !skills.includes(skillInput)) {
+            setSkills([...skills, skillInput]);
+            setSkillInput("");
+        }
+    };
 
-  const handleRemoveTechnology = (tech) => {
-    setTechnologies(technologies.filter((t) => t !== tech));
-  };
+    const handleRemoveSkill = (skill) => {
+        setSkills(skills.filter((s) => s !== skill));
+    };
 
-  const styles = {
-    container: {
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      backgroundColor: "rgba(0, 0, 0, 0.6)",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      zIndex: 1000,
-    },
-    form: {
-      maxWidth: "600px",
-      margin: "20px auto",
-      padding: "20px",
-      border: "1px solid #ccc",
-      borderRadius: "8px",
-      backgroundColor: "#fff",
-      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-      fontFamily: "Arial, sans-serif",
-    },
-    header: {
-      fontSize: "20px",
-      fontWeight: "bold",
-      marginBottom: "5px",
-    },
-    subheader: {
-      fontSize: "14px",
-      color: "#666",
-      marginBottom: "15px",
-    },
-    label: {
-      display: "block",
-      marginBottom: "5px",
-      fontWeight: "bold",
-      fontSize: "14px",
-    },
-    input: {
-      width: "100%",
-      padding: "10px",
-      marginBottom: "15px",
-      border: "1px solid #ccc",
-      borderRadius: "4px",
-      fontSize: "14px",
-    },
-    textarea: {
-      width: "100%",
-      padding: "10px",
-      marginBottom: "15px",
-      border: "1px solid #ccc",
-      borderRadius: "4px",
-      fontSize: "14px",
-      height: "100px",
-    },
-    chipContainer: {
-      display: "flex",
-      flexWrap: "wrap",
-      gap: "10px",
-      marginBottom: "15px",
-    },
-    chip: {
-      padding: "5px 10px",
-      backgroundColor: "#e0e0e0",
-      borderRadius: "15px",
-      display: "flex",
-      alignItems: "center",
-      fontSize: "12px",
-    },
-    removeChip: {
-      marginLeft: "8px",
-      color: "#ff0000",
-      cursor: "pointer",
-      fontWeight: "bold",
-    },
-    button: {
-      padding: "10px 16px",
-      border: "none",
-      borderRadius: "5px",
-      fontSize: "14px",
-      fontWeight: "600",
-      cursor: "pointer",
-      margin: "5px",
-    },
-    addButton: {
-      backgroundColor: "#8bc34a",
-      color: "#fff",
-    },
-    submitButton: {
-      backgroundColor: "#6c5ce7",
-      color: "#fff",
-      flex: 1,
-    },
-    cancelButton: {
-      backgroundColor: "#f44336",
-      color: "#fff",
-      flex: 1,
-    },
-    buttonGroup: {
-      display: "flex",
-      justifyContent: "space-between",
-      marginTop: "20px",
-    },
-  };
+    const styles = {
+        container: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+        },
+        form: {
+            fontFamily: "Arial, sans-serif",
+            width: "40%",
+            height: "80%",
+            padding: "20px",
+            border: "1px solid #000",
+            borderRadius: "8px",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            backgroundColor: "#fff",
+        },
+        header: {
+            fontSize: "1.5rem",
+            marginBottom: "20px",
+            marginTop: "0",
+            textAlign: "start",
+        },
+        label: {
+            display: "block",
+            marginBottom: "8px",
+            fontWeight: "bold",
+        },
+        input: {
+            width: "100%",
+            padding: "10px",
+            marginBottom: "15px",
+            borderRadius: "4px",
+            border: "1px solid #000",
+            boxSizing: "border-box",
+        },
+        textarea: {
+            minWidth: "100%",
+            width: "100%",
+            minHeight: "25%",
+            maxWidth: "100%",
+            maxHeight: "25%",
+            height: "25%",
+            padding: "10px",
+            marginBottom: "15px",
+            borderRadius: "4px",
+            border: "1px solid #000",
+            boxSizing: "border-box",
+        },
+        techList: {
+            display: "flex",
+            gap: "10px",
+            flexWrap: "wrap",
+            marginBottom: "15px",
+        },
+        techItem: {
+            padding: "3px 5px",
+            fontSize: "14px",
+            backgroundColor: "#ead7ff",
+            borderRadius: "5px",
+            display: "flex",
+            alignItems: "center",
+            border: "1px solid #000",
+            fontWeight: "500",
+        },
+        button: {
+            padding: "10px 20px",
+            borderRadius: "4px",
+            cursor: "pointer",
+            border: "1px solid #000",
+        },
+        submitButton: {
+            backgroundColor: "#beffc2",
+            color: "#000000",
+            marginRight: "10px",
+        },
+        cancelButton: {
+            backgroundColor: "#ffb2b9",
+            color: "#000000",
+        },
+    };
 
-  return (
-    <div style={styles.container}>
-      <div style={styles.form}>
-        <h2 style={styles.header}>Cadastrando oferta de serviço</h2>
-        <p style={styles.subheader}>Insira os dados nos campos abaixo</p>
+    return (
+        <div style={styles.container}>
+            <div style={styles.form}>
+                <h2 style={styles.header}>Cadastrando oferta de serviço</h2>
+                <label style={styles.label} htmlFor="title">
+                    Valor cobrado por hora
+                </label>
+                <input
+                    id="hour-value"
+                    type="text"
+                    placeholder="Valor cobrado por hora"
+                    style={styles.input}
+                />
+                <label style={styles.label} htmlFor="description">
+                    Descrição
+                </label>
+                <textarea
+                    id="description"
+                    placeholder="Descrição"
+                    style={styles.textarea}
+                />
+                <div
+                    style={{ display: "flex", gap: "5%", flexDirection: "row" }}
+                >
+                    {/* Tecnologias */}
+                    <div style={{ flex: "1" }}>
+                        <label style={styles.label} htmlFor="technologies">
+                            Tecnologias
+                        </label>
+                        <div style={styles.techList}>
+                            {technologies.map((tech) => (
+                                <div key={tech} style={styles.techItem}>
+                                    {tech}
+                                    <img
+                                        src={Images.closeX}
+                                        alt="close"
+                                        style={{
+                                            width: "15px",
+                                            cursor: "pointer",
+                                            marginLeft: "5%",
+                                        }}
+                                        onClick={() =>
+                                            handleRemoveTechnology(tech)
+                                        }
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <input
+                            id="technologies"
+                            type="text"
+                            placeholder="Tecnologias"
+                            value={techInput}
+                            onChange={(e) => setTechInput(e.target.value)}
+                            style={styles.input}
+                        />
+                        <button
+                            type="button"
+                            onClick={handleAddTechnology}
+                            style={styles.button}
+                        >
+                            Adicionar Tecnologia
+                        </button>
+                    </div>
 
-        <label style={styles.label}>Valor cobrado por hora</label>
-        <input id="valor-cobrado-por-hora" type="text" placeholder="Valor cobrado por hora" style={styles.input} />
+                    <div style={{ flex: "1" }}>
+                        {/* Habilidades */}
+                        <label style={styles.label} htmlFor="skills">
+                            Habilidades
+                        </label>
+                        <div style={styles.techList}>
+                            {skills.map((skill) => (
+                                <div key={skill} style={styles.techItem}>
+                                    {skill}
+                                    <img
+                                        src={Images.closeX}
+                                        alt="close"
+                                        style={{
+                                            width: "15px",
+                                            cursor: "pointer",
+                                            marginLeft: "5%",
+                                        }}
+                                        onClick={() => handleRemoveSkill(skill)}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <input
+                            id="skills"
+                            type="text"
+                            placeholder="Habilidades"
+                            value={skillInput}
+                            onChange={(e) => setSkillInput(e.target.value)}
+                            style={styles.input}
+                        />
+                        <button
+                            type="button"
+                            onClick={handleAddSkill}
+                            style={styles.button}
+                        >
+                            Adicionar Habilidade
+                        </button>
+                    </div>
+                </div>
 
-        <label style={styles.label}>Descrição</label>
-        <textarea placeholder="Descrição" style={styles.textarea}></textarea>
-
-        <label style={styles.label}>Habilidades</label>
-        <div style={styles.chipContainer}>
-          {skills.map((skill, index) => (
-            <div key={index} style={styles.chip}>
-              {skill}
-              <span style={styles.removeChip} onClick={() => handleRemoveSkill(skill)}>
-                X
-              </span>
+                <div style={{ marginTop: "20px" }}>
+                    <button
+                        type="submit"
+                        style={{ ...styles.button, ...styles.submitButton }}
+                    >
+                        Cadastrar oferta de serviço
+                    </button>
+                    <button
+                        type="button"
+                        style={{ ...styles.button, ...styles.cancelButton }}
+                        onClick={onClose}
+                    >
+                        Cancelar
+                    </button>
+                </div>
             </div>
-          ))}
         </div>
-        <input
-          type="text"
-          placeholder="Habilidades"
-          value={skillInput}
-          onChange={(e) => setSkillInput(e.target.value)}
-          style={styles.input}
-          id="habilidades"
-        />
-        <button style={{ ...styles.button, ...styles.addButton }} onClick={handleAddSkill}>
-          Adicionar
-        </button>
-
-        <label style={styles.label}>Tecnologias</label>
-        <div style={styles.chipContainer}>
-          {technologies.map((tech, index) => (
-            <div key={index} style={styles.chip}>
-              {tech}
-              <span style={styles.removeChip} onClick={() => handleRemoveTechnology(tech)}>
-                X
-              </span>
-            </div>
-          ))}
-        </div>
-        <input
-          type="text"
-          placeholder="Tecnologias"
-          value={techInput}
-          onChange={(e) => setTechInput(e.target.value)}
-          style={styles.input}
-          id="tecnologias"
-        />
-        <button style={{ ...styles.button, ...styles.addButton }} onClick={handleAddTechnology}>
-          Adicionar
-        </button>
-
-        <div style={styles.buttonGroup}>
-          <button style={{ ...styles.button, ...styles.submitButton }}>Cadastrar oferta de serviço</button>
-          <button style={{ ...styles.button, ...styles.cancelButton }} onClick={onClose} >Cancelar</button>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ServiceForm;

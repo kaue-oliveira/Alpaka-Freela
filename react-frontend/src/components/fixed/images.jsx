@@ -8,20 +8,24 @@ import laptopEmoji from "../../img/laptop_1f4bb.png";
 import rocketEmoji from "../../img/rocket_1f680.png";
 import dragonEmoji from "../../img/dragon_1f409.png";
 import logoImg from "../../img/alpaca-rock-cyberpunk.png";
-import packageEmoji from "../../img/package_1f4e6.png"
-import alpakaAstronaltCloud from "../../img/alpaca-astronaut-cloud.png"
+import packageEmoji from "../../img/package_1f4e6.png";
+import alpakaAstronaltCloud from "../../img/alpaca-astronaut-cloud.png";
+import profileImage from "../../img/profile-image.png";
+import closeX from "../../img/close-x.svg";
 
 const Images = {
-  manTechEmoji,
-  briefCaseEmoji,
-  globeEmoji,
-  hammerEmoji,
-  laptopEmoji,
-  rocketEmoji,
-  dragonEmoji,
-  logoImg,
-  packageEmoji,
-  alpakaAstronaltCloud
+    manTechEmoji,
+    briefCaseEmoji,
+    globeEmoji,
+    hammerEmoji,
+    laptopEmoji,
+    rocketEmoji,
+    dragonEmoji,
+    logoImg,
+    packageEmoji,
+    alpakaAstronaltCloud,
+    profileImage,
+    closeX,
 };
 
 export default Images;
