@@ -1,6 +1,6 @@
 import React from 'react';
 
-const JobCard = ({onServiceProposal}) => {
+const JobCardForManager = ({ index, onDelete, onEdit }) => {
   return (
     <div style={styles.container}>
       <h2 style={styles.title}>Programador Frontend</h2>
@@ -18,7 +18,8 @@ const JobCard = ({onServiceProposal}) => {
         <button style={styles.skillButton}>C#</button>
         <button style={styles.skillButton}>Figma</button>
       </div>
-      <button style={styles.proposalButton} onClick={onServiceProposal}>Fazer uma proposta</button>
+      <button style={styles.proposalButton} onClick={onEdit} >Editar</button>
+      <button style={styles.proposalButton} onClick={onDelete} >Excluir</button>
     </div>
   );
 };
@@ -26,7 +27,7 @@ const JobCard = ({onServiceProposal}) => {
 const styles = {
   container: {
     maxWidth: '600px',
-    height: '350px',
+    height: '400px',
     border: '1px solid #ddd',
     borderRadius: '8px',
     padding: '20px',
@@ -89,4 +90,4 @@ const styles = {
   },
 };
 
-export default JobCard;
+export default JobCardForManager;

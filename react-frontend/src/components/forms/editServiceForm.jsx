@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ServiceForm = ({ onClose }) => {
+const EditServiceForm = ({ onClose }) => {
   const [skills, setSkills] = useState([]);
   const [technologies, setTechnologies] = useState([]);
   const [skillInput, setSkillInput] = useState("");
@@ -137,11 +137,11 @@ const ServiceForm = ({ onClose }) => {
   return (
     <div style={styles.container}>
       <div style={styles.form}>
-        <h2 style={styles.header}>Cadastrando oferta de serviço</h2>
+        <h2 style={styles.header}>Editando oferta de serviço</h2>
         <p style={styles.subheader}>Insira os dados nos campos abaixo</p>
 
         <label style={styles.label}>Valor cobrado por hora</label>
-        <input id="valor-cobrado-por-hora" type="text" placeholder="Valor cobrado por hora" style={styles.input} />
+        <input type="text" placeholder="Valor cobrado por hora" style={styles.input} />
 
         <label style={styles.label}>Descrição</label>
         <textarea placeholder="Descrição" style={styles.textarea}></textarea>
@@ -163,7 +163,6 @@ const ServiceForm = ({ onClose }) => {
           value={skillInput}
           onChange={(e) => setSkillInput(e.target.value)}
           style={styles.input}
-          id="habilidades"
         />
         <button style={{ ...styles.button, ...styles.addButton }} onClick={handleAddSkill}>
           Adicionar
@@ -186,19 +185,18 @@ const ServiceForm = ({ onClose }) => {
           value={techInput}
           onChange={(e) => setTechInput(e.target.value)}
           style={styles.input}
-          id="tecnologias"
         />
         <button style={{ ...styles.button, ...styles.addButton }} onClick={handleAddTechnology}>
           Adicionar
         </button>
 
         <div style={styles.buttonGroup}>
-          <button style={{ ...styles.button, ...styles.submitButton }}>Cadastrar oferta de serviço</button>
-          <button style={{ ...styles.button, ...styles.cancelButton }} onClick={onClose} >Cancelar</button>
+          <button style={{ ...styles.button, ...styles.submitButton }}>Salvar</button>
+          <button style={{ ...styles.button, ...styles.cancelButton }} onClick={onClose}>Cancelar</button>
         </div>
       </div>
     </div>
   );
 };
 
-export default ServiceForm;
+export default EditServiceForm;

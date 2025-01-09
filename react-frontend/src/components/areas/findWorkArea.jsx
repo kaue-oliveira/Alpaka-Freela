@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import styles from "../../css/home.module.css" 
 
 import globeEmoji from "../../img/globe-showing-europe-africa_1f30d.png"
@@ -14,25 +16,52 @@ import dragonEmoji from "../../img/dragon_1f409.png"
 import PostHeader from "../fixed/headerPost"
 import JobCard from "../cards/jobCard"
 import JobForm from "../forms/jobForm"
+import SendServiceProposalForm from "../forms/sendServiceProposalForm";
 
 export default function FindWorkArea() {
+    const [isOverlayOpen, setIsOverlayOpen] = useState(false); // Controle do overlay
+    const [overlayType, setOverlayType] = useState(""); // Tipo de overlay (contract_proposal ou post_service)
+  
+    const toggleOverlay = (type) => {
+      setIsOverlayOpen(!isOverlayOpen);
+      setOverlayType(type || ""); // Define o tipo do overlay, ou limpa se estiver fechando
+    };
+  
+    const handleServiceProposalRequest = () => {
+      toggleOverlay("service_proposal");
+      console.log("service_proposal");
+    };
+  
+    const handlePostJob = () => {
+      toggleOverlay("post_job");
+      console.log("post_job");
+      
+    };
+
     return (
         <div className={styles["middle-space"]}>
         <PostHeader 
             title="Encontrar um Trabalho" 
             buttonTitle="Cadastrar oferta de trabalho"
             icon={briefCaseEmoji}
-            form={<JobForm />}
+            onPost={handlePostJob}
         />
         <div className={styles["cards"]}>
-            <JobCard></JobCard>
-            <JobCard></JobCard>
-            <JobCard></JobCard>
-            <JobCard></JobCard>
-            <JobCard></JobCard>
-            <JobCard></JobCard>
-            <JobCard></JobCard>
+            <JobCard onServiceProposal={handleServiceProposalRequest}/>
+            <JobCard onServiceProposal={handleServiceProposalRequest}/>
+            <JobCard onServiceProposal={handleServiceProposalRequest}/>
+            <JobCard onServiceProposal={handleServiceProposalRequest}/>
+            <JobCard onServiceProposal={handleServiceProposalRequest}/>
+            <JobCard onServiceProposal={handleServiceProposalRequest}/>
+            <JobCard onServiceProposal={handleServiceProposalRequest}/>
         </div>
+        {/* Renderiza o overlay de acordo com o tipo */}
+        {isOverlayOpen && overlayType === "service_proposal" && (
+            <SendServiceProposalForm onClose={() => toggleOverlay()} />
+        )}
+        {isOverlayOpen && overlayType === "post_job" && (
+            <JobForm onClose={() => toggleOverlay()} />
+        )}
     </div>
     )
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FreelancerCard = ({ onContractProposal }) => {
+const FreelancerCardForManager = ({index, onDelete, onEdit}) => {
   return (
     <div style={styles.container}>
       <div style={styles.profileHeader}>
@@ -26,7 +26,8 @@ const FreelancerCard = ({ onContractProposal }) => {
         <button style={styles.skillButton}>C#</button>
         <button style={styles.skillButton}>Figma</button>
       </div>
-      <button style={styles.contractButton} onClick={onContractProposal}>Contratar</button>
+      <button style={styles.contractButton} onClick={onEdit} >Editar</button>
+      <button style={styles.contractButton} onClick={onDelete} >Excluir</button>
     </div>
   );
 };
@@ -34,7 +35,7 @@ const FreelancerCard = ({ onContractProposal }) => {
 const styles = {
   container: {
     maxWidth: '400px',
-    height: '400px',
+    height: '450px',
     border: '1px solid #ddd',
     borderRadius: '8px',
     padding: '20px',
@@ -106,4 +107,4 @@ const styles = {
   },
 };
 
-export default FreelancerCard;
+export default FreelancerCardForManager;

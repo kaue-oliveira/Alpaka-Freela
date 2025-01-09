@@ -16,6 +16,9 @@ import dragonEmoji from "../../img/dragon_1f409.png"
 import EditAccountForm from "../forms/editAccountForm"
 import HeaderAreaSwitcher from "../fixed/headerAreaSwitcher"
 
+import ProposalsComponent from "../cards/proposalsReceivedComponent"
+import ProposalsSendedComponent from "../cards/proposalsSendedComponent";
+
 export default function InboxArea() {
     const [currentComponent, setCurrentComponent] = useState("manager_account");
 
@@ -27,11 +30,11 @@ export default function InboxArea() {
     const renderCurrentComponent = () => {
         switch (currentComponent) {
           case "received_proposals":
-            return <div>Propostas recebidas</div>;
+            return <ProposalsComponent/>;
           case "sent_proposals":
-            return <div>Propostas enviadas</div>;
+            return <ProposalsSendedComponent/>;
           default:
-            return <div>Propostas recebidas</div>;
+            return <ProposalsComponent/>;;
         }
     };
 

@@ -1,11 +1,6 @@
 import React from "react";
 
-const DeleteConfirmationPopup = ({ onClose }) => {
-  const handleConfirm = () => {
-    alert("Conta excluída!");
-    onClose();
-  };
-
+const DeleteConfirmationPopup = ({ onClose, onConfirm }) => {
   return (
     <div
       style={{
@@ -42,7 +37,7 @@ const DeleteConfirmationPopup = ({ onClose }) => {
               color: "white",
               cursor: "pointer",
             }}
-            onClick={handleConfirm}
+            onClick={onConfirm}
           >
             Sim
           </button>

@@ -12,9 +12,11 @@ import pushpinEmoji from "../../img/pushpin_1f4cc.png"
 import laptopEmoji from "../../img/laptop_1f4bb.png"
 import rocketEmoji from "../../img/rocket_1f680.png"
 import dragonEmoji from "../../img/dragon_1f409.png"
+import JobCardsForManager from "../fixed/jobCardsForManager"
 
 import EditAccountForm from "../forms/editAccountForm"
 import HeaderAreaSwitcher from "../fixed/headerAreaSwitcher"
+import FreelancerCardsForManager from "../fixed/freelancersCardsForManager";
 
 export default function AccountManagerArea() {
     const [currentComponent, setCurrentComponent] = useState("manager_account");
@@ -29,9 +31,9 @@ export default function AccountManagerArea() {
           case "manager_account":
             return <EditAccountForm />;
           case "manager_services_offers":
-            return <div>Gerenciamento de Ofertas de Serviço</div>;
+            return <FreelancerCardsForManager/>;
           case "manager_work_offers":
-            return <div>Gerenciamento de Ofertas de Trabalho</div>;
+            return <JobCardsForManager/>;
           default:
             return <EditAccountForm />;
         }

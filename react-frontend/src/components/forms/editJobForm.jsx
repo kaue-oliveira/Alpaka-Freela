@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const JobForm = ({ onClose }) => {
+const EditJobForm = ({ onClose }) => {
   const [technologies, setTechnologies] = useState([]);
   const [techInput, setTechInput] = useState("");
 
@@ -101,7 +101,7 @@ const JobForm = ({ onClose }) => {
   return (
     <div style={styles.container}>
       <div style={styles.form}>
-        <h2 style={styles.header}>Cadastrando oferta de trabalho</h2>
+        <h2 style={styles.header}>Editando uma oferta de trabalho</h2>
         <label style={styles.label} htmlFor="title">
           Título
         </label>
@@ -155,7 +155,7 @@ const JobForm = ({ onClose }) => {
             type="submit"
             style={{ ...styles.button, ...styles.submitButton }}
           >
-            Cadastrar Freela
+            Salvar
           </button>
           <button
             type="button"
@@ -170,4 +170,4 @@ const JobForm = ({ onClose }) => {
   );
 };
 
-export default JobForm;
+export default EditJobForm;

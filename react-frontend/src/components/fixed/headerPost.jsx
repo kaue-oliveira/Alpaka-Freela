@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 
-const PostHeader = ({ title, buttonTitle, icon, form }) => {
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
-
-  const toggleOverlay = () => {
-    setIsOverlayOpen(!isOverlayOpen);
-  };
-
+const PostHeader = ({ title, buttonTitle, icon, onPost }) => {
   return (
       <div style={styles.container}>
         <div style={styles.textWrapper}>
@@ -17,20 +11,9 @@ const PostHeader = ({ title, buttonTitle, icon, form }) => {
           />
           <span style={styles.text}>{title}</span>
         </div>
-        <button style={styles.button} onClick={toggleOverlay}>
+        <button style={styles.button} onClick={onPost}>
           {buttonTitle}
         </button>
-
-        {isOverlayOpen && (
-          <div style={styles.overlay}>
-            <div style={styles.overlayContent}>
-              <button style={styles.closeButton} onClick={toggleOverlay}>
-                X
-              </button>
-              {form}
-            </div>
-          </div>
-        )}
       </div>
   );
 };
@@ -70,37 +53,6 @@ const styles = {
     cursor: "pointer",
     fontSize: "14px",
     fontWeight: "600",
-  },
-  overlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 1000,
-  },
-  overlayContent: {
-    position: "relative",
-    width: "90%",
-    maxWidth: "500px",
-    backgroundColor: "white",
-    padding: "20px",
-    borderRadius: "8px",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-  },
-  closeButton: {
-    position: "absolute",
-    top: "10px",
-    right: "10px",
-    backgroundColor: "transparent",
-    border: "none",
-    fontSize: "16px",
-    cursor: "pointer",
-    color: "#333",
   },
 };
 
