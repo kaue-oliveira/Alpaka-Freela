@@ -4,6 +4,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Home from "./src/pages/home";
 import Dashboard from "./src/pages/dashboard";
+import Register from "./src/pages/register";
+import Login from "./src/pages/login";
+import PasswordRecoverGenerateLink from "./src/pages/passwordRecoverGenerateLink";
+import PasswordRecover from "./src/pages/passwordRecover";
 
 const router = createBrowserRouter([
   {
@@ -27,8 +31,24 @@ const router = createBrowserRouter([
     element: <Dashboard/>,
   },
   {
-    path: "/caixa-de-entrada",
+    path: "/inbox",
     element: <Dashboard/>,
+  },
+  {
+    path: "/registrar",
+    element: <Register/>,
+  },
+  {
+    path: "/entrar",
+    element: <Login/>,
+  },
+  {
+    path: "/recuperar-senha-gerar-link",
+    element: <PasswordRecoverGenerateLink/>,
+  },
+  {
+    path: "/recuperar-senha",
+    element: <PasswordRecover/>,
   },
 ]);
 

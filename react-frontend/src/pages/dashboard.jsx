@@ -1,15 +1,11 @@
 
 import React, { useState } from "react";
 
-import HeaderHomePage from "../components/fixed/headerHomePage"
+import HeaderAuth from "../components/fixed/headerAuth"
 import Footer from "../components/fixed/footer"
 import LeftSpace from "../components/fixed/leftSpace"
 import ExtendedLeftSpace from "../components/fixed/extendedLeftSpace"
 import ReducedLeftSpace from "../components/fixed/reducedLeftSpace"
-
-import { useLocation } from "react-router-dom";
-
-
 import FindFreelancerArea from "../components/areas/findFreelancerArea"
 import FindWorkArea from "../components/areas/findWorkArea"
 import InboxArea from "../components/areas/inboxArea"
@@ -86,7 +82,7 @@ export default function Dashboard() {
 
     return (
         <div>
-            <HeaderHomePage/>
+            <HeaderAuth/>
             <div className={styles["horizontal-line"]}></div>
             <div className={styles.container}>
                 <ReducedLeftSpace></ReducedLeftSpace>
