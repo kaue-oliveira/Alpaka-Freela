@@ -1,4 +1,4 @@
-package com.project.spring_boot_back_end.usuario;
+package com.project.spring_boot_back_end.domain.usuario;
 
 import jakarta.validation.constraints.NotNull;
 
