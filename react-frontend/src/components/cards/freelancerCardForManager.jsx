@@ -2,63 +2,60 @@ import React from "react";
 
 import Images from "../fixed/images";
 
-const FreelancerCardForManager = ({
-    onContractProposal,
-    onCompleteVisualization,
-}) => {
+
+const FreelancerCardForManager = ({ onDelete, onEdit, onVisualizeProposals, name, nickname, hourValue, description, skills, techs, profileImage }) => {
+
     return (
         <div style={styles.container}>
             <div style={styles.profileDetails}>
-                <h3 style={styles.name}>Paulo H. Ribeiro Alves</h3>
-                <p style={styles.price}>Preço por hora: R$ 40,00</p>
+                <h3 style={styles.name}>{name}</h3>
+                <p style={styles.price}>Valor cobrado por hora: R$ {hourValue}</p>
             </div>
             <div style={styles.profileHeader}>
                 <img
-                    src={Images.profileImage} // Substitua com a URL do ícone ou foto do perfil
+                    src={profileImage ? profileImage : Images.profileImage} // Substitua com a URL do ícone ou foto do perfil
                     alt="Profile"
                     style={styles.profileImage}
                 />
                 <div style={{ display: "flex", flexDirection: "column" }}>
-                    <p style={styles.username}>
-                        paulohenrique64 postou em 10/10/24
-                    </p>
+                    <div style={styles.username}>
+                        Publicado por <p style={{ fontWeight: "bold", margin: "0", marginLeft: "0.5%" }}>{nickname}</p>
+                    </div>
                     <p style={styles.description}>
-                        Sou um desenvolvedor especializado em Java com
-                        experiência sólida no ecossistema Spring Boot. Tenho
-                        paixão por criar soluções eficientes e escaláveis, e já
-                        trabalhei em projetos que envolvem tanto APIs RESTful
-                        quanto integrações complexas. Além disso, possuo
-                        conhecimentos em Angular para criar interfaces
-                        intuitivas e dinâmicas, e utilizo os serviços da AWS
-                        para garantir a melhor performance.
+                        {description}
                     </p>
                 </div>
             </div>
             <div style={styles.skills}>
-                <button style={styles.skillButton}>Comunicação</button>
-                <button style={styles.skillButton}>Inglês</button>
-                <button style={styles.skillButton}>Trabalho em equipe</button>
-                <button style={styles.skillButton}>Gameplay avançada</button>
-                <button style={styles.skillButton}>Famoso 3 capas</button>
+                {skills.map((skill, index) => (
+                    <div style={styles.skillButton} key={index}>
+                        {skill}
+                    </div>
+                ))}
             </div>
             <div style={styles.techs}>
-                <button style={styles.techButton}>C#</button>
-                <button style={styles.techButton}>Free Fire</button>
-                <button style={styles.techButton}>Fortnite</button>
+                {techs.map((tech, index) => (
+                    <div style={styles.techButton} key={index}>
+                        {tech}
+                    </div>
+                ))}
             </div>
             <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
                 <button
-                    style={styles.proposalsButton}
-                    onClick={onContractProposal}
+                    style={styles.contractButton}
+                    onClick={onVisualizeProposals}
                 >
                     Propostas recebidas
                 </button>
-                <button style={styles.editButton} onClick={onContractProposal}>
+                <button
+                    style={styles.completeVisualizationButton}
+                    onClick={onEdit}
+                >
                     Editar
                 </button>
                 <button
-                    style={styles.deleteButton}
-                    onClick={onCompleteVisualization}
+                    style={styles.completeVisualizationButton}
+                    onClick={onDelete}
                 >
                     Excluir
                 </button>
@@ -107,10 +104,11 @@ const styles = {
         fontSize: "14px",
         color: "#000000",
         margin: 0,
+        display: "flex",
     },
     price: {
-        fontSize: "16px",
-        color: "#28a745",
+        fontSize: "20px",
+        color: "#3b9951",
         fontWeight: "bold",
         margin: "0",
     },
@@ -118,12 +116,18 @@ const styles = {
         fontSize: "14px",
         color: "#000000",
         marginBottom: "0",
+        height: "95px",
+        maxHeight: "95px",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
     },
     skills: {
         display: "flex",
         flexWrap: "wrap",
         gap: "8px",
         marginBottom: "10px",
+        height: "70px",
+        overflow: "hidden"
     },
     skillButton: {
         padding: "6px 12px",
@@ -153,38 +157,29 @@ const styles = {
         border: "1px solid #000000",
         fontWeight: "600",
     },
-    editButton: {
-        padding: "10px 16px",
+    contractButton: {
+        padding: "10px 20px",
+        backgroundColor: "#b7ffb4",
+        border: "1px solid #000000",
+        color: "#000000",
+        fontSize: "15px",
+        fontWeight: "600",
+        borderRadius: "5px",
+        cursor: "pointer",
+        width: "100%",
+        flex: "1",
+    },
+    completeVisualizationButton: {
+        padding: "10px 20px",
         backgroundColor: "#b8dbda",
         border: "1px solid #000000",
         color: "#000000",
-        borderRadius: "5px",
-        cursor: "pointer",
         fontSize: "15px",
         fontWeight: "600",
-        width: "100%",
-    },
-    deleteButton: {
-        padding: "10px 16px",
-        backgroundColor: "#febcbc",
-        border: "1px solid #000000",
-        color: "#000000",
         borderRadius: "5px",
         cursor: "pointer",
-        fontSize: "15px",
-        fontWeight: "600",
         width: "100%",
-    },
-    proposalsButton: {
-        padding: "10px 16px",
-        backgroundColor: "#bdffb5",
-        border: "1px solid #000000",
-        color: "#000000",
-        borderRadius: "5px",
-        cursor: "pointer",
-        fontSize: "15px",
-        fontWeight: "600",
-        width: "100%",
+        flex: "1",
     },
 };
 

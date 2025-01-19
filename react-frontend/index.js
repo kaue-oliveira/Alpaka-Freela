@@ -31,7 +31,7 @@ const router = createBrowserRouter([
         element: <Dashboard />,
     },
     {
-        path: "/inbox",
+        path: "/gerenciar-publicacoes",
         element: <Dashboard />,
     },
     {

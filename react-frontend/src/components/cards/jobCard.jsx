@@ -1,28 +1,33 @@
 import React from "react";
+import Images from "../fixed/images";
 
-const JobCard = ({ onServiceProposal, onCompleteVisualization }) => {
+
+const JobCard = ({ onServiceProposal, onCompleteVisualization, title, name, username, description, payment, skills, profileImage }) => {
     return (
         <div style={styles.container}>
-            <h2 style={styles.title}>Programador Frontend</h2>
-            <p style={styles.publisher}>
-                Publicado por{" "}
-                <strong>paulohenrique64 (Paulo H. R. Alves)</strong> em 10/10/24
-            </p>
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0" }}>
+                <div>
+                    <h2 style={styles.title}>{title}</h2>
+                    <p style={styles.publisher}>
+                        Publicado por{" "}
+                        <strong>{username} ({name})</strong>
+                    </p>
+                </div>
+                <img style={{ width: "7%", height: "7%", borderRadius: "100%" }} src={profileImage ? profileImage : Images.profileImage} alt="" />
+            </div>
+
             <p style={styles.description}>
-                Somos uma empresa apaixonada por tecnologia e focada em criar
-                soluções eficientes e escaláveis para nossos clientes.
-                Atualmente, estamos em busca de um Desenvolvedor Frontend com
-                habilidades sólidas em HTML, CSS e Angular para integrar nossa
-                equipe e contribuir com projetos inovadores. CSS e Angular para
-                integrar nossa equipe e contribuir com projetos inovadores.
+                {description}
             </p>
             <p style={styles.payment}>
-                Pagamento: <span style={styles.paymentAmount}>R$ 13.000</span>
+                <span style={styles.paymentAmount}>Pagamento: R$ {payment}</span>
             </p>
             <div style={styles.skills}>
-                <button style={styles.skillButton}>C++</button>
-                <button style={styles.skillButton}>C#</button>
-                <button style={styles.skillButton}>Figma</button>
+                {skills.map((skill, index) => (
+                    <div style={styles.skillButton} key={index}>
+                        {skill}
+                    </div>
+                ))}
             </div>
             <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
                 <button
@@ -61,18 +66,22 @@ const styles = {
     },
     publisher: {
         fontSize: "14px",
-        color: "#555",
+        color: "#000000",
         marginBottom: "10px",
     },
     description: {
         fontSize: "14px",
-        color: "#444",
+        color: "#000",
         lineHeight: "1.6",
+        margin: "0",
         marginBottom: "10px",
+        height: "180px",
+        maxHeight: "180px",
+        overflow: "hidden"
     },
     payment: {
         fontSize: "16px",
-        color: "#444",
+        color: "#000",
         margin: "10px 0",
     },
     paymentAmount: {

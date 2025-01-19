@@ -16,9 +16,6 @@ export default function Logo() {
                     </h5>
                 </div>
                 <div className={styles["div-buttons"]}>
-                    <div className={styles["sub-div-buttons-1"]}>
-                        <a href="/freelancer">Continuar sem autenticação</a>
-                    </div>
                     <div className={styles["sub-div-buttons-2"]}>
                         <a href="/entrar">Entrar</a>
                         <a href="/registrar">Registrar</a>

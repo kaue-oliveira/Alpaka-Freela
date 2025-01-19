@@ -23,9 +23,6 @@ export default function HeaderNotAuth() {
                 </h1>
             </a>
             <div className={styles["header-buttons"]}>
-                <a href="/freelancer" className={styles["guest-button"]}>
-                    Continuar sem autenticação
-                </a>
                 <a href="/entrar" className={styles["signin-button"]}>
                     Entrar
                 </a>

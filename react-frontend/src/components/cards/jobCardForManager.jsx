@@ -1,36 +1,51 @@
 import React from "react";
+import Images from "../fixed/images";
 
-const JobCard = ({ onEdit, onDelete }) => {
+
+const JobCardForManager = ({ onDelete, onEdit, onVisualizeProposals, jobData }) => {
     return (
         <div style={styles.container}>
-            <h2 style={styles.title}>Programador Frontend</h2>
-            <p style={styles.publisher}>
-                Publicado por{" "}
-                <strong>paulohenrique64 (Paulo H. R. Alves)</strong> em 10/10/24
-            </p>
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0" }}>
+                <div>
+                    <h2 style={styles.title}>{jobData.title}</h2>
+                    <p style={styles.publisher}>
+                        Publicado por{" "}
+                        <strong>{jobData.username} ({jobData.name})</strong>
+                    </p>
+                </div>
+                <img style={{ width: "7%", height: "7%", borderRadius: "100%" }} src={jobData.profileImage ? jobData.profileImage : Images.profileImage} alt="" />
+            </div>
+
             <p style={styles.description}>
-                Somos uma empresa apaixonada por tecnologia e focada em criar
-                soluções eficientes e escaláveis para nossos clientes.
-                Atualmente, estamos em busca de um Desenvolvedor Frontend com
-                habilidades sólidas em HTML, CSS e Angular para integrar nossa
-                equipe e contribuir com projetos inovadores.
+                {jobData.description}
             </p>
             <p style={styles.payment}>
-                Pagamento: <span style={styles.paymentAmount}>R$ 13.000</span>
+                <span style={styles.paymentAmount}>Pagamento: R$ {jobData.payment}</span>
             </p>
-            <div style={styles.skills}>
-                <button style={styles.skillButton}>C++</button>
-                <button style={styles.skillButton}>C#</button>
-                <button style={styles.skillButton}>Figma</button>
+            <div style={styles.techs}>
+                {jobData.techs.map((skill, index) => (
+                    <div style={styles.skillButton} key={index}>
+                        {skill}
+                    </div>
+                ))}
             </div>
             <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
-                <button style={styles.proposalsButton} onClick={onDelete}>
+                <button
+                    style={styles.proposalButton}
+                    onClick={onVisualizeProposals}
+                >
                     Propostas recebidas
                 </button>
-                <button style={styles.editButton} onClick={onEdit}>
+                <button
+                    style={styles.completeVisualizationButton}
+                    onClick={onEdit}
+                >
                     Editar
                 </button>
-                <button style={styles.deleteButton} onClick={onDelete}>
+                <button
+                    style={styles.completeVisualizationButton}
+                    onClick={onDelete}
+                >
                     Excluir
                 </button>
             </div>
@@ -62,27 +77,31 @@ const styles = {
     },
     description: {
         fontSize: "14px",
-        color: "#000000",
+        color: "#000",
         lineHeight: "1.6",
+        margin: "0",
         marginBottom: "10px",
+        height: "180px",
+        maxHeight: "180px",
+        overflow: "hidden"
     },
     payment: {
         fontSize: "16px",
-        color: "#000000",
+        color: "#000",
         margin: "10px 0",
     },
     paymentAmount: {
         color: "green",
         fontWeight: "bold",
     },
-    skills: {
+    techs: {
         display: "flex",
         gap: "10px",
         flexWrap: "wrap",
         margin: "10px 0",
     },
     skillButton: {
-        padding: "6px 12px",
+        padding: "8px 12px",
         backgroundColor: "#ead7ff",
         color: "#000000",
         border: "1px solid #000000",
@@ -91,39 +110,28 @@ const styles = {
         fontSize: "12px",
         fontWeight: "800",
     },
-    editButton: {
-        padding: "10px 16px",
+    proposalButton: {
+        padding: "10px 20px",
+        fontSize: "15px",
+        backgroundColor: "#baffb3",
+        border: "1px solid #000000",
+        color: "#000000",
+        borderRadius: "5px",
+        cursor: "pointer",
+        fontWeight: "600",
+        width: "100%",
+    },
+    completeVisualizationButton: {
+        padding: "10px 20px",
+        fontSize: "15px",
         backgroundColor: "#b8dbda",
         border: "1px solid #000000",
         color: "#000000",
         borderRadius: "5px",
         cursor: "pointer",
-        fontSize: "15px",
-        fontWeight: "600",
-        width: "100%",
-    },
-    deleteButton: {
-        padding: "10px 16px",
-        backgroundColor: "#febcbc",
-        border: "1px solid #000000",
-        color: "#000000",
-        borderRadius: "5px",
-        cursor: "pointer",
-        fontSize: "15px",
-        fontWeight: "600",
-        width: "100%",
-    },
-    proposalsButton: {
-        padding: "10px 16px",
-        backgroundColor: "#bdffb5",
-        border: "1px solid #000000",
-        color: "#000000",
-        borderRadius: "5px",
-        cursor: "pointer",
-        fontSize: "15px",
         fontWeight: "600",
         width: "100%",
     },
 };
 
-export default JobCard;
+export default JobCardForManager;

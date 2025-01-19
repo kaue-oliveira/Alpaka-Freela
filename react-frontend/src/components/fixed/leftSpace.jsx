@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import Images from "./images";
 
-const MenuButton = ({ label, icon, isSelected, onClick }) => {
+const MenuButton = ({ label, icon, isSelected, onClick, showLabel }) => {
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => setIsHovered(true);
@@ -21,8 +20,8 @@ const MenuButton = ({ label, icon, isSelected, onClick }) => {
             backgroundColor: isSelected
                 ? "#e7e5fd"
                 : isHovered
-                  ? "#dbdbdb"
-                  : "#fff",
+                ? "#dbdbdb"
+                : "#fff",
             color: isSelected || isHovered ? "#000" : "#333",
             transition: "background-color 0.3s ease, border-color 0.3s ease",
             fontSize: "16px",
@@ -30,6 +29,9 @@ const MenuButton = ({ label, icon, isSelected, onClick }) => {
         icon: {
             width: "20px",
             height: "20px",
+        },
+        label: {
+            display: showLabel ? "inline" : "none", // Esconde a label se `showLabel` for falso
         },
     };
 
@@ -41,15 +43,15 @@ const MenuButton = ({ label, icon, isSelected, onClick }) => {
             onMouseLeave={handleMouseLeave}
         >
             <img src={icon} alt="icon" style={buttonStyles.icon} />
-            <span>{label}</span>
+            <span style={buttonStyles.label}>{label}</span>
         </div>
     );
 };
 
-const Menu = ({ items, onItemClick }) => {
+const Menu = ({ items, onItemClick, showLabels }) => {
     const defaultSelectedIndex = items.findIndex((item) => item.startSelected);
     const [selectedItem, setSelectedItem] = useState(
-        defaultSelectedIndex !== -1 ? defaultSelectedIndex : null,
+        defaultSelectedIndex !== -1 ? defaultSelectedIndex : null
     );
 
     const handleItemClick = (index) => {
@@ -68,6 +70,7 @@ const Menu = ({ items, onItemClick }) => {
                     icon={item.icon}
                     isSelected={selectedItem === index}
                     onClick={() => handleItemClick(index)}
+                    showLabel={showLabels}
                 />
             ))}
         </div>
@@ -75,6 +78,15 @@ const Menu = ({ items, onItemClick }) => {
 };
 
 export default function LeftSpace({ onButtonClick }) {
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     const menuItems = [
         {
             label: "Encontrar Freelancer",
@@ -100,18 +112,19 @@ export default function LeftSpace({ onButtonClick }) {
     ];
 
     const handleMenuClick = (action) => {
-        // Atualiza a URL no navegador
         const newUrl = `/${action}`;
         window.history.pushState(null, "", newUrl);
         if (onButtonClick) {
-            onButtonClick(action); // Notifica o pai sobre a ação do botão
+            onButtonClick(action);
         }
     };
+
+    const isSmallScreen = windowWidth < 850; // Define a largura para esconder labels
 
     return (
         <div
             style={{
-                width: "15%",
+                width: isSmallScreen ? "8%" : "15%", // Ajusta largura do menu em telas pequenas
                 padding: "30px",
                 minHeight: "96vh",
                 borderRight: "1px solid #000000",
@@ -135,9 +148,13 @@ export default function LeftSpace({ onButtonClick }) {
                         marginRight: "3%",
                     }}
                 />
-                Menu
+                {!isSmallScreen && "Menu"}
             </h3>
-            <Menu items={menuItems} onItemClick={handleMenuClick} />
+            <Menu
+                items={menuItems}
+                onItemClick={handleMenuClick}
+                showLabels={!isSmallScreen}
+            />
         </div>
     );
 }

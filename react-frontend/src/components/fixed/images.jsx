@@ -12,6 +12,7 @@ import packageEmoji from "../../img/package_1f4e6.png";
 import alpakaAstronaltCloud from "../../img/alpaca-astronaut-cloud.png";
 import profileImage from "../../img/profile-image.png";
 import closeX from "../../img/close-x.svg";
+import imagePaulo from "../../img/image-paulo.png";
 
 const Images = {
     manTechEmoji,
@@ -26,6 +27,7 @@ const Images = {
     alpakaAstronaltCloud,
     profileImage,
     closeX,
+    imagePaulo
 };
 
 export default Images;

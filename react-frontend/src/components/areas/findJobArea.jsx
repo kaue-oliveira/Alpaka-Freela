@@ -10,7 +10,6 @@ import globeEmoji from "../../img/globe-showing-europe-africa_1f30d.png";
 import hammerEmoji from "../../img/hammer-and-wrench_1f6e0-fe0f.png";
 import pushpinEmoji from "../../img/pushpin_1f4cc.png";
 import laptopEmoji from "../../img/laptop_1f4bb.png";
-import rocketEmoji from "../../img/rocket_1f680.png";
 import dragonEmoji from "../../img/dragon_1f409.png";
 
 import PostHeader from "../fixed/headerPost";
@@ -18,10 +17,50 @@ import JobCard from "../cards/jobCard";
 import JobForm from "../forms/jobForm";
 import SendServiceProposalForm from "../forms/sendServiceProposalForm";
 import CompleteVisualizationJobCard from "../cards/completeVisualizationJobCard";
+import Images from "../fixed/images";
+import MessageCard from "../cards/messageCard";
 
 export default function FindWorkArea() {
     const [isOverlayOpen, setIsOverlayOpen] = useState(false); // Controle do overlay
     const [overlayType, setOverlayType] = useState(""); // Tipo de overlay (contract_proposal ou post_service)
+    const [overlayActiveCardIndex, setOverlayActiveCardIndex] = useState(0);
+    const [sucessPopupMessage, setSucessPopupMessage] = useState("");
+
+    const jobs = [
+        {
+            title: "Programador Frontend",
+            name: "Paulo Henrique Ribeiro Alves",
+            username: "paulohenrique64",
+            description: "Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores.",
+            payment: 560,
+            skills: ["C++", "Figma", "C#"],
+            profileImage: Images.imagePaulo
+        },
+        {
+            title: "Programador Frontend",
+            name: "Paulo Henrique Ribeiro Alves",
+            username: "paulohenrique64",
+            description: "Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores.",
+            payment: 560,
+            skills: ["C++", "Figma", "C#"]
+        },
+        {
+            title: "Programador Frontend",
+            name: "Paulo Henrique Ribeiro Alves",
+            username: "paulohenrique64",
+            description: "Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores.",
+            payment: 560,
+            skills: ["C++", "Figma", "C#"]
+        },
+        {
+            title: "Programador Frontend",
+            name: "Paulo Henrique Ribeiro Alves",
+            username: "paulohenrique64",
+            description: "Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores.",
+            payment: 560,
+            skills: ["C++", "Figma", "C#"]
+        },
+    ]
 
     const toggleOverlay = (type) => {
         setIsOverlayOpen(!isOverlayOpen);
@@ -38,9 +77,15 @@ export default function FindWorkArea() {
         console.log("post_job");
     };
 
-    const handleCompleteVisualizationService = () => {
+    const handleCompleteVisualizationService = (index) => {
         toggleOverlay("complete_view");
+        setOverlayActiveCardIndex(index);
     };
+
+    const handleSucessForm = (message) => {
+        setOverlayType("message_popup");
+        setSucessPopupMessage(message);
+    }
 
     return (
         <div className={styles["middle-space"]}>
@@ -51,44 +96,52 @@ export default function FindWorkArea() {
                 onPost={handlePostJob}
             />
             <div className={styles["job-cards"]}>
-                <JobCard
-                    onServiceProposal={handleServiceProposalRequest}
-                    onCompleteVisualization={handleCompleteVisualizationService}
-                />
-                <JobCard
-                    onServiceProposal={handleServiceProposalRequest}
-                    onCompleteVisualization={handleCompleteVisualizationService}
-                />
-                <JobCard
-                    onServiceProposal={handleServiceProposalRequest}
-                    onCompleteVisualization={handleCompleteVisualizationService}
-                />
-                <JobCard
-                    onServiceProposal={handleServiceProposalRequest}
-                    onCompleteVisualization={handleCompleteVisualizationService}
-                />
-                <JobCard
-                    onServiceProposal={handleServiceProposalRequest}
-                    onCompleteVisualization={handleCompleteVisualizationService}
-                />
-                <JobCard
-                    onServiceProposal={handleServiceProposalRequest}
-                    onCompleteVisualization={handleCompleteVisualizationService}
-                />
-                <JobCard
-                    onServiceProposal={handleServiceProposalRequest}
-                    onCompleteVisualization={handleCompleteVisualizationService}
-                />
+                {jobs.map((job, index) => (
+                    <JobCard
+                        key={index}
+                        onServiceProposal={handleServiceProposalRequest}
+                        onCompleteVisualization={() => handleCompleteVisualizationService(index)}
+                        title={job.title}
+                        name={job.name}
+                        username={job.username}
+                        description={job.description}
+                        payment={job.payment}
+                        skills={job.skills}
+                        profileImage={job.profileImage}
+                    />
+                ))}
             </div>
             {/* Renderiza o overlay de acordo com o tipo */}
             {isOverlayOpen && overlayType === "service_proposal" && (
-                <SendServiceProposalForm onClose={() => toggleOverlay()} />
+                <SendServiceProposalForm 
+                    onClose={() => toggleOverlay()} 
+                    onSucess={(message) => handleSucessForm(message)}
+                />
             )}
             {isOverlayOpen && overlayType === "post_job" && (
-                <JobForm onClose={() => toggleOverlay()} />
+                <JobForm
+                    onClose={() => toggleOverlay()}
+                    onSucess={(message) => handleSucessForm(message)}
+                />
             )}
             {isOverlayOpen && overlayType === "complete_view" && (
-                <CompleteVisualizationJobCard onClose={() => toggleOverlay()} />
+                <CompleteVisualizationJobCard
+                    onClose={() => toggleOverlay()}
+                    key={overlayActiveCardIndex}
+                    title={jobs[overlayActiveCardIndex].title}
+                    name={jobs[overlayActiveCardIndex].name}
+                    username={jobs[overlayActiveCardIndex].username}
+                    description={jobs[overlayActiveCardIndex].description}
+                    payment={jobs[overlayActiveCardIndex].payment}
+                    skills={jobs[overlayActiveCardIndex].skills}
+                    profileImage={jobs[overlayActiveCardIndex].profileImage}
+                />
+            )}
+            {overlayType === "message_popup" && (
+                <MessageCard
+                    onClose={() => toggleOverlay()}
+                    message={sucessPopupMessage}
+                />
             )}
         </div>
     );

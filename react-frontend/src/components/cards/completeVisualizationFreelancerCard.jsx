@@ -2,193 +2,47 @@ import React from "react";
 
 import Images from "../fixed/images";
 
-const CompleteVisualizationFreelancerCard = ({
-    onContractProposal,
-    onClose,
-}) => {
+const CompleteVisualizationFreelancerCard = ({ onClose, name, nickname, hourValue, description, skills, techs, profileImage }) => {
     return (
         <div style={styles.overlay}>
             <div style={styles.container}>
                 <div style={styles.profileDetails}>
-                    <h3 style={styles.name}>Paulo H. Ribeiro Alves</h3>
-                    <p style={styles.price}>Preço por hora: R$ 40,00</p>
+                    <h3 style={styles.name}>{name}</h3>
+                    <p style={styles.price}>Valor cobrado por hora: R$ {hourValue}</p>
                 </div>
-                <img
-                    src={Images.profileImage} // Substitua com a URL do ícone ou foto do perfil
-                    alt="Profile"
-                    style={styles.profileImage}
-                />
+                <div style={{ width: "100%" }}>
+                    <img
+                        src={profileImage ? profileImage : Images.profileImage} // Substitua com a URL do ícone ou foto do perfil
+                        alt="Profile"
+                        style={styles.profileImage}
+                    />
+                </div>
                 <div style={styles.profileHeader}>
                     <div style={{ display: "flex", flexDirection: "column" }}>
-                        <p style={styles.username}>
-                            paulohenrique64 postou em 10/10/24
-                        </p>
+                        <div style={styles.username}>
+                            Publicado por <p style={{ fontWeight: "bold", margin: "0", marginLeft: "0.2%" }}>{nickname}</p>
+                        </div>
                         <p style={styles.description}>
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
-                            Sou um desenvolvedor especializado em Java com
-                            experiência sólida no ecossistema Spring Boot. Tenho
-                            paixão por criar soluções eficientes e escaláveis, e
-                            já trabalhei em projetos que envolvem tanto APIs
-                            RESTful quanto integrações complexas. Além disso,
-                            possuo conhecimentos em Angular para criar
-                            interfaces intuitivas e dinâmicas, e utilizo os
-                            serviços da AWS para garantir a melhor performance.
+                            {description}
                         </p>
                     </div>
                 </div>
                 <div style={styles.skills}>
-                    <button style={styles.skillButton}>Comunicação</button>
-                    <button style={styles.skillButton}>Inglês</button>
-                    <button style={styles.skillButton}>
-                        Trabalho em equipe
-                    </button>
-                    <button style={styles.skillButton}>
-                        Gameplay avançada
-                    </button>
-                    <button style={styles.skillButton}>Famoso 3 capas</button>
+                    {skills.map((skill, index) => (
+                        <div style={styles.skillButton} key={index}>
+                            {skill}
+                        </div>
+                    ))}
                 </div>
                 <div style={styles.techs}>
-                    <button style={styles.techButton}>C#</button>
-                    <button style={styles.techButton}>Free Fire</button>
-                    <button style={styles.techButton}>Fortnite</button>
+                    {techs.map((tech, index) => (
+                        <div style={styles.techButton} key={index}>
+                            {tech}
+                        </div>
+                    ))}
                 </div>
                 <div
-                    style={{ display: "flex", flexDirection: "row", gap: "2%" }}
+                    style={{ display: "flex", flexDirection: "row", gap: "2%", width: "100%" }}
                 >
                     <button style={styles.contractButton} onClick={onClose}>
                         Fechar
@@ -215,6 +69,7 @@ const styles = {
     container: {
         width: "70%",
         height: "auto",
+        maxHeight: "70vh",
         border: "1px solid #000000",
         borderRadius: "8px",
         padding: "20px",
@@ -222,16 +77,21 @@ const styles = {
         fontFamily: "Arial, sans-serif",
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
         boxSizing: "border-box",
+        display: "flex",
+        alignItems: "flex-end",
+        flexDirection: "column",
+        justifyContent: "flex-start"
     },
     profileHeader: {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         marginBottom: "15px",
+        width: "100%"
     },
     profileImage: {
-        width: "120px",
-        height: "120px",
+        width: "60px",
+        height: "60px",
         borderRadius: "50%",
         marginRight: "15px",
     },
@@ -242,6 +102,7 @@ const styles = {
         alignItems: "center",
         gap: "2%",
         marginBottom: "10px",
+        width: "100%"
     },
     name: {
         fontSize: "18px",
@@ -252,6 +113,7 @@ const styles = {
         fontSize: "14px",
         color: "#000000",
         margin: 0,
+        display: "flex"
     },
     price: {
         fontSize: "16px",
@@ -264,7 +126,7 @@ const styles = {
         color: "#000000",
         marginBottom: "0",
         overflow: "auto",
-        maxHeight: "350px",
+        maxHeight: "27vh",
         lineHeight: "1.5",
         paddingRight: "10px",
     },
@@ -273,6 +135,8 @@ const styles = {
         flexWrap: "wrap",
         gap: "8px",
         marginBottom: "10px",
+        maxHeight: "12vh",
+        overflow: "auto"
     },
     skillButton: {
         padding: "6px 12px",
@@ -290,6 +154,7 @@ const styles = {
         flexWrap: "wrap",
         gap: "8px",
         marginBottom: "10px",
+        width: "100%"
     },
     techButton: {
         padding: "6px 12px",

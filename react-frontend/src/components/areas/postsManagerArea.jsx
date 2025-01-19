@@ -4,12 +4,7 @@ import styles from "../../css/home.module.css";
 
 import Images from "../fixed/images";
 
-import EditAccountForm from "../forms/editAccountForm";
 import HeaderAreaSwitcher from "../fixed/headerAreaSwitcher";
-
-import ProposalsComponent from "../cards/proposalsReceivedComponent";
-import ProposalsSendedComponent from "../cards/proposalsSendedComponent";
-
 import FreelancerCardsForManager from "../fixed/freelancersCardsForManager";
 import JobCardsForManager from "../fixed/jobCardsForManager";
 
