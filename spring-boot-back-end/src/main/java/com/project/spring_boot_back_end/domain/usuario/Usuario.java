@@ -1,8 +1,6 @@
 package com.project.spring_boot_back_end.domain.usuario;
 
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -39,6 +37,8 @@ public class Usuario implements UserDetails {
 
     private Boolean ativo;
 
+    private GrantedAuthority grantedAuthority;
+
 
 /*
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -57,6 +57,7 @@ public class Usuario implements UserDetails {
         this.email = dados.email();
         this.username = dados.username();
         this.senha = dados.senha();
+        this.grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
     }
 
     public void atualizarInformacoes(DadosAtualizacaoUsuarios dados) {
@@ -108,7 +109,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(this.grantedAuthority);
     }
 
     public void setSenha(String encode) {

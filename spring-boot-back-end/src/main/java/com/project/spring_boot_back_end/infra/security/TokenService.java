@@ -47,7 +47,8 @@ public class TokenService {
     }
 
     private Instant dataExpiracao() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+        // Um mês tem 720 horas, 43.200 minutos e 2.592.000 segundos
+        return LocalDateTime.now().plusHours(720).toInstant(ZoneOffset.of("-03:00")); 
     }
 
 }
