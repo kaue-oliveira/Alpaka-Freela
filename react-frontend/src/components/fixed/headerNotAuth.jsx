@@ -1,8 +1,19 @@
 import styles from "../../css/login.module.css";
+import { useNavigate } from "react-router-dom";
 
 import Images from "./images";
 
 export default function HeaderNotAuth() {
+    const navigate = useNavigate();
+
+    const handleEntrarClick = () => {
+        navigate("/entrar"); 
+    };
+
+    const handleRegistrarClick = () => {
+        navigate("/registrar"); 
+    };
+
     return (
         <div className={styles.header}>
             <a
@@ -23,12 +34,12 @@ export default function HeaderNotAuth() {
                 </h1>
             </a>
             <div className={styles["header-buttons"]}>
-                <a href="/entrar" className={styles["signin-button"]}>
+                <button className={styles["signin-button"]} onClick={handleEntrarClick}>
                     Entrar
-                </a>
-                <a href="/registrar" className={styles["signup-button"]}>
+                </button>
+                <button className={styles["signup-button"]} onClick={handleRegistrarClick}>
                     Registrar
-                </a>
+                </button>
             </div>
 
             <script src="../js/home-start.js"></script>

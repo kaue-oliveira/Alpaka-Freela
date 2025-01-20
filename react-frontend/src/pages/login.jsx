@@ -1,10 +1,23 @@
 import HeaderNotAuth from "../components/fixed/headerNotAuth";
 import Footer from "../components/fixed/footer";
-import Logo from "../components/fixed/logo";
+import { useState } from "react";
+import MessageCard from "../components/cards/messageCard";
 
 import LoginForm from "../components/forms/loginForm";
 
 export default function Login() {
+    const [sucessPopupMessage, setSucessPopupMessage] = useState("");
+    const [isOverlayOpen, setIsOverlayOpen] = useState(false); // Controle do overlay
+
+    const toggleOverlay = () => {
+        setIsOverlayOpen(!isOverlayOpen);
+    };
+
+    const handleSubmitForm = (message) => {
+        setSucessPopupMessage(message);
+        setIsOverlayOpen(true);
+    }
+
     return (
         <div>
             <HeaderNotAuth />
@@ -24,9 +37,15 @@ export default function Login() {
                     backgroundSize: "4em 4em",
                 }}
             >
-                <LoginForm />
+                <LoginForm onSubmit={(message) => handleSubmitForm(message)}/>
             </div>
             <Footer />
+            {isOverlayOpen && (
+                <MessageCard
+                    onClose={() => toggleOverlay()}
+                    message={sucessPopupMessage}
+                />
+            )}
         </div>
     );
 }

@@ -82,7 +82,7 @@ body {
     margin-right: 1%;
 }
 
-.header-buttons a {
+.header-buttons button {
     background-color: transparent;
     border: 1px solid var(--c-bg-button);
     color: var(--c-text-primary);
@@ -141,7 +141,6 @@ body {
     flex-direction: column;
     text-align: center;
     width: 85%;
-    height: 45%;
     color: var(--c-text-primary);
     font-size: 30pt;
     margin-bottom: 2%;
@@ -163,7 +162,6 @@ body {
     align-items: center;
     justify-content: start;
     width: 60%;
-    height: 40%;
 }
 
 .sub-div-buttons-1,
@@ -197,7 +195,7 @@ body {
 
 .sub-div-buttons-1 a:hover,
 .sub-div-buttons-2 a:hover,
-.header-buttons a:hover {
+.header-buttons button:hover {
     background-color: var(--c-text-primary);
     color: var(--c-bg-secondary);
 }
@@ -274,7 +272,7 @@ body {
         width: 50%;
     }
 
-    .header-buttons a {
+    .header-buttons button {
         font-size: 10pt;
     }
 
@@ -337,7 +335,7 @@ body {
         width: 80%;
     }
 
-    .header-buttons a {
+    .header-buttons button {
         /* width: 50%; */
         font-size: 8pt;
         padding: 5px;

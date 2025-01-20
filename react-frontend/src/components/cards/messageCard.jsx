@@ -4,9 +4,9 @@ const MessageCard = ({ onClose, message }) => {
     return (
         <div style={styles.overlay}>
             <div style={styles.container}>
-                <h1 style={styles.description}>
+                <p style={styles.description}>
                     {message}
-                </h1>
+                </p>
                 <button
                     style={styles.button}
                     onClick={onClose}
@@ -32,21 +32,22 @@ const styles = {
         zIndex: 1000,
     },
     container: {
-        aspectRatio: "5 / 1" /* Proporção de largura para altura */,
         border: "1px solid #000000",
         borderRadius: "8px",
         padding: "20px",
         backgroundColor: "#fff",
         fontFamily: "Arial, sans-serif",
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+        maxWidth: "70vh"
     },
     description: {
         width: "100%",
-        fontSize: "20px",
+        fontSize: "15px",
         color: "#000000",
         lineHeight: "1.6",
         margin: 0,
         marginBottom: "20px",
+        fontWeight: "600",
     },
     button: {
         padding: "10px 20px",

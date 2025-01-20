@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import HeaderAuth from "../components/fixed/headerAuth";
 import Footer from "../components/fixed/footer";
@@ -11,6 +11,7 @@ import AccountManagerArea from "../components/areas/accountManagerArea";
 import styles from "../css/home.module.css";
 
 import { useEffect } from "react";
+import { AuthContext } from "../contexts/authContext";
 
 export default function Dashboard() {
     const [currentComponent, setCurrentComponent] = useState("freelancer");

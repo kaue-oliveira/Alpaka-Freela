@@ -3,7 +3,6 @@ import styles from "../../css/login.module.css";
 export default function Logo() {
     return (
         <div>
-            <div className={styles["horizontal-line"]}></div>
             <div className={styles.container}>
                 <div className={styles.logo}>
                     <h1>

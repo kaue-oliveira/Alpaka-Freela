@@ -17,11 +17,30 @@ import JobCardsForManager from "../fixed/jobCardsForManager";
 import EditAccountForm from "../forms/editAccountForm";
 import HeaderAreaSwitcher from "../fixed/headerAreaSwitcher";
 import FreelancerCardsForManager from "../fixed/freelancersCardsForManager";
+import MessageCard from "../cards/messageCard";
 
 export default function AccountManagerArea() {
+    const [isOverlayOpen, setIsOverlayOpen] = useState(false); // Controle do overlay
+    const [sucessPopupMessage, setSucessPopupMessage] = useState("");
+
+    const toggleOverlay = () => {
+        setIsOverlayOpen(!isOverlayOpen);
+    };
+
+    const handleSucessEditAccountForm = (message) => {
+        setSucessPopupMessage(message);
+        toggleOverlay();
+    }
+
     return (
         <div className={styles["middle-space"]}>
-            <EditAccountForm />
+            <EditAccountForm onSucess={(message) => handleSucessEditAccountForm(message)}/>
+            {isOverlayOpen && (
+                <MessageCard 
+                    onClose={() => toggleOverlay()}
+                    message={sucessPopupMessage}
+                />
+            )}
         </div>
     );
 }
