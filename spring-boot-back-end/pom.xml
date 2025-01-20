@@ -84,6 +84,34 @@
 			<version>2.11.0</version>
 		</dependency>
 
+    
+    <!-- Dependência do Spring Boot para envio de e-mail -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-mail</artifactId>
+    </dependency>
+    <!-- Dependência para utilizar o OkHttp (opcional se for usar a API REST) -->
+    <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>okhttp</artifactId>
+        <version>4.9.3</version>
+    </dependency>
+
+    <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>com.auth0</groupId>
+    <artifactId>java-jwt</artifactId>
+    <version>4.4.0</version>
+</dependency>
+
+    
+
+    
+
 	</dependencies>
 
 	<build>

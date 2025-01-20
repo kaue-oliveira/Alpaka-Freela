@@ -136,6 +136,7 @@ public class Usuario implements UserDetails {
       this.senha = encode;
     }
 
+   
 }
 
 

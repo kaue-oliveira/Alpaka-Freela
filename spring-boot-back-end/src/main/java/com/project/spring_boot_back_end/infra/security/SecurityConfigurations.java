@@ -24,44 +24,46 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfigurations {
 
-    @Autowired
-    private SecurityFilter securityFilter;
+  @Autowired
+  private SecurityFilter securityFilter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf().disable()
-                .cors(Customizer.withDefaults())
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/login").permitAll() // Permitir login sem autenticação
-                .requestMatchers(HttpMethod.POST, "/usuario").permitAll() // Permitir cadastro sem autenticação
-                .requestMatchers(HttpMethod.PUT, "/usuario").permitAll() // Permitir cadastro sem autenticação
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll() // Swagger
-                .anyRequest().authenticated() // Exigir autenticação para outras requisições
-                .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http
+        .csrf().disable()
+        .cors(Customizer.withDefaults())
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and().authorizeHttpRequests()
+        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+        .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
+        .requestMatchers(HttpMethod.POST, "/password-reset/request").permitAll()
+        .requestMatchers(HttpMethod.POST, "/email/enviar").permitAll() // Permitir acesso ao endpoint de envio de
+                                                                       // e-mails
+        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+        .anyRequest().authenticated()
+        .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+        .build();
+  }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:1234"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(Arrays.asList("http://localhost:1234"));
+    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    configuration.setAllowedHeaders(Arrays.asList("*"));
+    configuration.setAllowCredentials(true);
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+  }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    return configuration.getAuthenticationManager();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Usar BCrypt para criptografar senhas
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder(); // Usar BCrypt para criptografar senhas
+  }
 }
