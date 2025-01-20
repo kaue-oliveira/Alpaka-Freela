@@ -62,7 +62,7 @@ const Menu = ({ items, onItemClick, showLabels }) => {
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px"}}>
             {items.map((item, index) => (
                 <MenuButton
                     key={index}
@@ -77,7 +77,7 @@ const Menu = ({ items, onItemClick, showLabels }) => {
     );
 };
 
-export default function LeftSpace({ onButtonClick }) {
+export default function LeftSpace({ onButtonClick, menuItems }) {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {
@@ -86,30 +86,6 @@ export default function LeftSpace({ onButtonClick }) {
 
         return () => window.removeEventListener("resize", handleResize);
     }, []);
-
-    const menuItems = [
-        {
-            label: "Encontrar Freelancer",
-            icon: Images.manTechEmoji,
-            action: "freelancer",
-            startSelected: true,
-        },
-        {
-            label: "Encontrar trabalho",
-            icon: Images.briefCaseEmoji,
-            action: "trabalho",
-        },
-        {
-            label: "Gerenciar publicações",
-            icon: Images.rocketEmoji,
-            action: "gerenciar-publicacoes",
-        },
-        {
-            label: "Gerenciar conta",
-            icon: Images.hammerEmoji,
-            action: "conta",
-        },
-    ];
 
     const handleMenuClick = (action) => {
         const newUrl = `/${action}`;
@@ -148,7 +124,7 @@ export default function LeftSpace({ onButtonClick }) {
                         marginRight: "3%",
                     }}
                 />
-                {!isSmallScreen && "Menu"}
+                {!isSmallScreen && "Menu (Admin)"}
             </h3>
             <Menu
                 items={menuItems}

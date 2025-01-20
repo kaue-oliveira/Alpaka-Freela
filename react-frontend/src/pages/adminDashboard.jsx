@@ -3,33 +3,29 @@ import React, { useState, useContext } from "react";
 import HeaderAuth from "../components/fixed/headerAuth";
 import Footer from "../components/fixed/footer";
 import LeftSpace from "../components/fixed/leftSpace";
-import FindFreelancerArea from "../components/areas/findFreelancerArea";
-import FindJobArea from "../components/areas/findJobArea";
-import PostsManagerArea from "../components/areas/postsManagerArea";
-import AccountManagerArea from "../components/areas/accountManagerArea";
-
+import Images from "../components/fixed/images";
 import styles from "../css/home.module.css";
 
 import { useEffect } from "react";
 import { AuthContext } from "../contexts/authContext";
 
-import Images from "../components/fixed/images";
+import ManagerFreelancersAdmin from "../components/admin/managerFreelancersAdmin";
+import ManagerJobsAdmin from "../components/admin/managerJobsAdmin";
+import ManagerUsersAdmin from "../components/admin/managerUsersAdmin";
 
-export default function Dashboard() {
+export default function AdminDashboard() {
     const [currentComponent, setCurrentComponent] = useState("freelancer");
 
     const renderCurrentComponent = () => {
         switch (currentComponent) {
-            case "freelancer":
-                return <FindFreelancerArea />;
-            case "trabalho":
-                return <FindJobArea />;
-            case "conta":
-                return <AccountManagerArea />;
-            case "gerenciar-publicacoes":
-                return <PostsManagerArea />;
+            case "gerenciar-usuarios":
+                return <ManagerUsersAdmin/>;
+            case "gerenciar-ofertas-de-servico":
+                return <ManagerFreelancersAdmin/>;
+            case "gerenciar-ofertas-de-trabalho":
+                return <ManagerJobsAdmin/>;
             default:
-                return <FindFreelancerArea />;
+                return <ManagerUsersAdmin/>;
         }
     };
 
@@ -39,25 +35,20 @@ export default function Dashboard() {
 
     const menuItems = [
         {
-            label: "Encontrar Freelancer",
+            label: "Gerenciar usuários cadastrados",
             icon: Images.manTechEmoji,
-            action: "freelancer",
+            action: "gerenciar-usuarios",
             startSelected: true,
         },
         {
-            label: "Encontrar trabalho",
+            label: "Gerenciar ofertas de serviço",
             icon: Images.briefCaseEmoji,
-            action: "trabalho",
+            action: "gerenciar-ofertas-de-servico",
         },
         {
-            label: "Gerenciar publicações",
+            label: "Gerenciar ofertas de trabalho",
             icon: Images.rocketEmoji,
-            action: "gerenciar-publicacoes",
-        },
-        {
-            label: "Gerenciar conta",
-            icon: Images.hammerEmoji,
-            action: "conta",
+            action: "gerenciar-ofertas-de-trabalho",
         },
     ];
 
@@ -67,7 +58,7 @@ export default function Dashboard() {
             <div className={styles["horizontal-line"]}></div>
             <div className={styles.container}>
                 <div className={styles["background-opacity"]}></div>
-                <LeftSpace onButtonClick={handleButtonClick} menuItems={menuItems}/>
+                <LeftSpace onButtonClick={handleButtonClick} menuItems={menuItems} />
                 {renderCurrentComponent()}
             </div>
             <div className={styles["horizontal-line"]}></div>
@@ -75,3 +66,6 @@ export default function Dashboard() {
         </div>
     );
 }
+
+
+

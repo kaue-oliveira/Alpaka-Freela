@@ -30,12 +30,14 @@ const JobCardForManager = ({ onDelete, onEdit, onVisualizeProposals, jobData }) 
                 ))}
             </div>
             <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
-                <button
-                    style={styles.proposalButton}
-                    onClick={onVisualizeProposals}
-                >
-                    Propostas recebidas
-                </button>
+                {onVisualizeProposals && (
+                    <button
+                        style={styles.contractButton}
+                        onClick={onVisualizeProposals}
+                    >
+                        Propostas recebidas
+                    </button>
+                )}
                 <button
                     style={styles.completeVisualizationButton}
                     onClick={onEdit}

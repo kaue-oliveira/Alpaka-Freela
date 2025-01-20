@@ -61,7 +61,7 @@ public class Usuario implements UserDetails {
         this.email = dados.email();
         this.username = dados.username();
         this.senha = dados.senha();
-        this.grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
+        this.grantedAuthority = new SimpleGrantedAuthority("ROLE_ADMIN");
     }
 
     public void atualizarInformacoes(DadosAtualizacaoUsuarios dados) {

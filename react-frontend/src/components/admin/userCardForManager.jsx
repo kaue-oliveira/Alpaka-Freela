@@ -3,58 +3,23 @@ import React from "react";
 import Images from "../fixed/images";
 
 
-const FreelancerCardForManager = ({ onDelete, onEdit, onVisualizeProposals, name, nickname, hourValue, description, skills, techs, profileImage }) => {
+const UserCardForManager = ({ onDelete, name, nickname, email, profileImage }) => {
 
     return (
         <div style={styles.container}>
-            <div style={styles.profileDetails}>
-                <h3 style={styles.name}>{name}</h3>
-                <p style={styles.price}>Valor cobrado por hora: R$ {hourValue}</p>
-            </div>
             <div style={styles.profileHeader}>
                 <img
                     src={profileImage ? profileImage : Images.profileImage} // Substitua com a URL do ícone ou foto do perfil
                     alt="Profile"
                     style={styles.profileImage}
                 />
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <div style={styles.username}>
-                        Publicado por <p style={{ fontWeight: "bold", margin: "0", marginLeft: "0.5%" }}>{nickname}</p>
-                    </div>
-                    <p style={styles.description}>
-                        {description}
-                    </p>
+                <div style={styles.profileDetails}>
+                    <div style={{ display: "flex", width: "100%" }}><p style={{ fontWeight: "bold", margin: "0",}}>Nome: </p>{name}</div>
+                    <div style={{ display: "flex", width: "100%" }}><p style={{ fontWeight: "bold", margin: "0"}}>Username: </p>{nickname}</div>
+                    <div style={{ display: "flex", width: "100%" }}><p style={{ fontWeight: "bold", margin: "0" }}>Email: </p>{email}</div>
                 </div>
             </div>
-            <div style={styles.skills}>
-                {skills.map((skill, index) => (
-                    <div style={styles.skillButton} key={index}>
-                        {skill}
-                    </div>
-                ))}
-            </div>
-            <div style={styles.techs}>
-                {techs.map((tech, index) => (
-                    <div style={styles.techButton} key={index}>
-                        {tech}
-                    </div>
-                ))}
-            </div>
             <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
-                {onVisualizeProposals && (
-                    <button
-                        style={styles.contractButton}
-                        onClick={onVisualizeProposals}
-                    >
-                        Propostas recebidas
-                    </button>
-                )}
-                <button
-                    style={styles.completeVisualizationButton}
-                    onClick={onEdit}
-                >
-                    Editar
-                </button>
                 <button
                     style={styles.completeVisualizationButton}
                     onClick={onDelete}
@@ -68,7 +33,8 @@ const FreelancerCardForManager = ({ onDelete, onEdit, onVisualizeProposals, name
 
 const styles = {
     container: {
-        aspectRatio: "4 / 1" /* Proporção de largura para altura */,
+        width: "100%", /* Proporção de largura para altura */
+        height: "auto",
         border: "1px solid #000000",
         borderRadius: "8px",
         padding: "20px",
@@ -76,26 +42,29 @@ const styles = {
         fontFamily: "Arial, sans-serif",
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
         boxSizing: "border-box",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between"
     },
     profileHeader: {
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
-        marginBottom: "15px",
+        justifyContent: "space-between",
+        width: "100%"
     },
     profileImage: {
-        width: "120px",
-        height: "120px",
+        width: "100px",
+        height: "100px",
         borderRadius: "50%",
         marginRight: "15px",
     },
     profileDetails: {
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "space-between",
-        alignItems: "center",
-        gap: "2%",
-        marginBottom: "10px",
+        alignItems: "flex-start",
+        gap: "10px",
+        width: "100%"
     },
     name: {
         fontSize: "18px",
@@ -173,7 +142,7 @@ const styles = {
     },
     completeVisualizationButton: {
         padding: "10px 20px",
-        backgroundColor: "#b8dbda",
+        backgroundColor: "#ffcccc",
         border: "1px solid #000000",
         color: "#000000",
         fontSize: "15px",
@@ -185,4 +154,4 @@ const styles = {
     },
 };
 
-export default FreelancerCardForManager;
+export default UserCardForManager;

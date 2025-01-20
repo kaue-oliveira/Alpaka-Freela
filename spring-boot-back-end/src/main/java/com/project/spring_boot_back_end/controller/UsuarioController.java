@@ -88,6 +88,7 @@ public class UsuarioController {
     return ResponseEntity.ok(page);
   }
 
+  // Endpoint para atualizar os dados do usuario que realizou a request com os novos dados
   @PutMapping
   public ResponseEntity atualizar(UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken,
       @RequestParam(value = "image", required = false) MultipartFile file,

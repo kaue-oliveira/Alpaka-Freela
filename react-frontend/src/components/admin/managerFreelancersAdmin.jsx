@@ -3,12 +3,13 @@ import styles from "../../css/home.module.css";
 import DeleteConfirmationPopup from "../popups/deleteConfirmationPopup";
 import EditServiceForm from "../forms/editServiceForm";
 import FreelancerCardForManager from "../cards/freelancerCardForManager";
-import Images from "./images";
+import Images from "../fixed/images";
 import MessageCard from "../cards/messageCard";
 import ReceivedProposalsComponent from "../cards/receivedProposalsComponent";
 import { motion } from 'framer-motion';
+import HeaderAreaSwitcher from "../fixed/headerAreaSwitcher";
 
-export default function FreelancerCardsForManager() {
+export default function ManagerFreelancersAdmin() {
     const [freelancers, setFreelancers] = useState([]); // card a ser gerenciado
     const [cardToManager, setCardToManager] = useState(0); // card a ser gerenciado
     const [overlayType, setOverlayType] = useState(""); // Tipo de overlay (contract_proposal, post_service ou complete_view)
@@ -106,60 +107,69 @@ export default function FreelancerCardsForManager() {
 
 
 
+    // <div className={styles["edit-account-form-container"]}>
+    //     {renderCurrentComponent()}
+    // </div>
+
+
+
     return (
-        <div className={styles["freelancer-cards"]}>
-            {freelancers.map((freelancer, index) => (
-                <FreelancerCardForManager
-                    key={index}
-                    index={index}
-                    onDelete={() => handleDeleteRequest(index)}
-                    onEdit={() => handleEditRequest(index)}
-                    onVisualizeProposals={() => handleVisualizeProposals(index)}
-                    name={freelancer.name}
-                    nickname={freelancer.nickname}
-                    hourValue={freelancer.hourValue}
-                    description={freelancer.description}
-                    skills={freelancer.skills}
-                    techs={freelancer.techs}
-                    profileImage={freelancer.profileImage}
-                />
-            ))}
 
-
-            {isOverlayOpen && overlayType === "delete" && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
-                    <DeleteConfirmationPopup
-                        onClose={handleClosePopup}
-                        onConfirm={handleConfirmDelete}
+        <div className={styles["middle-space"]}>
+            <div className={styles["freelancer-cards"]} style={{ marginTop: "0" }}>
+                {freelancers.map((freelancer, index) => (
+                    <FreelancerCardForManager
+                        key={index}
+                        index={index}
+                        onDelete={() => handleDeleteRequest(index)}
+                        onEdit={() => handleEditRequest(index)}
+                        name={freelancer.name}
+                        nickname={freelancer.nickname}
+                        hourValue={freelancer.hourValue}
+                        description={freelancer.description}
+                        skills={freelancer.skills}
+                        techs={freelancer.techs}
+                        profileImage={freelancer.profileImage}
                     />
-                </motion.div>
-            )}
-
-            {isOverlayOpen && overlayType === "edit" && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
-                    <EditServiceForm
-                        onClose={() => toggleOverlay()}
-                        onSucess={(message) => handleSucessForm(message)}
-                        freelancerCard={freelancers[cardToManager]}
-                    />
-                </motion.div>
-            )}
-
-            {isOverlayOpen && overlayType === "visualize" && (
-                <ReceivedProposalsComponent onClose={() => toggleOverlay()} />
-            )}
-
-            {overlayType === "message_popup" && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
-                    <MessageCard
-                        onClose={() => toggleOverlay()}
-                        message={sucessPopupMessage}
-                    />
-                </motion.div>
-            )}
+                ))}
 
 
+                {isOverlayOpen && overlayType === "delete" && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+                        <DeleteConfirmationPopup
+                            onClose={handleClosePopup}
+                            onConfirm={handleConfirmDelete}
+                        />
+                    </motion.div>
+                )}
 
-        </div >
+                {isOverlayOpen && overlayType === "edit" && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+                        <EditServiceForm
+                            onClose={() => toggleOverlay()}
+                            onSucess={(message) => handleSucessForm(message)}
+                            freelancerCard={freelancers[cardToManager]}
+                        />
+                    </motion.div>
+                )}
+
+                {isOverlayOpen && overlayType === "visualize" && (
+                    <ReceivedProposalsComponent onClose={() => toggleOverlay()} />
+                )}
+
+                {overlayType === "message_popup" && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+                        <MessageCard
+                            onClose={() => toggleOverlay()}
+                            message={sucessPopupMessage}
+                        />
+                    </motion.div>
+                )}
+
+
+
+            </div >
+        </div>
+
     );
 }
