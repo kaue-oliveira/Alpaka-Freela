@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Blob;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,6 +41,8 @@ public class Usuario implements UserDetails {
 
     private GrantedAuthority grantedAuthority;
 
+    @Lob
+    private Blob profileImage;
 
 /*
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -61,21 +65,37 @@ public class Usuario implements UserDetails {
     }
 
     public void atualizarInformacoes(DadosAtualizacaoUsuarios dados) {
-        if (dados.nome() != null) {
-            this.nome = dados.nome();
-        }
-        if (dados.email() != null) {
-            this.email = dados.email();
-        }
-        if (dados.username() != null) {
-            this.username = dados.username();
-        }
+        if (dados.getNome() != null) 
+            this.nome = dados.getNome();
+
+        if (dados.getEmail() != null) 
+            this.email = dados.getEmail();
+
+        if (dados.getUsername() != null) 
+            this.username = dados.getUsername();
+        
+        if (dados.getPassword() != null) 
+            this.senha = dados.getPassword();
+        
+        if (dados.getProfileImage() != null) 
+            this.profileImage = dados.getProfileImage();
     }
 
     public void excluir() {
         this.ativo = false;
     }
+
+    //
     // Getters e Setters
+    //
+
+    public Blob getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(Blob profileImage) {
+        this.profileImage = profileImage;
+    }
 
     @Override
     public String getPassword() {

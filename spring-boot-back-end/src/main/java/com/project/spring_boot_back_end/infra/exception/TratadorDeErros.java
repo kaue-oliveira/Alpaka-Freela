@@ -43,7 +43,7 @@ public class TratadorDeErros {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity tratarErroAuthentication() {
+    public static ResponseEntity tratarErroAuthentication() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Falha na autenticação");
     }
 

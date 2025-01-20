@@ -36,6 +36,7 @@ public class SecurityConfigurations {
                 .and().authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/login").permitAll() // Permitir login sem autenticação
                 .requestMatchers(HttpMethod.POST, "/usuario").permitAll() // Permitir cadastro sem autenticação
+                .requestMatchers(HttpMethod.PUT, "/usuario").permitAll() // Permitir cadastro sem autenticação
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll() // Swagger
                 .anyRequest().authenticated() // Exigir autenticação para outras requisições
                 .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
