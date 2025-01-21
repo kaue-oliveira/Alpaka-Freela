@@ -11,6 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
 
@@ -61,7 +63,7 @@ public class Usuario implements UserDetails {
         this.email = dados.email();
         this.username = dados.username();
         this.senha = dados.senha();
-        this.grantedAuthority = new SimpleGrantedAuthority("ROLE_ADMIN");
+        this.grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
     }
 
     public void atualizarInformacoes(DadosAtualizacaoUsuarios dados) {
@@ -91,6 +93,10 @@ public class Usuario implements UserDetails {
 
     public Blob getProfileImage() {
         return profileImage;
+    }
+
+    public String getProfileImageInBase64() throws SQLException {
+        return Base64.getEncoder().encodeToString(profileImage.getBytes(1, (int) profileImage.length()));
     }
 
     public void setProfileImage(Blob profileImage) {

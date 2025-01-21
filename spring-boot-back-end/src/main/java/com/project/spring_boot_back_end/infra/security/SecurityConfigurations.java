@@ -37,6 +37,8 @@ public class SecurityConfigurations {
         .requestMatchers(HttpMethod.POST, "/login").permitAll()
         .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
         .requestMatchers(HttpMethod.POST, "/password-reset/request").permitAll()
+        .requestMatchers(HttpMethod.POST, "/reset-password").permitAll()
+        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
         .requestMatchers(HttpMethod.POST, "/email/enviar").permitAll() // Permitir acesso ao endpoint de envio de
                                                                        // e-mails
         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()

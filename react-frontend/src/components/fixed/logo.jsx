@@ -1,4 +1,5 @@
 import styles from "../../css/login.module.css";
+import Images from "./images";
 
 export default function Logo() {
     return (
@@ -13,6 +14,19 @@ export default function Logo() {
                         Comece agora e conecte-se com seu próximo grande
                         desafio!
                     </h5>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: "40px"
+                        }}
+                    >
+                        <img
+                            src={Images.alpakaAstronaltCloud}
+                            alt="Avatar"
+                            style={{ borderRadius: "50%" }}
+                        />
+                    </div>
                 </div>
                 <div className={styles["div-buttons"]}>
                     <div className={styles["sub-div-buttons-2"]}>

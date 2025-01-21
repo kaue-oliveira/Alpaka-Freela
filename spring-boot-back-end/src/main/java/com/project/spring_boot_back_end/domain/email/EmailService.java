@@ -67,7 +67,7 @@ public class EmailService {
                     "email": "%s"
                 }],
                 "subject": "Redefinição de senha",
-                "text": "Clique no link para redefinir sua senha: http://localhost:8080/reset-password?token=%s"
+                "text": "Clique no link para redefinir sua senha: http://localhost:1234/recuperar-senha?token=%s"
             }""", email, token);
     }
 

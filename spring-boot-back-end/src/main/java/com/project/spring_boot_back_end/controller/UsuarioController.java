@@ -29,6 +29,7 @@ import java.util.Base64;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
+import org.apache.catalina.User;
 import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -88,9 +89,10 @@ public class UsuarioController {
     return ResponseEntity.ok(page);
   }
 
-  // Endpoint para atualizar os dados do usuario que realizou a request com os novos dados
+  // Endpoint para atualizar os dados do usuario que realizou a request com os
+  // novos dados
   @PutMapping
-  public ResponseEntity atualizar(UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken,
+  public ResponseEntity<?> atualizar(UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken,
       @RequestParam(value = "image", required = false) MultipartFile file,
       @RequestParam(value = "dados") String dadosJson,
       HttpServletResponse response) throws SerialException, SQLException, IOException {
@@ -115,7 +117,7 @@ public class UsuarioController {
     Usuario usuario = (Usuario) repository.findByUsername(oldUserData.getUsername());
 
     if (usuario == null) {
-      return ResponseEntity.status(500).body("Erro interno no servidor. Tente novamente.");
+      return ResponseEntity.status(500).body(gson.toJson("Erro interno no servidor. Tente novamente."));
     }
 
     usuario.atualizarInformacoes(dados);
@@ -156,6 +158,33 @@ public class UsuarioController {
     usuario.excluir();
 
     return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping("/excluir-conta")
+  @Transactional
+  public ResponseEntity<String> excluirConta(HttpServletResponse response, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) {
+    Gson gson = new Gson();
+    Usuario userData = (Usuario) usernamePasswordAuthenticationToken.getPrincipal();
+
+    if (userData == null) {
+      return ResponseEntity.badRequest().body(gson.toJson("Não autorizado."));
+    }
+
+    var usuario = repository.getReferenceById(userData.getId());
+
+    repository.delete(usuario);
+
+    // Criando um cookie que armazenará o token de autenticação
+    ResponseCookie clearAuthCookie = ResponseCookie.from("auth", "deleted")
+        .httpOnly(true)
+        .secure(false)
+        .path("/")
+        .maxAge(0)
+        .build();
+
+    response.addHeader(HttpHeaders.SET_COOKIE, clearAuthCookie.toString());
+
+    return ResponseEntity.ok(gson.toJson("Conta deletada com sucesso. Você será redirecionado para a página principal."));
   }
 
   @GetMapping("/{id}")

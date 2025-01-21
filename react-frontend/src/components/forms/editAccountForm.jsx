@@ -9,6 +9,7 @@ const EditAccountForm = ({ onSucess }) => {
     const [overlayType, setOverlayType] = useState("");
     const { auth, setAuth, userData, setUserData } = useContext(AuthContext);
 
+    const [accountDeleted, setAccountDeleted] = useState(false);
     const [incorrectImage, setIncorrectImage] = useState("");
     const [incorrectUsername, setIncorrectUsername] = useState("");
     const [incorrectName, setIncorrectName] = useState("");
@@ -111,13 +112,13 @@ const EditAccountForm = ({ onSucess }) => {
                     setUserData(result);
                     setExposeImage(null);
                     console.log(result);
-                    
+
                     handleFormSubmit("Seus dados foram atualizados com sucesso.");
                 }
 
                 if (!response.ok) {
                     console.log(response.body.values[0]);
-                    
+
                     handleFormSubmit("Ocorreu um erro ao tentar atualizar seus dados de registro. Por favor tente novamente.");
                 }
 
@@ -135,6 +136,34 @@ const EditAccountForm = ({ onSucess }) => {
         setIncorrectPassword("");
         setIncorrectEmail("");
         setPasswordNotEquals("");
+    }
+
+    const handleDeleteAccountConfirmation = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/usuario/excluir-conta', {
+                method: 'DELETE',
+                credentials: "include", // Permite envio/recebimento de cookies
+            });
+
+            const result = await response.json();
+
+            console.log(result);
+
+            toggleOverlay("account_deleted");
+            setSucessPopupMessage(result)
+
+            if (response.ok) {
+                setAccountDeleted(true);
+            }
+        } catch (error) {
+            console.log(error.message);
+            handleFormSubmit(result);
+        }
+    }
+
+    const deleteData = () => {
+        setUserData(null);
+        setAuth(false);
     }
 
 
@@ -477,10 +506,13 @@ const EditAccountForm = ({ onSucess }) => {
 
 
             {isOverlayOpen && overlayType === "delete_account" && (
-                <DeleteConfirmationPopup onClose={toggleOverlay} />
+                <DeleteConfirmationPopup onClose={toggleOverlay} onConfirm={handleDeleteAccountConfirmation} />
             )}
             {isOverlayOpen && overlayType === "form_submited" && (
-                <MessageCard onClose={toggleOverlay} message={sucessPopupMessage}/>
+                <MessageCard onClose={toggleOverlay} message={sucessPopupMessage} />
+            )}
+            {overlayType === "account_deleted" && (
+                <MessageCard onClose={accountDeleted ? deleteData : toggleOverlay} message={sucessPopupMessage} />
             )}
         </div>
     );

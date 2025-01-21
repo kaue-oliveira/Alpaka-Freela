@@ -26,26 +26,28 @@ public class PasswordResetService {
     private String secret;
 
     public void resetPassword(String token, String newPassword) throws InvalidTokenException {
-      try {
-          // Decodifica e valida o token
-          DecodedJWT jwt = JWT.require(Algorithm.HMAC256(secret))
-                  .withIssuer("API Voll.med")
-                  .build()
-                  .verify(token);
-  
-          // Extrai o e-mail do token (sub) que é tratado como username
-          String email = jwt.getSubject();
-  
-          // Busca o usuário pelo e-mail
-          Usuario usuario = usuarioRepository.findByEmail(email)
-                  .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-  
-          // Atualiza a senha
-          usuario.setSenha(passwordEncoder.encode(newPassword));
-          usuarioRepository.save(usuario);
-  
-      } catch (Exception e) {
-          throw new InvalidTokenException("Token inválido ou expirado");
-      }
-  }
-}  
+        try {
+            // Decodifica e valida o token
+            DecodedJWT jwt = JWT.require(Algorithm.HMAC256(secret))
+                    .withIssuer("API Voll.med")
+                    .build()
+                    .verify(token);
+
+            // Extrai o username do token (subject)
+            String username = jwt.getSubject();
+
+            // Busca o usuário pelo username
+            Usuario usuario = (Usuario) usuarioRepository.findByUsername(username);
+
+            if (usuario == null) {
+                throw new RuntimeException("Usuário não encontrado");
+            }
+
+            // Atualiza a senha
+            usuario.setSenha(passwordEncoder.encode(newPassword));
+            usuarioRepository.save(usuario);
+        } catch (Exception e) {
+            throw new InvalidTokenException("Token inválido ou expirado");
+        }
+    }
+}

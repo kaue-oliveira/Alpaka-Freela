@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -28,7 +30,7 @@ public class AuthController {
 
     // Endpoint para solicitar o envio de um e-mail de redefinição de senha
     @PostMapping("/redefinir-senha")
-    public ResponseEntity<String> redefinirSenha(@RequestParam String email) {
+    public ResponseEntity<String> redefinirSenha(@RequestParam(value = "email") String email) {
         // Verificar se o usuário existe
         Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(email);
 
@@ -37,6 +39,11 @@ public class AuthController {
         }
 
         Usuario usuario = usuarioOptional.get();
+
+        // Verificar se o usuario eh um administrador
+        for (GrantedAuthority grantedAuthority : usuario.getAuthorities()) 
+            if (grantedAuthority.toString().equals("ROLE_ADMIN"))
+                return ResponseEntity.badRequest().body("A redefinição de senha não é permitida para usuários aministradores.");
 
         // Gerar token para redefinição de senha
         String token = tokenService.gerarToken(usuario);

@@ -124,7 +124,7 @@ export default function LeftSpace({ onButtonClick, menuItems }) {
                         marginRight: "3%",
                     }}
                 />
-                {!isSmallScreen && "Menu (Admin)"}
+                {!isSmallScreen && "Menu"}
             </h3>
             <Menu
                 items={menuItems}

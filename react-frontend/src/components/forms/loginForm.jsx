@@ -4,7 +4,7 @@ import { AuthContext } from "../../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 
 import Images from "../fixed/images";
-    const LoginForm = ({ onSubmit }) => {
+const LoginForm = ({ onSubmit }) => {
     const [incorrectUsername, setIncorrectUsername] = useState("");
     const [incorrectPassword, setIncorrectPassword] = useState("");
     const { auth, setAuth, userData, setUserData } = useContext(AuthContext);
@@ -46,21 +46,19 @@ import Images from "../fixed/images";
                     body: JSON.stringify(data),
                 });
 
-                const result = await response.json();
+                const result = await response.json();                
 
-                if (result.name && result.username && result.email && result.role) {
+                if (response.ok) {
                     setAuth(true);
                     setUserData(result);
-                    navigate("/dashboard")
+                    navigate("/dashboard");
+                } else {
+                    console.log(result);
+                    onSubmit(result);
                 }
-
-                // mensagem
-                onSubmit(JSON.stringify(result));
-
-
             } catch (error) {
-                console.log("mensagem de erro: " + error.message);
-                onSubmit(error.message);
+                console.log(error);
+                onSubmit(error);
             }
         }
     }
@@ -84,6 +82,7 @@ import Images from "../fixed/images";
                     alignItems: "center",
                     justifyContent: "center",
                     border: "1px solid black",
+                    boxShadow: "15px 15px 0px 0px rgba(212, 212, 212, 0.5)"
                 }}
             >
                 <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
@@ -158,6 +157,7 @@ import Images from "../fixed/images";
                             fontWeight: "600",
                             textAlign: "start",
                             paddingLeft: "15px",
+                            boxShadow: "5px 5px 0px 0px rgba(212, 212, 212, 0.5)"
                         }}
                     >
                         Entrar

@@ -72,11 +72,16 @@ const RegisterForm = ({ onSubmit }) => {
 
                 const result = await response.json();
                 console.log(result);
-                onSubmit(JSON.stringify(result));
+
+                if (response.ok) {
+                    onSubmit("Cadastrado com sucesso.");
+                } else {
+                    onSubmit("Ocorreu um erro ao criar conta. Tente novamente.");
+                }
+                
             } catch (error) {
-                console.log("error -> " + error.message);
-                onSubmit(error.message);
-            } 
+                onSubmit("Ocorreu um erro ao criar conta. Tente novamente.");
+            }
 
             console.log(data);
         }
@@ -104,7 +109,8 @@ const RegisterForm = ({ onSubmit }) => {
                     alignItems: "center",
                     justifyContent: "center",
                     border: "1px solid black",
-                    height: "80vh"
+                    height: "80vh",
+                    boxShadow: "15px 15px 0px 0px rgba(212, 212, 212, 0.5)"
                 }}
             >
                 <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
@@ -251,6 +257,7 @@ const RegisterForm = ({ onSubmit }) => {
                             fontWeight: "600",
                             textAlign: "start",
                             paddingLeft: "15px",
+                            boxShadow: "5px 5px 0px 0px rgba(212, 212, 212, 0.5)" 
                         }}
                     >
                         Registrar

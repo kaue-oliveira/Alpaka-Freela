@@ -1,10 +1,30 @@
 import HeaderNotAuth from "../components/fixed/headerNotAuth";
 import Footer from "../components/fixed/footer";
-import Logo from "../components/fixed/logo";
+import MessageCard from "../components/cards/messageCard";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import PasswordRecoverForm from "../components/forms/passwordRecoverForm";
 
 export default function PasswordRecover() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    
+    const [message, setMessage] = useState(null);
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search); 
+        let token = params.get('token');
+
+        if (!token) {
+            navigate("/");
+        }
+    }, []);
+
+    const closeMessageCard = () => {
+        setMessage(null);
+    }
+
     return (
         <div>
             <HeaderNotAuth />
@@ -24,9 +44,15 @@ export default function PasswordRecover() {
                     backgroundSize: "4em 4em",
                 }}
             >
-                <PasswordRecoverForm />
+                <PasswordRecoverForm onSubmit={(message) => setMessage(message)} />
             </div>
             <Footer />
+            {message && (
+                <MessageCard
+                    onClose={() => closeMessageCard()}
+                    message={message}
+                />
+            )}
         </div>
     );
 }
