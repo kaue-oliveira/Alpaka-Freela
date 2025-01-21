@@ -10,8 +10,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.project.spring_boot_back_end.domain.oferta_de_servico.OfertaDeServico;
+import com.project.spring_boot_back_end.domain.oferta_de_trabalho.OfertaDeTrabalho;
+import com.project.spring_boot_back_end.domain.proposta.Proposta;
+
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
@@ -46,7 +51,7 @@ public class Usuario implements UserDetails {
     @Lob
     private Blob profileImage;
 
-/*
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OfertaDeTrabalho> ofertasDeTrabalho = new ArrayList<>();
 
@@ -55,7 +60,6 @@ public class Usuario implements UserDetails {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Proposta> propostas = new ArrayList<>();
-*/
 
     public Usuario(DadosCadastroUsuario dados) {
         this.ativo = true;
