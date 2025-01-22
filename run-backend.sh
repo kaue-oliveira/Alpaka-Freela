@@ -1,3 +1,3 @@
 #!/bin/bash
-cd ./javalin-backend
-./mvnw exec:java
+cd ./spring-boot-back-end
+./mvnw spring-boot:run

@@ -1,4 +1,3 @@
 #!/bin/bash
-cd react-frontend
-npm install
-npm start
+npm install --prefix ./react-frontend
+npm start --prefix ./react-frontend

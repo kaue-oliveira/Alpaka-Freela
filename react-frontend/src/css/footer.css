@@ -4,17 +4,12 @@
     height: 10vh;
     display: flex;
     flex-direction: row;
-    justify-content: center;   
+    justify-content: center;
     align-items: center;
     color: var(--c-text-secondary);
     background-color: var(--c-bg-secondary);
-    border-style: solid;
-    border-color:var(--border-color);
-    border-width: 1px;
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
     z-index: 0;
+    border-top: 1px solid black;
 }
 
 .footer h1 {
