@@ -169,8 +169,8 @@ const EditServiceForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
             error = true;
         }
 
-        if (skills.length < 6 || skills.length > 30) {
-            setIncorrectSkillsErrorMessage("Você precisa selecionar um número entre 6 e 30 de habilidades.");
+        if (skills.length < 5 || skills.length > 30) {
+            setIncorrectSkillsErrorMessage("Você precisa selecionar um número entre 5 e 30 de habilidades.");
             error = true;
         }
 
@@ -238,7 +238,7 @@ const EditServiceForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
                     onUpdatedService(resultData);                 
                 } else {
                     console.log(result);
-                    onSubmit(result);
+                    setFormErrorMessage(result);
                 }
             } catch (error) {
                 console.log(error);
@@ -484,7 +484,7 @@ const EditServiceForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
                                 <div style={{ flex: "1" }}>
                                     {/* Habilidades */}
                                     <label style={styles.label} htmlFor="skills">
-                                        Selecione até 30 habilidades
+                                        Selecione no mínimo 5 e no máximo 30 habilidades
                                     </label>
                                     <div style={{ display: "flex", flexDirection: "row", gap: "2.5%", width: "98%" }}>
                                         <select

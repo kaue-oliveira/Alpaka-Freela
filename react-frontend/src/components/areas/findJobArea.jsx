@@ -26,6 +26,8 @@ export default function FindWorkArea() {
     const [overlayActiveCardId, setOverlayActiveId] = useState(0);
     const [sucessPopupMessage, setSucessPopupMessage] = useState("");
     const [jobPosts, setJobPosts] = useState([]);
+    const [sendingProposalTo, setSendingProposalTo] = useState(0); 
+
     const backendDomain = process.env.BACKEND_DOMAIN;
 
     useEffect(() => {
@@ -39,7 +41,7 @@ export default function FindWorkArea() {
                 const result = await response.json();
 
                 if (response.ok) {
-                    setJobPosts([]);    
+                    setJobPosts([]);
                     for (let i = 0; i < result.length; i++) {
                         handleNewJobPost(result[i]);
                     }
@@ -59,7 +61,8 @@ export default function FindWorkArea() {
         setOverlayType(type || ""); // Define o tipo do overlay, ou limpa se estiver fechando
     };
 
-    const handleServiceProposalRequest = () => {
+    const handleServiceProposalRequest = (ofertaId, usernameUsuario) => {
+        setSendingProposalTo({ofertaId, usernameUsuario})
         toggleOverlay("service_proposal");
         console.log("service_proposal");
     };
@@ -103,7 +106,7 @@ export default function FindWorkArea() {
                 {jobPosts.map((job, index) => (
                     <JobCard
                         key={index}
-                        onServiceProposal={handleServiceProposalRequest}
+                        onServiceProposal={() => handleServiceProposalRequest(job.id, job.usernameUsuario)}
                         onCompleteVisualization={() => handleCompleteVisualizationService(job.id)}
                         title={job.titulo}
                         name={job.nomeUsuario}
@@ -120,12 +123,14 @@ export default function FindWorkArea() {
                 <SendServiceProposalForm
                     onClose={() => toggleOverlay()}
                     onSucess={(message) => handleSucessForm(message)}
+                    serviceData={sendingProposalTo}
                 />
             )}
             {isOverlayOpen && overlayType === "post_job" && (
                 <JobForm
                     onClose={() => toggleOverlay()}
                     onSucess={(message) => handleSucessForm(message)}
+                    newJobPost={(postData) => handleNewJobPost(postData)}
                 />
             )}
             {isOverlayOpen && overlayType === "complete_view" && (

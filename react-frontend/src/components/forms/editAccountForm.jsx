@@ -251,17 +251,22 @@ const EditAccountForm = ({ onSucess }) => {
                             cursor: "pointer",
                             width: "auto",
                             textAlign: "center",
-                            backgroundColor: "#f0f0f0",
+                            backgroundColor: "#e7e5fd",
                             border: "1px solid #000000",
                             borderRadius: "4px",
                             boxSizing: "border-box",
                             fontSize: "14px",
-                            color: "#333",
+                            color: "#000000",
                             fontWeight: "bold",
                             transition: "all 0.3s",
+                            display: "flex",
+                            alignItems: "center",
+                            gap : "5px"
                         }}
                         htmlFor="fileInput"
                     >
+
+                        <img src={Images.iconUpload} alt="" style={{width: "17px"}}/>
                         Selecionar imagem
                     </label>
                     <input

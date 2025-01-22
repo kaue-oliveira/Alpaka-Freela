@@ -1,69 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Images from "../fixed/images";
 
-function ReceivedProposalsComponent({ onClose }) {
-    const proposals = [
-        {
-            id: 1,
-            type: "Proposta de servico",
-            sender: "Kaue Oliveira",
-            description: "Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance.",
-        },
-        {
-            id: 2,
-            type: "Proposta de servico",
-            sender: "Kaue Oliveira",
-            description: "fdgdfgdgdg"
-        },
-        {
-            id: 3,
-            type: "Proposta de servico",
-            sender: "Kaue Oliveira",
-            description: "Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance. Sou um desenvolvedor especializado em Java com experiência sólida no ecossistema Spring Boot. Tenho paixão por criar soluções eficientes e escaláveis, e já trabalhei em projetos que envolvem tanto APIs RESTful quanto integrações complexas. Além disso, possuo conhecimentos em Angular para criar interfaces intuitivas e dinâmicas, e utilizo os serviços da AWS para garantir a melhor performance.",
-        },
-        {
-            id: 4,
-            type: "Proposta de servico",
-            sender: "Kaue Oliveira",
-            description: "fdgdfgdgdg"
-        },
-        {
-            id: 5,
-            type: "Proposta de servico",
-            sender: "Kaue Oliveira",
-            description: "fdgdfgdgdg"
-        },
-        {
-            id: 6,
-            type: "Proposta de servico",
-            sender: "Kaue Oliveira",
-            description: "fdgdfgdgdg"
-        },
-        {
-            id: 7,
-            type: "Proposta de servico",
-            sender: "Kaue Oliveira",
-            description: "fdgdfgdgdg"
-        },
-        {
-            id: 8,
-            type: "Proposta de servico",
-            sender: "Kaue Oliveira",
-            description: "fdgdfgdgdg"
-        },
-        {
-            id: 9,
-            type: "Proposta de servico",
-            sender: "Kaue Oliveira",
-            description: "fdgdfgdgdg"
-        },
-        {
-            id: 10,
-            type: "Proposta de servico",
-            sender: "Kaue Oliveira",
-            description: "fdgdfgdgdg"
-        },
-    ];
+function ReceivedProposalsComponent({ onClose, ofertaId, ofertaType }) {
+    const [proposals, setProposals] = useState(null);
+
+    const backendDomain = process.env.BACKEND_DOMAIN;
+
+    useEffect(() => {
+        let url = backendDomain + '/propostas/oferta/' + ofertaId + "?tipo=SERVICO";
+        
+        if (ofertaType === "CONTRATACAO") {  
+            url = backendDomain + '/propostas/oferta/' + ofertaId + "?tipo=CONTRATACAO";
+        }
+
+        const fetchReceivedProposals = async () => {
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    credentials: "include",
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    setProposals(result);
+                } else {
+                    console.log("erro ao fazer fetch nas ofertas de servico");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchReceivedProposals();
+    }, []);
+
+
 
     return (
         <div style={styles.overlay}>
@@ -72,38 +45,48 @@ function ReceivedProposalsComponent({ onClose }) {
                 style={styles.container}
             >
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%", margin: "0" }}>
-                    <h2 style={{flex: "2", margin: "0"}}>Propostas recebidas</h2>
+                    <h2 style={{ flex: "2", margin: "0" }}>Propostas recebidas</h2>
                     <button style={styles.button} onClick={onClose}>Fechar</button>
                 </div>
-                <ScrollContainerPurple style={{ height: "100%", boxSizing: "border-box", }}>
+                <ScrollContainerPurple style={{ height: "100%", boxSizing: "border-box", width: "100%" }}>
                     <div style={styles.proposals}>
-                        {proposals.map((proposal) => (
-                            <div
-                                key={proposal.id}
-                                style={{
-                                    border: "1px solid #000000",
-                                    borderRadius: "8px",
-                                    padding: "20px",
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "start",
-                                    backgroundColor: "#fff",
-                                    flexDirection: "column",
-                                    width: "98.5%",
-                                    boxSizing: "border-box",
-                                }}
-                            >
-                                <span>
-                                    <strong>
-                                        #{proposal.id} - {proposal.type}:
-                                    </strong>{" "}
-                                    recebida de <strong>{proposal.sender}</strong>
-                                </span>
-                                <div style={{ maxHeight: "30vh", overflow: "auto" }}>
-                                    <p style={{ width:"98%" }}>{proposal.description}</p>
+                        {proposals && proposals.length > 0 && (
+                            proposals.map((proposal) => (
+                                <div
+                                    key={proposal.id}
+                                    style={{
+                                        border: "1px solid #000000",
+                                        borderRadius: "8px",
+                                        padding: "20px",
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "start",
+                                        backgroundColor: "#fff",
+                                        flexDirection: "column",
+                                        width: "98.5%",
+                                        boxSizing: "border-box",
+                                    }}
+                                >
+                                    <span>
+                                        <strong>
+                                            #{proposal.id} | {proposal.TipoProposta === "SERVICO" ? "Proposta de serviço" : "Proposta de contratação"}
+                                        </strong>{" "}
+                                        recebida de <strong>{proposal.dadosRecebedor.name} - {proposal.dadosRecebedor.username}</strong>
+                                    </span>
+                                    <div style={{ maxHeight: "30vh", overflow: "auto" }}>
+                                        <p style={{ width: "98%", wordWrap: "break-word", wordBreak: "break-word", whiteSpace: "normal" }}>{proposal.descricao}</p>
+                                    </div>
                                 </div>
+                            ))
+                        )}
+                        {proposals && proposals.length === 0 && (
+                            <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+                                <img src={Images.sadAlpaka} alt="" style={{ width: "200px" }} />
+                                <p style={{ fontWeight: "600", fontSize: "18px", padding: "30px", borderTop: "1px solid #000000", borderBottom: "1px solid #000000", marginTop: "40px" }}>
+                                    Nenhuma proposta recebida ainda.
+                                </p>
                             </div>
-                        ))}
+                        )}
                     </div>
                 </ScrollContainerPurple>
             </div>
@@ -142,6 +125,8 @@ const styles = {
         gap: "2.5%"
     },
     proposals: {
+        display: "flex",
+        alignItems: "center",
         overflow: "auto",
         height: "90%",
         display: "flex",

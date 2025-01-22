@@ -63,7 +63,7 @@ public class UsuarioController {
 
   @PostMapping
   @Transactional
-  public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroUsuario dados, UriComponentsBuilder uriBuilder)
+  public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroUsuario dados, UriComponentsBuilder uriBuilder)
       throws SerialException, SQLException, IOException {
     var usuario = new Usuario(dados);
     String userDirectory = Paths.get("").toAbsolutePath().toString();

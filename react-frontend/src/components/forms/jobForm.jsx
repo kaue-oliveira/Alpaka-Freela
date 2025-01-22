@@ -27,7 +27,7 @@ const ScrollContainerPurple = styled.div`
   }
 `;
 
-const JobForm = ({ onClose, onSucess }) => {
+const JobForm = ({ onClose, onSucess, newJobPost }) => {
     const [technologies, setTechnologies] = useState([]);
     const [techInput, setTechInput] = useState("");
     const [techsToSelect, setTechsToSelect] = useState("");
@@ -81,9 +81,10 @@ const JobForm = ({ onClose, onSucess }) => {
             setIncorrectPaymentErrorMessage("Você precisa digitar um número positivo.");
             error = true;
         }
+        
 
         // verificar titulo
-        if (!formData.title || (formData.title.length < 5 || formData.title.length > 10)) {
+        if (!formData.title || (formData.title.length < 5 || formData.title.length > 100)) {
             setIncorrectTitleErrorMessage("O título deve possuir entre 5 e 100 caracteres.");
             error = true;
         }
@@ -130,10 +131,10 @@ const JobForm = ({ onClose, onSucess }) => {
                 });
 
                 const result = await response.json();
-
+                
                 if (response.ok) {          
                     onSucess("Oferta de trabalho cadastrada com sucesso.");
-                    // newJobPost(result);
+                    newJobPost(result);
                 } else {
                     console.log(result);
                     onSubmit(result);

@@ -11,12 +11,6 @@ public record DadosCadastroProposta(
     String descricao,
 
     @NotNull
-    @Positive
-    Double valor,
-
-    String mensagem,
-
-    @NotNull
     TipoProposta tipoProposta,
 
     @NotNull

@@ -111,16 +111,17 @@ export default function LeftSpace({ onButtonClick, menuItems }) {
                     marginBottom: "10px",
                     color: "#242424",
                     backgroundColor: "#dbdbdb",
-                    padding: "5px",
+                    padding: "8px",
                     borderRadius: "5px",
+                    display: "flex",
                 }}
             >
                 <img
                     src={Images.packageEmoji}
                     alt=""
                     style={{
-                        width: "10%",
-                        marginLeft: "3%",
+                        width: "23px",
+                        marginLeft: "1%",
                         marginRight: "3%",
                     }}
                 />
