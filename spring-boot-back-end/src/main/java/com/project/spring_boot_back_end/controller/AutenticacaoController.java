@@ -92,7 +92,7 @@ public class AutenticacaoController {
                 response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
 
                 // Enviando alguns dados do novo usuário autenticado ao frontend
-                return ResponseEntity.ok(new DadosUsuarioParaFrontend(userData.getNome(), userData.getUsername(),
+                return ResponseEntity.ok(new DadosUsuarioParaFrontend(userData.getId(), userData.getNome(), userData.getUsername(),
                                 userData.getEmail(), userData.getAuthorities().toString(),
                                 userData.getProfileImageInBase64()));
         }
@@ -128,8 +128,7 @@ public class AutenticacaoController {
                 // Verificar se o usuario eh um administrador
                 for (GrantedAuthority grantedAuthority : usuario.getAuthorities())
                         if (grantedAuthority.toString().equals("ROLE_ADMIN"))
-                                return ResponseEntity.badRequest().body(
-                                                "A redefinição de senha não é permitida para usuários aministradores.");
+                                return ResponseEntity.badRequest().body("A redefinição de senha não é permitida para usuários aministradores.");
 
                 // Gerar token para redefinição de senha
                 String token = tokenService.gerarToken(usuario);

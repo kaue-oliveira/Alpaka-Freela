@@ -23,7 +23,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
@@ -65,14 +67,32 @@ public class UsuarioController {
   @Transactional
   public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroUsuario dados, UriComponentsBuilder uriBuilder)
       throws SerialException, SQLException, IOException {
+
+    Gson gson = new Gson();
     var usuario = new Usuario(dados);
     String userDirectory = Paths.get("").toAbsolutePath().toString();
 
     File fileImage = new File(userDirectory + "/../images/profile-image.png");
     Blob blobImage = new SerialBlob(Files.readAllBytes(fileImage.toPath()));
 
+    if (dados.senha().length() < 8 || dados.senha().length() > 20) {
+      return ResponseEntity.badRequest().body(gson.toJson("Sua senha deve possuir no mínimo 8 e no máximo 20 caracteres."));
+    }
+
     usuario.setSenha(passwordEncoder.encode(dados.senha())); // Criptografando a senha
     usuario.setProfileImage(blobImage); // Imagem de perfil padrao
+
+    Usuario usuarioBusca = (Usuario) repository.findByUsername(dados.username());
+
+    if (usuarioBusca != null) {
+      return ResponseEntity.badRequest().body(gson.toJson("Já existe um usuário cadastrado com este username."));
+    }
+
+    var usuarioBuscaOptional = repository.findByEmail(dados.email());
+
+    if (usuarioBuscaOptional.isPresent()) {
+      return ResponseEntity.badRequest().body(gson.toJson("Já existe um usuário cadastrado com este email."));
+    }
 
     repository.save(usuario);
 
@@ -100,12 +120,14 @@ public class UsuarioController {
     Usuario oldUserData = (Usuario) usernamePasswordAuthenticationToken.getPrincipal();
     DadosAtualizacaoUsuarios dados = gson.fromJson(dadosJson, DadosAtualizacaoUsuarios.class);
 
+    // Se a senha foi enviada, validamos e atualizamos a senha 
     if (dados.getPassword().length() >= 8 && dados.getPassword().length() <= 20) {
       dados.setPassword(passwordEncoder.encode(dados.getPassword()));
     } else {
       dados.setPassword(null);
     }
 
+    // Se a nova imagem de perfil foi enviada, atualizamos a foto de perfil com a imagem recebida
     if (file != null) {
       Blob imageBlob = new SerialBlob(file.getBytes());
       dados.setProfileImage(imageBlob);
@@ -113,19 +135,33 @@ public class UsuarioController {
       dados.setProfileImage(null);
     }
 
+    // Coletando os dados antigos do usuario
     Usuario usuario = (Usuario) repository.findByUsername(oldUserData.getUsername());
 
+    // Caso o usuario nao exista ou de algum erro na busca
     if (usuario == null) {
       return ResponseEntity.status(500).body(gson.toJson("Erro interno no servidor. Tente novamente."));
     }
 
     usuario.atualizarInformacoes(dados);
-    repository.save(usuario);
 
-    String base64 = null;
+    // Verificar se o email mudou
+    if (!oldUserData.getEmail().equals(usuario.getEmail())) {
+      var usuarioBuscaOptional = repository.findByEmail(usuario.getEmail());
 
-    // verificar se o username mudou
+      if (usuarioBuscaOptional.isPresent()) {
+        return ResponseEntity.badRequest().body(gson.toJson("Já existe um usuário cadastrado com este email."));
+      }
+    }
+
+    // Verificar se o username mudou
     if (!oldUserData.getUsername().equals(usuario.getUsername())) {
+      Usuario usuarioBusca = (Usuario) repository.findByUsername(usuario.getUsername());
+
+      if (usuarioBusca != null) {
+        return ResponseEntity.badRequest().body(gson.toJson("Já existe um usuário cadastrado com este username."));
+      }
+  
       // preciso criar e enviar um novo token ao usuario
       var tokenJWT = tokenService.gerarToken(usuario);
 
@@ -141,17 +177,9 @@ public class UsuarioController {
       response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
     }
 
-    return ResponseEntity.ok(new DadosUsuarioParaFrontend(usuario.getNome(), usuario.getUsername(), usuario.getEmail(),
-        usuario.getAuthorities().toString(), usuario.getProfileImageInBase64()));
-  }
+    repository.save(usuario);
 
-  @DeleteMapping("/{id}")
-  @Transactional
-  public ResponseEntity excluir(@PathVariable Long id) {
-    var usuario = repository.getReferenceById(id);
-    usuario.excluir();
-
-    return ResponseEntity.noContent().build();
+    return ResponseEntity.ok(new DadosUsuarioParaFrontend(usuario.getId(), usuario.getNome(), usuario.getUsername(), usuario.getEmail(), usuario.getAuthorities().toString(), usuario.getProfileImageInBase64()));
   }
 
   @DeleteMapping("/excluir-conta")
@@ -187,4 +215,51 @@ public class UsuarioController {
     return ResponseEntity.ok(new DadosDetalhamentoUsuario(usuario));
   }
 
+  // Endpoint acessivel somente a usuarios com a RULE_ADMIN
+  @DeleteMapping("/{id}")
+  @Transactional
+  public ResponseEntity<String> excluir(@PathVariable Long id, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) {
+    Usuario usuario = (Usuario) usernamePasswordAuthenticationToken.getPrincipal();
+    Gson gson = new Gson();
+  
+    if (!usuario.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+      return ResponseEntity.badRequest().body(gson.toJson("Não autorizado."));
+    }
+
+    var usuarioOptional = repository.findById(id);
+
+    if (!usuarioOptional.isPresent())
+      return ResponseEntity.status(401).body(gson.toJson("Usuário não encontrado."));
+
+    usuarioOptional.get().excluir();
+
+    repository.delete(usuarioOptional.get());
+
+    return ResponseEntity.ok().body(gson.toJson("Usuário deletado com sucesso."));
+  }
+
+  // Endpoint acessivel somente a usuarios com a RULE_ADMIN
+  @GetMapping("/listar-todos")
+  @Transactional
+  public ResponseEntity<?> listarTodosOsUsuarios(UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) {
+    Usuario usuario = (Usuario) usernamePasswordAuthenticationToken.getPrincipal();
+    Gson gson = new Gson();
+  
+    if (!usuario.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+      return ResponseEntity.badRequest().body(gson.toJson("Não autorizado."));
+    }
+
+    List<Usuario> usuarios = repository.findAll();
+
+    System.out.println(usuarios.get(45).getId());
+
+    List<DadosUsuarioParaFrontend> dadosUsuarioParaFrontends = new ArrayList<>();
+
+    for (Usuario u : usuarios) {
+      if (!u.getAuthorities().toString().equals("[ROLE_ADMIN]"))
+        dadosUsuarioParaFrontends.add(new DadosUsuarioParaFrontend(u.getId(), u.getNome(),u.getUsername(),u.getEmail(),u.getAuthorities().toString(),u.getProfileImageInBase64()));
+    }
+
+    return ResponseEntity.ok(dadosUsuarioParaFrontends);
+  }
 }

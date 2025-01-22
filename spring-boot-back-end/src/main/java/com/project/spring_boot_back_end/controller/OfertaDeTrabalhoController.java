@@ -1,8 +1,6 @@
 package com.project.spring_boot_back_end.controller;
 
 import com.google.gson.Gson;
-import com.project.spring_boot_back_end.domain.oferta_de_servico.DadosListagemOfertaDeServico;
-import com.project.spring_boot_back_end.domain.oferta_de_servico.OfertaDeServico;
 import com.project.spring_boot_back_end.domain.oferta_de_trabalho.DadosAtualizacaoOfertaDeTrabalho;
 import com.project.spring_boot_back_end.domain.oferta_de_trabalho.DadosCadastroOfertaDeTrabalho;
 import com.project.spring_boot_back_end.domain.oferta_de_trabalho.DadosListagemOfertaDeTrabalho;
@@ -14,16 +12,11 @@ import com.project.spring_boot_back_end.domain.tecnologia.TecnologiaRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
@@ -128,7 +121,8 @@ public class OfertaDeTrabalhoController {
 
         OfertaDeTrabalho ofertaDeTrabalho = ofertaDeTrabalhoOptional.get();
 
-        if (!ofertaDeTrabalho.getUsuario().getId().equals(usuario.getId())) {
+        // Se nao for o autor ou admin tentando atualizar a oferta
+        if (!ofertaDeTrabalho.getUsuario().getId().equals(usuario.getId()) && !usuario.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
             return ResponseEntity.status(403).body("Não autorizado");
         }
 
@@ -169,7 +163,8 @@ public class OfertaDeTrabalhoController {
 
         OfertaDeTrabalho ofertaDeTrabalho = ofertaDeTrabalhoOptional.get();
 
-        if (!ofertaDeTrabalho.getUsuario().getId().equals(usuario.getId())) {
+        // Se nao for o autor ou admin tentando excluir a oferta
+        if (!ofertaDeTrabalho.getUsuario().getId().equals(usuario.getId()) && !usuario.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
             return ResponseEntity.status(403).body(gson.toJson("Não autorizado."));
         }
 

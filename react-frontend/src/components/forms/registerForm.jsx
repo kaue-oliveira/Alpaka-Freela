@@ -73,12 +73,13 @@ const RegisterForm = ({ onSubmit }) => {
                 });
 
                 const result = await response.json();
+
                 console.log(result);
 
                 if (response.ok) {
                     onSubmit("Cadastrado com sucesso.");
                 } else {
-                    onSubmit("Ocorreu um erro ao criar conta. Tente novamente.");
+                    onSubmit(result);
                 }
 
             } catch (error) {

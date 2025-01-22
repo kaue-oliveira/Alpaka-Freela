@@ -144,7 +144,8 @@ public class OfertaDeServicoController {
 
         OfertaDeServico ofertaDeServico = ofertaDeServicoOptional.get();
 
-        if (!ofertaDeServico.getUsuario().getId().equals(usuario.getId())) {
+        // Se nao for o autor ou admin tentando atualizar a oferta
+        if (!ofertaDeServico.getUsuario().getId().equals(usuario.getId()) && !usuario.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
             return ResponseEntity.status(403).body(gson.toJson("Não autorizado"));
         }
 
@@ -201,8 +202,9 @@ public class OfertaDeServicoController {
 
         OfertaDeServico ofertaDeServico = ofertaDeServicoOptional.get();
      
-        if (!ofertaDeServico.getUsuario().getId().equals(usuario.getId())) {
-            return ResponseEntity.status(403).body(gson.toJson("Não autorizado."));
+        // Se nao for o autor ou admin tentando excluir a oferta
+        if (!ofertaDeServico.getUsuario().getId().equals(usuario.getId()) && !usuario.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+            return ResponseEntity.status(403).body(gson.toJson("Não autorizado.") );
         }
 
         repository.delete(ofertaDeServico);

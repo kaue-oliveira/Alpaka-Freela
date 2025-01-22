@@ -120,7 +120,7 @@ const EditAccountForm = ({ onSucess }) => {
                 if (!response.ok) {
                     console.log(response.body.values[0]);
 
-                    handleFormSubmit("Ocorreu um erro ao tentar atualizar seus dados de registro. Por favor tente novamente.");
+                    handleFormSubmit(result);
                 }
 
                 // onSucess("Dados de registro atualizados com sucesso.");

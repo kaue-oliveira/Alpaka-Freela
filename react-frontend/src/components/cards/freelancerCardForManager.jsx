@@ -9,11 +9,24 @@ const FreelancerCardForManager = ({ onDelete, onEdit, onVisualizeProposals, id, 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
             <div style={styles.container}>
                 <div style={styles.profileDetails}>
-                    <h3 style={styles.name}>{name}</h3>
+                    {!onVisualizeProposals && (
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            <img src={profileImage} alt="" style={{ width: "50px", height: "50px", borderRadius: "100%", marginRight: "10px" }} />
+                            <h3 style={styles.name}>{name}</h3>
+                        </div>
+                    )}
+                     {onVisualizeProposals && (
+                        <h3 style={styles.name}>{name}</h3>
+                    )}
                     <p style={styles.price}>Valor cobrado por hora: R$ {hourValue}</p>
                 </div>
                 <div style={styles.username}>
-                    <p style={{ fontWeight: "bold", margin: "0", marginBottom: "1%" }}>Oferta de número #{id} publicada por Você</p>
+                    {onVisualizeProposals && (
+                        <p style={{ fontWeight: "bold", margin: "0", marginBottom: "1%" }}>Oferta de número #{id} publicada por Você</p>
+                    )}
+                    {!onVisualizeProposals && (
+                        <p style={{ fontWeight: "bold", margin: "0", marginBottom: "1%", marginTop: "10px" }}>Oferta de número #{id} publicada por {nickname}</p>
+                    )}
                 </div>
                 <div style={styles.profileHeader}>
                     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
@@ -23,14 +36,14 @@ const FreelancerCardForManager = ({ onDelete, onEdit, onVisualizeProposals, id, 
                     </div>
                 </div>
                 <div style={styles.skills}>
-                    {skills.map((skill, index) => (
+                    {skills && skills.map((skill, index) => (
                         <div style={styles.skillButton} key={index}>
                             {skill}
                         </div>
                     ))}
                 </div>
                 <div style={styles.techs}>
-                    {techs.map((tech, index) => (
+                    {techs && techs.map((tech, index) => (
                         <div style={styles.techButton} key={index}>
                             {tech}
                         </div>
@@ -79,7 +92,7 @@ const styles = {
     },
     profileHeader: {
         display: "flex",
-        alignItems: "center",
+        alignItems: "start",
         justifyContent: "start",
         marginBottom: "15px",
     },

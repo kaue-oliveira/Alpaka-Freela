@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.github.javafaker.Faker;
 import com.project.spring_boot_back_end.domain.habilidade.Habilidade;
@@ -50,6 +51,9 @@ public class SpringBootBackEndApplication implements CommandLineRunner{
 
     @Autowired
     OfertaDeTrabalhoRepository ofertaDeTrabalhoRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public static void main(String[] args) {
         SpringApplication.run(SpringBootBackEndApplication.class, args);
@@ -86,7 +90,7 @@ public class SpringBootBackEndApplication implements CommandLineRunner{
                 try {
                     // Dados do usuário
                     String email = faker.internet().emailAddress();
-                    String senha = "fake1234";
+                    String senha = passwordEncoder.encode("fake1234");
                     String nome = faker.name().fullName();
                     String username = faker.name().username();
 

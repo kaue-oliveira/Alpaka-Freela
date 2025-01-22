@@ -125,7 +125,7 @@ const EditJobForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
         }
 
         // verificar titulo
-        if (!formData.title || (formData.title.length < 5 || formData.title.length > 10)) {
+        if (!formData.title || (formData.title.length < 5 || formData.title.length > 100)) {
             setIncorrectTitleErrorMessage("O título deve possuir entre 5 e 100 caracteres.");
             error = true;
         }

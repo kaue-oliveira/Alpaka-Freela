@@ -100,11 +100,11 @@ export default function FreelancerCardsForManager() {
 
                 setOverlayType("message_popup");
                 setSucessPopupMessage(result);
-                
+
                 if (response.ok) {
                     setFreelancers(freelancers.filter((freelancer) => freelancer.id !== cardToManager));
                     setCardToManager(null);
-                } 
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -136,6 +136,12 @@ export default function FreelancerCardsForManager() {
                 />
             ))}
 
+            {freelancers.length === 0 && (
+                <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
+                    <h2 style={{ color: "#3a3a3a", fontWeight: "500" }}>Não existem ofertas de serviço cadastradas por você.</h2>
+                </div>
+            )}
+
 
             {isOverlayOpen && overlayType === "delete" && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
@@ -151,8 +157,8 @@ export default function FreelancerCardsForManager() {
                     <EditServiceForm
                         onClose={() => toggleOverlay()}
                         onSubmit={(message) => handleSucessForm(message)}
-                        onUpdatedService={(updatedServiceData) => 
-                            setFreelancers(freelancers.map(freelancer => 
+                        onUpdatedService={(updatedServiceData) =>
+                            setFreelancers(freelancers.map(freelancer =>
                                 freelancer.id === updatedServiceData.id ? updatedServiceData : freelancer
                             ))
                         }
@@ -162,8 +168,8 @@ export default function FreelancerCardsForManager() {
             )}
 
             {isOverlayOpen && overlayType === "visualize" && (
-                <ReceivedProposalsComponent 
-                    onClose={() => toggleOverlay()} 
+                <ReceivedProposalsComponent
+                    onClose={() => toggleOverlay()}
                     ofertaId={cardToManager}
                     ofertaType={"CONTRATACAO"}
                 />

@@ -10,7 +10,12 @@ const JobCardForManager = ({ onDelete, onEdit, onVisualizeProposals, jobData }) 
                     <div>
                         <h2 style={styles.title}>{jobData.titulo}</h2>
                         <p style={styles.publisher}>
-                            <strong>Oferta de número #{jobData.id} publicada por você</strong>
+                            {onVisualizeProposals && (
+                                <p style={{ fontWeight: "bold", margin: "0", marginBottom: "1%" }}>Oferta de número #{jobData.id} publicada por Você</p>
+                            )}
+                            {!onVisualizeProposals && (
+                                <p style={{ fontWeight: "bold", margin: "0", marginBottom: "1%" }}>Oferta de número #{jobData.id} publicada por {jobData.usernameUsuario}</p>
+                            )}
                         </p>
                     </div>
                     <img style={{ width: "50px", height: "50px", borderRadius: "100%" }} src={jobData.profileImage ? jobData.profileImage : Images.profileImage} alt="" />
