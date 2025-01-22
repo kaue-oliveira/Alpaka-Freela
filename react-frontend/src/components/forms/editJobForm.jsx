@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Images from "../fixed/images";
 import styled from "styled-components";
 
@@ -27,18 +27,85 @@ const ScrollContainerPurple = styled.div`
   }
 `;
 
-const EditJobForm = ({ onClose, onSucess, jobData }) => {
-    const [technologies, setTechnologies] = useState(jobData.techs);
+const EditJobForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
+    const [title, setTitle] = useState("");
+    const [jobId, setJobId] = useState("");
+    const [payment, setPayment] = useState("");
+    const [description, setDescription] = useState("");
+    const [technologies, setTechnologies] = useState([]);
+
     const [techInput, setTechInput] = useState("");
+    const [techsToSelect, setTechsToSelect] = useState("");
 
     const [excedLengthErrorMessage, setExcedErrorMessage] = useState("");
-    const [textAreaLettersQuantity, setTextAreaLettersQuantity] = useState(jobData.description.length);
+    const [textAreaLettersQuantity, setTextAreaLettersQuantity] = useState();
     const [incorrectTitleErrorMessage, setIncorrectTitleErrorMessage] = useState("");
     const [incorrectTechsErrorMessage, setIncorrectTechsErrorMessage] = useState("");
     const [incorrectPaymentErrorMessage, setIncorrectPaymentErrorMessage] = useState("");
     const [formErrorMessage, setFormErrorMessage] = useState("");
 
-    const submitFormHandle = (event) => {
+    const backendDomain = process.env.BACKEND_DOMAIN;
+
+    useEffect(() => {
+        const fetchJobData = async () => {
+            try {
+                const response = await fetch(backendDomain + '/ofertas-trabalho/' + id, {
+                    method: 'GET',
+                    credentials: "include",
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    setJobId(result.id);
+                    setTitle(result.titulo);
+                    setPayment(result.pagamento);
+                    setDescription(result.descricao);
+                    setTextAreaLettersQuantity(result.descricao.length);
+
+                    let tmpTechs = [];
+
+                    for (let i = 0; i < result.tecnologias.length; i++) {
+                        tmpTechs.push(result.tecnologias[i].nome);
+                    }
+
+                    setTechnologies(tmpTechs);
+                } else {
+                    console.log("erro ao fazer fetch na oferta de servico buscada");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchJobData();
+    }, []);
+
+    useEffect(() => { 
+        const fetchTechs = async () => {
+            try {
+                const response = await fetch(backendDomain + '/tecnologias', {
+                    method: 'GET',
+                    credentials: "include",
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {        
+                    setTechsToSelect(result);
+                } else {
+                    console.log("erro ao fazer fetch nas tecnologias");
+
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchTechs();
+    }, []);
+
+    const submitFormHandle = async (event) => {
         event.preventDefault();
 
         let formData = {
@@ -57,7 +124,7 @@ const EditJobForm = ({ onClose, onSucess, jobData }) => {
         }
 
         // verificar titulo
-        if (!formData.title || (formData.title.length < 5 || formData.title.length > 100)) {
+        if (!formData.title || (formData.title.length < 5 || formData.title.length > 10)) {
             setIncorrectTitleErrorMessage("O título deve possuir entre 5 e 100 caracteres.");
             error = true;
         }
@@ -76,11 +143,59 @@ const EditJobForm = ({ onClose, onSucess, jobData }) => {
 
         // tudo certo, formulario pode ser enviado para o backend
         if (!error) {
-            console.log(formData);
+            let tecnologiasIds = [];
 
-            setFormErrorMessage("Internal server error, try again.");
+            for (let i = 0; i < technologies.length; i++) {
+                for (let j = 0; j < techsToSelect.length; j++) {
+                    if (techsToSelect[j].nome === technologies[i]) {
+                        tecnologiasIds.push(techsToSelect[j].id);
+                    }
+                }
+            }
 
-            onSucess("Oferta de trabalho atualizada com sucesso.");
+            const data = {
+                id: jobId,
+                titulo: formData.title,
+                descricao: formData.description,
+                pagamento: formData.payment,
+                tecnologiasIds
+            }
+
+            try {
+                const response = await fetch(backendDomain + '/ofertas-trabalho', {
+                    method: 'PUT',
+                    credentials: "include", // Permite envio/recebimento de cookies
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    onSubmit("Oferta de trabalho atualizada com sucesso.");   
+                    let resultData = result;
+
+                    let tecnologias = [];
+
+                    for (let j = 0; j < resultData.tecnologias.length; j++) {
+                        tecnologias.push(resultData.tecnologias[j].nome);
+                    }
+
+                    resultData.tecnologias = tecnologias;
+
+                    console.log(resultData);
+ 
+                    onUpdatedService(resultData);                 
+                } else {
+                    console.log(result);
+                    onSubmit(result);
+                }
+            } catch (error) {
+                console.log(error);
+                alert(error);
+            }
         }
     }
 
@@ -183,15 +298,16 @@ const EditJobForm = ({ onClose, onSucess, jobData }) => {
         techList: {
             display: "flex",
             gap: "10px",
-            flexWrap: "wrap",
+            flexDirection: "column",
             marginTop: "15px",
             marginBottom: "15px",
             overflow: "auto",
-            maxHeight: "100px",
+            height: "200px",
             width: "40%"
         },
         techItem: {
             width: "90%",
+            // maxHeight: "20px",
             padding: "3px 5px",
             fontSize: "14px",
             backgroundColor: "#ead7ff",
@@ -240,7 +356,7 @@ const EditJobForm = ({ onClose, onSucess, jobData }) => {
                                     placeholder="Titulo"
                                     style={styles.input}
                                     onChange={handleInputTitle}
-                                    defaultValue={jobData.title}
+                                    defaultValue={title}
                                 />
                                 <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
                                     {incorrectTitleErrorMessage}
@@ -256,7 +372,7 @@ const EditJobForm = ({ onClose, onSucess, jobData }) => {
                                     placeholder="Descrição"
                                     style={styles.textarea}
                                     onChange={handleDescription}
-                                    defaultValue={jobData.description}
+                                    defaultValue={description}
                                 />
                                 <p style={{ margin: "0" }}>{textAreaLettersQuantity} / 7000</p>
                                 <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
@@ -276,7 +392,7 @@ const EditJobForm = ({ onClose, onSucess, jobData }) => {
                                     style={styles.input}
                                     min="0"
                                     onChange={handleInputPayment}
-                                    defaultValue={jobData.payment}
+                                    defaultValue={payment}
                                 />
                                 <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
                                     {incorrectPaymentErrorMessage}
@@ -285,7 +401,7 @@ const EditJobForm = ({ onClose, onSucess, jobData }) => {
                                 {/* TECNOLOGIAS DESEJADAS NO PROFISSIONAL */}
                                 <div style={{ flex: "1" }}>
                                     <label style={styles.label} htmlFor="technologies">
-                                        Selecione 3 Tecnologias
+                                        Selecione no máximo 3 Tecnologias
                                     </label>
                                     <div style={{ display: "flex", gap: "2.5%", width: "98%" }}>
                                         <select
@@ -294,28 +410,15 @@ const EditJobForm = ({ onClose, onSucess, jobData }) => {
                                             style={styles.input}
                                             onChange={(e) => setTechInput(e.target.value)}
                                         >
-                                            <option value="JavaScript">JavaScript</option>
-                                            <option value="React">React</option>
-                                            <option value="Node.js">Node.js</option>
-                                            <option value="Python">Python</option>
-                                            <option value="Django">Django</option>
-                                            <option value="Ruby on Rails">Ruby on Rails</option>
-                                            <option value="Java">Java</option>
-                                            <option value="Spring Boot">Spring Boot</option>
-                                            <option value="PHP">PHP</option>
-                                            <option value="Laravel">Laravel</option>
-                                            <option value="C#">C#</option>
-                                            <option value="ASP.NET">ASP.NET</option>
-                                            <option value="MySQL">MySQL</option>
-                                            <option value="PostgreSQL">PostgreSQL</option>
-                                            <option value="MongoDB">MongoDB</option>
-                                            <option value="GraphQL">GraphQL</option>
-                                            <option value="AWS">AWS</option>
-                                            <option value="Docker">Docker</option>
-                                            <option value="Kubernetes">Kubernetes</option>
-                                            <option value="Git">Git</option>
-                                            <option value="Terraform">Terraform</option>
-                                            <option value="Jenkins">Jenkins</option>
+                                            {techsToSelect && techsToSelect.length > 0 ? (
+                                                techsToSelect.map(tech => (
+                                                    <option value={tech.nome} key={tech.id} id={tech.id}>
+                                                        {tech.nome}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option disabled>Sem tecnologias disponíveis</option> // Se não houver techsToSelect, mostramos uma opção desabilitada
+                                            )}
                                         </select>
                                         <button
                                             type="button"

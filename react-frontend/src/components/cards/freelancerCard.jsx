@@ -2,42 +2,44 @@ import React from "react";
 
 import Images from "../fixed/images";
 
-const FreelancerCard = ({ onContractProposal, onCompleteVisualization, name, nickname, hourValue, description, skills, techs, profileImage }) => { 
-    
+const FreelancerCard = ({ onContractProposal, onCompleteVisualization, name, nickname, hourValue, description, skills, techs, profileImage }) => {
+
     return (
         <div style={styles.container}>
-            <div style={styles.profileDetails}>
-                <h3 style={styles.name}>{name}</h3>
-                <p style={styles.price}>Valor cobrado por hora: R$ {hourValue}</p>
-            </div>
-            <div style={styles.profileHeader}>
-                <img
-                    src={profileImage ? profileImage : Images.profileImage} // Substitua com a URL do ícone ou foto do perfil
-                    alt="Profile"
-                    style={styles.profileImage}
-                />
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <div style={styles.username}>
-                        Publicado por <p style={{ fontWeight: "bold", margin: "0", marginLeft: "0.5%" }}>{nickname}</p>
-                    </div>
-                    <p style={styles.description}>
-                        {description}
-                    </p>
+            <div>
+                <div style={styles.profileDetails}>
+                    <h3 style={styles.name}>{name}</h3>
+                    <p style={styles.price}>Valor cobrado por hora: R$ {hourValue}</p>
                 </div>
-            </div>
-            <div style={styles.skills}>
-                {skills.map((skill, index) => (
-                    <div style={styles.skillButton} key={index}>
-                        {skill}
+                <div style={styles.profileHeader}>
+                    <img
+                        src={profileImage ? profileImage : Images.profileImage} // Substitua com a URL do ícone ou foto do perfil
+                        alt="Profile"
+                        style={styles.profileImage}
+                    />
+                    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                        <div style={styles.username}>
+                            Publicado por <p style={{ fontWeight: "bold", margin: "0", marginLeft: "0.5%" }}>{nickname}</p>
+                        </div>
+                        <p style={styles.description}>
+                            {description}
+                        </p>
                     </div>
-                ))}
-            </div>
-            <div style={styles.techs}>
-                {techs.map((tech, index) => (
-                    <div style={styles.techButton} key={index}>
-                        {tech}
-                    </div>
-                ))}
+                </div>
+                <div style={styles.skills}>
+                    {skills.map((skill, index) => (
+                        <div style={styles.skillButton} key={index}>
+                            {skill}
+                        </div>
+                    ))}
+                </div>
+                <div style={styles.techs}>
+                    {techs.map((tech, index) => (
+                        <div style={styles.techButton} key={index}>
+                            {tech}
+                        </div>
+                    ))}
+                </div>
             </div>
             <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
                 <button
@@ -59,7 +61,7 @@ const FreelancerCard = ({ onContractProposal, onCompleteVisualization, name, nic
 
 const styles = {
     container: {
-        aspectRatio: "4 / 1" /* Proporção de largura para altura */,
+        aspectRatio: "5 / 1" /* Proporção de largura para altura */,
         border: "1px solid #000000",
         borderRadius: "8px",
         padding: "20px",
@@ -67,11 +69,14 @@ const styles = {
         fontFamily: "Arial, sans-serif",
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
         boxSizing: "border-box",
+        justifyContent: "space-between",
+        display: "flex",
+        flexDirection: "column"
     },
     profileHeader: {
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "start",
         marginBottom: "15px",
     },
     profileImage: {
@@ -113,13 +118,16 @@ const styles = {
         maxHeight: "95px",
         overflow: "hidden",
         textOverflow: "ellipsis",
+        wordWrap: "break-word", 
+        wordBreak: "break-word",
+        whiteSpace: "normal" ,
     },
     skills: {
         display: "flex",
         flexWrap: "wrap",
         gap: "8px",
         marginBottom: "10px",
-        height: "70px",
+        maxHeight: "70px",
         overflow: "hidden"
     },
     skillButton: {

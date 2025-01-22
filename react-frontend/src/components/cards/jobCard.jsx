@@ -13,7 +13,7 @@ const JobCard = ({ onServiceProposal, onCompleteVisualization, title, name, user
                         <strong>{username} ({name})</strong>
                     </p>
                 </div>
-                <img style={{ width: "7%", height: "7%", borderRadius: "100%" }} src={profileImage ? profileImage : Images.profileImage} alt="" />
+                <img style={{ width: "50px", height: "50px", borderRadius: "100%" }} src={profileImage ? profileImage : Images.profileImage} alt="" />
             </div>
 
             <p style={styles.description}>

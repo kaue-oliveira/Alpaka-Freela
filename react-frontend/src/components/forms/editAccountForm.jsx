@@ -8,6 +8,7 @@ const EditAccountForm = ({ onSucess }) => {
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
     const [overlayType, setOverlayType] = useState("");
     const { auth, setAuth, userData, setUserData } = useContext(AuthContext);
+    const backendDomain = process.env.BACKEND_DOMAIN;
 
     const [accountDeleted, setAccountDeleted] = useState(false);
     const [incorrectImage, setIncorrectImage] = useState("");
@@ -16,7 +17,7 @@ const EditAccountForm = ({ onSucess }) => {
     const [incorrectEmail, setIncorrectEmail] = useState("");
     const [incorrectPassword, setIncorrectPassword] = useState("");
     const [passwordNotEquals, setPasswordNotEquals] = useState("");
-    const [exposeImage, setExposeImage] = useState("data:image/jpeg;base64," + userData.profileImage);
+    const [exposeImage, setExposeImage] = useState(userData.profileImage);
     const [sucessPopupMessage, setSucessPopupMessage] = useState("");
 
     const toggleOverlay = (type) => {
@@ -100,7 +101,7 @@ const EditAccountForm = ({ onSucess }) => {
 
 
             try {
-                const response = await fetch('http://localhost:8080/usuario', {
+                const response = await fetch(backendDomain + '/usuario', {
                     method: 'PUT',
                     credentials: "include", // Permite envio/recebimento de cookies
                     body: formDataToSend,
@@ -140,7 +141,7 @@ const EditAccountForm = ({ onSucess }) => {
 
     const handleDeleteAccountConfirmation = async () => {
         try {
-            const response = await fetch('http://localhost:8080/usuario/excluir-conta', {
+            const response = await fetch(backendDomain + '/usuario/excluir-conta', {
                 method: 'DELETE',
                 credentials: "include", // Permite envio/recebimento de cookies
             });
@@ -196,7 +197,7 @@ const EditAccountForm = ({ onSucess }) => {
             style={{
                 width: "100%",
                 borderRadius: "8px",
-                height: "86vh",
+                height: "auto",
                 fontFamily: "Arial, sans-serif",
                 margin: 0,
                 border: "1px solid #000000",
@@ -234,7 +235,7 @@ const EditAccountForm = ({ onSucess }) => {
                     }}
                 >
                     <img
-                        src={exposeImage ? exposeImage : "data:image/jpeg;base64," + userData.profileImage}
+                        src={exposeImage ? exposeImage : userData.profileImage}
                         alt="Foto do perfil"
                         style={{
                             width: "110px",

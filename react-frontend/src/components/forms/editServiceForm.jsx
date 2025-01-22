@@ -27,28 +27,122 @@ const ScrollContainerPurple = styled.div`
   }
 `;
 
-const EditServiceForm = ({ onClose, onSucess, freelancerCard }) => {
-    const [technologies, setTechnologies] = useState(freelancerCard.techs);
-    const [techInput, setTechInput] = useState("");
-    const [skills, setSkills] = useState(freelancerCard.skills);
-    const [skillInput, setSkillInput] = useState("");
+const EditServiceForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
+    const [serviceId, setServiceId] = useState("");
+    const [hourValue, setHourValue] = useState("");
+    const [description, setDescription] = useState("");
+    const [technologies, setTechnologies] = useState([]);
+    const [skills, setSkills] = useState([]);
 
     const [excedLengthErrorMessage, setExcedErrorMessage] = useState("");
     const [incorrectValueErrorMessage, setIncorrectValueErrorMessage] = useState("");
-    const [textAreaLettersQuantity, setTextAreaLettersQuantity] = useState(freelancerCard.description.length);
+    const [textAreaLettersQuantity, setTextAreaLettersQuantity] = useState(0);
     const [incorrectTechsErrorMessage, setIncorrectTechsErrorMessage] = useState("");
     const [incorrectSkillsErrorMessage, setIncorrectSkillsErrorMessage] = useState("");
     const [formErrorMessage, setFormErrorMessage] = useState("");
 
+    const [techInput, setTechInput] = useState("");
+    const [skillInput, setSkillInput] = useState("");
+    const [skillsToSelect, setSkillsToSelect] = useState("");
+    const [techsToSelect, setTechsToSelect] = useState("");
+
+    const backendDomain = process.env.BACKEND_DOMAIN;
+
+    useEffect(() => {
+        const fetchServiceData = async () => {
+            try {
+                const response = await fetch(backendDomain + '/ofertas-servico/' + id, {
+                    method: 'GET',
+                    credentials: "include",
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    setServiceId(result.id);
+                    setHourValue(result.valorCobrado);
+                    setDescription(result.descricao);
+                    setTextAreaLettersQuantity(result.descricao.length);
+
+                    let tmpSkills = [];
+                    let tmpTechs = [];
+
+                    for (let i = 0; i < result.habilidades.length; i++) {
+                        tmpSkills.push(result.habilidades[i].nome);
+                    }
+
+                    for (let i = 0; i < result.tecnologias.length; i++) {
+                        tmpTechs.push(result.tecnologias[i].nome);
+                    }
+
+                    setSkills(tmpSkills);
+                    setTechnologies(tmpTechs);
+                } else {
+                    console.log("erro ao fazer fetch na oferta de servico buscada");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchServiceData();
+    }, []);
+
+    useEffect(() => {
+        const fetchSkills = async () => {
+            try {
+                const response = await fetch(backendDomain + '/habilidades', {
+                    method: 'GET',
+                    credentials: "include",
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    setSkillsToSelect(result);      
+                } else {
+                    console.log("erro ao fazer fetch nas habilidades");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        const fetchTechs = async () => {
+            try {
+                const response = await fetch(backendDomain + '/tecnologias', {
+                    method: 'GET',
+                    credentials: "include",
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    setTechsToSelect(result);
+                } else {
+                    console.log("erro ao fazer fetch nas tecnologias");
+
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchSkills();
+        fetchTechs();
+    }, []);
+
     const handleAddTechnology = () => {
         if (techInput && !technologies.includes(techInput)) {
             setTechnologies([...technologies, techInput]);
+            console.log(techInput);
+            
             setTechInput("");
             setIncorrectTechsErrorMessage("");
         }
     };
 
-    const submitFormHandle = (event) => {
+    const submitFormHandle = async (event) => {
         event.preventDefault();
 
         let formData = {
@@ -63,29 +157,93 @@ const EditServiceForm = ({ onClose, onSucess, freelancerCard }) => {
         if (!formData.hourValue) {
             setIncorrectValueErrorMessage("Você precisa digitar um número positivo.");
             error = true;
-        } 
-        
+        }
+
         if (formData.description.length < 100 || formData.description.length > 7000) {
             setExcedErrorMessage("Sua descrição deve ter no mínimo 100 e no máximo 7000 caracteres.");
             error = true;
-        } 
-        
-        if (technologies.length !== 3){
+        }
+
+        if (technologies.length !== 3) {
             setIncorrectTechsErrorMessage("Você precisa selecionar 3 tecnologias.");
             error = true;
         }
 
-        if (skills.length < 1 || skills.length > 30) {
-            setIncorrectSkillsErrorMessage("Você precisa selecionar um número entre 1 e 30 de habilidades.");
+        if (skills.length < 6 || skills.length > 30) {
+            setIncorrectSkillsErrorMessage("Você precisa selecionar um número entre 6 e 30 de habilidades.");
             error = true;
         }
 
         if (!error) {
-            // console.log(formData);
+            let tecnologiasIds = [];
+            let habilidadesIds = [];
 
-            setFormErrorMessage("Internal server error, try again.");
-            
-            onSucess("Oferta de serviço editada com sucesso.");
+            for (let i = 0; i < technologies.length; i++) {
+                for (let j = 0; j < techsToSelect.length; j++) {       
+                    if (techsToSelect[j].nome === technologies[i]) {
+                        tecnologiasIds.push(techsToSelect[j].id);
+                    }
+                }
+            }
+
+            for (let i = 0; i < skills.length; i++) {
+                for (let j = 0; j < skillsToSelect.length; j++) {
+                    if (skillsToSelect[j].nome === skills[i]) {
+                        habilidadesIds.push(skillsToSelect[j].id);
+                    }
+                }
+            }
+
+            const data = {
+                id: serviceId,
+                descricao: formData.description,
+                valorCobrado: formData.hourValue,
+                tecnologiasIds,
+                habilidadesIds
+            }
+
+            try {
+                const response = await fetch(backendDomain + '/ofertas-servico', {
+                    method: 'PUT',
+                    credentials: "include", // Permite envio/recebimento de cookies
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    onSubmit("Oferta de serviço atualizada com sucesso.");   
+                    let resultData = result;
+
+                    let habilidades = [];
+                    let tecnologias = [];
+
+                    for (let j = 0; j < resultData.habilidades.length; j++) {
+                        habilidades.push(resultData.habilidades[j].nome);
+                    }
+
+                    for (let j = 0; j < resultData.tecnologias.length; j++) {
+                        tecnologias.push(resultData.tecnologias[j].nome);
+                    }
+
+                    resultData.habilidades = habilidades;
+                    resultData.tecnologias = tecnologias;
+
+                    console.log(resultData);
+ 
+    
+                    onUpdatedService(resultData);                 
+                } else {
+                    console.log(result);
+                    onSubmit(result);
+                }
+            } catch (error) {
+                console.log(error);
+                onSubmit(error);
+            }
         }
     }
 
@@ -182,15 +340,16 @@ const EditServiceForm = ({ onClose, onSucess, freelancerCard }) => {
         techList: {
             display: "flex",
             gap: "10px",
-            flexWrap: "wrap",
+            flexDirection: "column",
             marginTop: "15px",
             marginBottom: "15px",
             overflow: "auto",
-            maxHeight: "100px",
+            height: "150px",
             width: "40%"
         },
         techItem: {
             width: "90%",
+            // maxHeight: "20px",
             padding: "3px 5px",
             fontSize: "14px",
             backgroundColor: "#ead7ff",
@@ -237,9 +396,9 @@ const EditServiceForm = ({ onClose, onSucess, freelancerCard }) => {
                                     step="0.01"
                                     placeholder="Valor cobrado por hora"
                                     style={styles.input}
-                                    min="0"  
-                                    defaultValue={freelancerCard.hourValue}                    
+                                    min="0"
                                     onChange={handleInputValue}
+                                    defaultValue={hourValue}
                                 />
                                 <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
                                     {incorrectValueErrorMessage}
@@ -253,7 +412,7 @@ const EditServiceForm = ({ onClose, onSucess, freelancerCard }) => {
                                     placeholder="Descrição"
                                     style={styles.textarea}
                                     onChange={handleDescription}
-                                    defaultValue={freelancerCard.description}          
+                                    defaultValue={description}
                                 />
                                 <p style={{ margin: "0" }}>{textAreaLettersQuantity} / 7000</p>
                                 <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
@@ -272,28 +431,15 @@ const EditServiceForm = ({ onClose, onSucess, freelancerCard }) => {
                                             style={styles.input}
                                             onChange={(e) => setTechInput(e.target.value)}
                                         >
-                                            <option value="JavaScript">JavaScript</option>
-                                            <option value="React">React</option>
-                                            <option value="Node.js">Node.js</option>
-                                            <option value="Python">Python</option>
-                                            <option value="Django">Django</option>
-                                            <option value="Ruby on Rails">Ruby on Rails</option>
-                                            <option value="Java">Java</option>
-                                            <option value="Spring Boot">Spring Boot</option>
-                                            <option value="PHP">PHP</option>
-                                            <option value="Laravel">Laravel</option>
-                                            <option value="C#">C#</option>
-                                            <option value="ASP.NET">ASP.NET</option>
-                                            <option value="MySQL">MySQL</option>
-                                            <option value="PostgreSQL">PostgreSQL</option>
-                                            <option value="MongoDB">MongoDB</option>
-                                            <option value="GraphQL">GraphQL</option>
-                                            <option value="AWS">AWS</option>
-                                            <option value="Docker">Docker</option>
-                                            <option value="Kubernetes">Kubernetes</option>
-                                            <option value="Git">Git</option>
-                                            <option value="Terraform">Terraform</option>
-                                            <option value="Jenkins">Jenkins</option>
+                                            {techsToSelect && techsToSelect.length > 0 ? (
+                                                techsToSelect.map(tech => (
+                                                    <option value={tech.nome} key={tech.id} id={tech.id}>
+                                                        {tech.nome}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option disabled>Sem tecnologias disponíveis</option> // Se não houver techsToSelect, mostramos uma opção desabilitada
+                                            )}
                                         </select>
                                         <button
                                             type="button"
@@ -304,8 +450,8 @@ const EditServiceForm = ({ onClose, onSucess, freelancerCard }) => {
                                         </button>
                                     </div>
                                     <div style={styles.techList}>
-                                        {technologies.map((tech, index) => (
-                                            <div key={index} style={styles.techItem}>
+                                        {technologies.map((tech) => (
+                                            <div key={tech.id} style={styles.techItem}>
                                                 {tech}
                                                 <img
                                                     src={Images.closeX}
@@ -347,29 +493,15 @@ const EditServiceForm = ({ onClose, onSucess, freelancerCard }) => {
                                             style={styles.input}
                                             onChange={(e) => setSkillInput(e.target.value)}
                                         >
-                                            <option value="Trabalho em equipe">Trabalho em equipe</option>
-                                            <option value="Comunicação">Comunicação</option>
-                                            <option value="Gerenciamento de tempo">Gerenciamento de tempo</option>
-                                            <option value="Disciplina">Disciplina</option>
-                                            <option value="Resolução de problemas">Resolução de problemas</option>
-                                            <option value="Pensamento crítico">Pensamento crítico</option>
-                                            <option value="Flexibilidade">Flexibilidade</option>
-                                            <option value="Criatividade">Criatividade</option>
-                                            <option value="Liderança">Liderança</option>
-                                            <option value="Tomada de decisão">Tomada de decisão</option>
-                                            <option value="Organização">Organização</option>
-                                            <option value="Proatividade">Proatividade</option>
-                                            <option value="Trabalho sob pressão">Trabalho sob pressão</option>
-                                            <option value="Atenção aos detalhes">Atenção aos detalhes</option>
-                                            <option value="Empatia">Empatia</option>
-                                            <option value="Negociação">Negociação</option>
-                                            <option value="Habilidade analítica">Habilidade analítica</option>
-                                            <option value="Adaptabilidade">Adaptabilidade</option>
-                                            <option value="Motivação pessoal">Motivação pessoal</option>
-                                            <option value="Colaboração">Colaboração</option>
-                                            <option value="Gestão de conflitos">Gestão de conflitos</option>
-                                            <option value="Planejamento estratégico">Planejamento estratégico</option>
-                                            <option value="Conhecimento técnico">Conhecimento técnico</option>
+                                            {skillsToSelect && skillsToSelect.length > 0 ? (
+                                                skillsToSelect.map(skill => (
+                                                    <option value={skill.nome} key={skill.id} id={skill.id}>
+                                                        {skill.nome}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option disabled>Sem habilidades disponíveis</option> // Se não houver skillsToSelect, mostramos uma opção desabilitada
+                                            )}
                                         </select>
                                         <button
                                             type="button"
@@ -380,8 +512,8 @@ const EditServiceForm = ({ onClose, onSucess, freelancerCard }) => {
                                         </button>
                                     </div>
                                     <div style={styles.techList}>
-                                        {skills.map((skill, index) => (
-                                            <div key={index} style={styles.techItem}>
+                                        {skills.map((skill) => (
+                                            <div key={skill.id} style={styles.techItem}>
                                                 {skill}
                                                 <img
                                                     src={Images.closeX}

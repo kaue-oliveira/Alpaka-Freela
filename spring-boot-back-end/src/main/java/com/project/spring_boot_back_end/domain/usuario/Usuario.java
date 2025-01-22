@@ -99,8 +99,14 @@ public class Usuario implements UserDetails {
         return profileImage;
     }
 
-    public String getProfileImageInBase64() throws SQLException {
-        return Base64.getEncoder().encodeToString(profileImage.getBytes(1, (int) profileImage.length()));
+    public String getProfileImageInBase64() {
+        try {
+            return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(profileImage.getBytes(1, (int) profileImage.length()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 
     public void setProfileImage(Blob profileImage) {

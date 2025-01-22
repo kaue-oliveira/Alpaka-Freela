@@ -15,8 +15,8 @@ import { AuthContext } from "../contexts/authContext";
 
 import Images from "../components/fixed/images";
 
-export default function Dashboard() {
-    const [currentComponent, setCurrentComponent] = useState("freelancer");
+export default function Dashboard({ defaultElement }) {
+    const [currentComponent, setCurrentComponent] = useState(defaultElement);
 
     const renderCurrentComponent = () => {
         switch (currentComponent) {
@@ -42,22 +42,25 @@ export default function Dashboard() {
             label: "Encontrar Freelancer",
             icon: Images.manTechEmoji,
             action: "freelancer",
-            startSelected: true,
+            startSelected: defaultElement === "freelancer",
         },
         {
             label: "Encontrar trabalho",
             icon: Images.briefCaseEmoji,
             action: "trabalho",
+            startSelected: defaultElement === "trabalho",
         },
         {
             label: "Gerenciar publicações",
             icon: Images.rocketEmoji,
             action: "gerenciar-publicacoes",
+            startSelected: defaultElement === "gerenciar-publicacoes",
         },
         {
             label: "Gerenciar conta",
             icon: Images.hammerEmoji,
             action: "conta",
+            startSelected: defaultElement === "conta",
         },
     ];
 

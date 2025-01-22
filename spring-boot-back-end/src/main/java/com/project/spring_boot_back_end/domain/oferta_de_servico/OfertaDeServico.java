@@ -10,18 +10,21 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.project.spring_boot_back_end.domain.habilidade.Habilidade;
 import com.project.spring_boot_back_end.domain.oferta_de_servico.OfertaDeServico;
 import com.project.spring_boot_back_end.domain.oferta_de_trabalho.OfertaDeTrabalho;
 import com.project.spring_boot_back_end.domain.proposta.Proposta;
 import com.project.spring_boot_back_end.domain.usuario.Usuario;
 import com.project.spring_boot_back_end.domain.tecnologia.Tecnologia;
 
+import java.lang.annotation.Repeatable;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -36,9 +39,6 @@ public class OfertaDeServico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "oferta_de_servico_id")
     private Long id;
-
-    @Column(nullable = false)
-    private String titulo;
 
     @Column(columnDefinition = "TEXT", length = 7000)
     private String descricao;
@@ -61,17 +61,21 @@ public class OfertaDeServico {
     )
     private List<Tecnologia> tecnologias = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+        name = "oferta_de_servico_habilidades",
+        joinColumns = @JoinColumn(name = "oferta_de_servico_id"),
+        inverseJoinColumns = @JoinColumn(name = "habilidade_id")
+    )
+    private List<Habilidade> habilidades = new ArrayList<>();
+
     public OfertaDeServico(DadosCadastroOfertaDeServico dados, Usuario usuario) {
-        this.titulo = dados.titulo();
         this.descricao = dados.descricao();
         this.valorCobrado = dados.valorCobrado();
         this.usuario = usuario;
     }
 
     public void atualizarInformacoes(DadosAtualizacaoOfertaDeServico dados) {
-        if (dados.titulo() != null) {
-            this.titulo = dados.titulo();
-        }
         if (dados.descricao() != null) {
             this.descricao = dados.descricao();
         }
@@ -80,7 +84,64 @@ public class OfertaDeServico {
         }
     }
 
+    public boolean contemTecnologia(Tecnologia tecnologia) {
+        for (Tecnologia t : tecnologias) {
+            if (tecnologia.getNome().equals(tecnologia.getNome())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void removerTecnologia(Tecnologia tecnologia) {
+        Iterator<Tecnologia> iterator = tecnologias.iterator();
+
+        while (iterator.hasNext()) {
+            Tecnologia t = iterator.next();
+
+            if (t.getNome().equals(tecnologia.getNome())) {
+                iterator.remove();
+                return;
+            }
+        }
+    }
+
     public void adicionarTecnologia(Tecnologia tecnologia) {
         this.tecnologias.add(tecnologia);
+    }
+
+    public boolean contemHabilidade(Habilidade habilidade) {
+        for (Habilidade h : habilidades) {
+            if (h.getNome().equals(habilidade.getNome())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void removerHabilidade(Habilidade habilidade) {
+        Iterator<Habilidade> iterator = habilidades.iterator();
+
+        while (iterator.hasNext()) {
+            Habilidade h = iterator.next();
+
+            if (h.getNome().equals(habilidade)) {
+                iterator.remove();
+            }
+        }
+    }
+
+    public void adicionarHabilidade(Habilidade habilidade) {
+        this.habilidades.add(habilidade);
+    }
+
+    public void setTecnologias(List<Tecnologia> tecnologias) {
+        this.tecnologias = tecnologias;
+    }
+
+    public void setHabilidades(List<Habilidade> habilidades) {
+        this.habilidades = habilidades;
     }
 }

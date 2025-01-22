@@ -8,9 +8,9 @@ import jakarta.validation.constraints.NotNull;
 public record DadosAtualizacaoOfertaDeServico(
     @NotNull
     Long id,
-    String titulo,
     String descricao,
     BigDecimal valorCobrado,
-    List<Long> tecnologiasIds
+    List<Long> tecnologiasIds,
+    List<Long> habilidadesIds
 ) {}
 

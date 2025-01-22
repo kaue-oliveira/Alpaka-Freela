@@ -12,11 +12,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.project.spring_boot_back_end.domain.ValidacaoException;
 import com.project.spring_boot_back_end.domain.usuario.*;
+import com.project.spring_boot_back_end.infra.exception.ValidacaoException;
 import com.project.spring_boot_back_end.infra.security.SecurityFilter;
 import com.project.spring_boot_back_end.infra.security.TokenService;
-import com.project.spring_boot_back_end.models.DadosUsuarioParaFrontend;
 
 import java.io.File;
 import java.io.IOException;
@@ -125,11 +124,6 @@ public class UsuarioController {
 
     String base64 = null;
 
-    if (usuario.getProfileImage() != null) {
-      base64 = Base64.getEncoder()
-          .encodeToString(usuario.getProfileImage().getBytes(1, (int) usuario.getProfileImage().length()));
-    }
-
     // verificar se o username mudou
     if (!oldUserData.getUsername().equals(usuario.getUsername())) {
       // preciso criar e enviar um novo token ao usuario
@@ -148,7 +142,7 @@ public class UsuarioController {
     }
 
     return ResponseEntity.ok(new DadosUsuarioParaFrontend(usuario.getNome(), usuario.getUsername(), usuario.getEmail(),
-        usuario.getAuthorities().toString(), base64));
+        usuario.getAuthorities().toString(), usuario.getProfileImageInBase64()));
   }
 
   @DeleteMapping("/{id}")

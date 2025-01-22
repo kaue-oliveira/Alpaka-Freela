@@ -1,12 +1,16 @@
 package com.project.spring_boot_back_end.controller;
 
-
-import com.project.spring_boot_back_end.domain.oferta_de_trabalho.OfertaDeTrabalho;
-import com.project.spring_boot_back_end.domain.oferta_de_trabalho.OfertaDeTrabalhoRepository;
+import com.project.spring_boot_back_end.domain.tecnologia.Tecnologia;
 import com.project.spring_boot_back_end.domain.tecnologia.TecnologiaRepository;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,58 +21,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.project.spring_boot_back_end.domain.ValidacaoException;
+import com.project.spring_boot_back_end.domain.habilidade.Habilidade;
+import com.project.spring_boot_back_end.domain.habilidade.HabilidadeRepository;
 import com.project.spring_boot_back_end.domain.oferta_de_servico.DadosAtualizacaoOfertaDeServico;
 import com.project.spring_boot_back_end.domain.oferta_de_servico.DadosCadastroOfertaDeServico;
 import com.project.spring_boot_back_end.domain.oferta_de_servico.DadosListagemOfertaDeServico;
 import com.project.spring_boot_back_end.domain.oferta_de_servico.OfertaDeServico;
 import com.project.spring_boot_back_end.domain.oferta_de_servico.OfertaDeServicoRepository;
 import com.project.spring_boot_back_end.domain.usuario.*;
-import com.project.spring_boot_back_end.infra.security.SecurityFilter;
-import com.project.spring_boot_back_end.infra.security.TokenService;
-import com.project.spring_boot_back_end.models.DadosUsuarioParaFrontend;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.Base64;
-
-import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
-
-import org.apache.catalina.User;
-import org.apache.tomcat.util.json.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("ofertas-servico")
 @SecurityRequirement(name = "bearer-key")
@@ -76,25 +38,53 @@ public class OfertaDeServicoController {
 
     @Autowired
     private OfertaDeServicoRepository repository;
-    
+
     @Autowired
     private TecnologiaRepository tecnologiaRepository;
 
+    @Autowired
+    private HabilidadeRepository habilidadeRepository;
+
+
+
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroOfertaDeServico dados,
-                                  UriComponentsBuilder uriBuilder,
-                                  UsernamePasswordAuthenticationToken userAuth) {
-        var usuario = (Usuario) userAuth.getPrincipal();
-        var ofertaDeServico = new OfertaDeServico(dados, usuario);
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroOfertaDeServico dados,
+            UriComponentsBuilder uriBuilder,
+            UsernamePasswordAuthenticationToken userAuth) {
 
-        if (dados.tecnologiasIds() != null) {
-            dados.tecnologiasIds().forEach(tecId -> {
-                var tecnologia = tecnologiaRepository.getReferenceById(tecId);
-                ofertaDeServico.adicionarTecnologia(tecnologia);
-            });
+        Gson gson = new Gson();
+        var usuario = (Usuario) userAuth.getPrincipal();
+
+        System.out.println(dados.tecnologiasIds());
+        System.out.println(dados.habilidadesIds());
+
+        if (dados.tecnologiasIds() == null || dados.habilidadesIds() == null || dados.descricao() == null || dados.valorCobrado() == null) {
+            return ResponseEntity.status(401).body(gson.toJson("Dados inválidos."));
         }
 
+        // validar dados
+        if (dados.tecnologiasIds().size() != 3) {
+            return ResponseEntity.status(401).body(gson.toJson("Número de tecnologias cadastradas deve ser igual a 3."));
+        }
+
+        // validar dados
+        if (dados.habilidadesIds().size() < 6 || dados.habilidadesIds().size() > 30) {
+            return ResponseEntity.status(401).body(gson.toJson("Número de habilidades cadastradas deve ser igual maior que 6 e menor que 30."));
+        }
+
+        OfertaDeServico ofertaDeServico = new OfertaDeServico(dados, usuario);
+
+        dados.tecnologiasIds().forEach(tecId -> {
+            var tecnologia = tecnologiaRepository.getReferenceById(tecId);
+            ofertaDeServico.adicionarTecnologia(tecnologia);
+        });
+
+        dados.habilidadesIds().forEach(habId -> {
+            var habilidade = habilidadeRepository.getReferenceById(habId);
+            ofertaDeServico.adicionarHabilidade(habilidade);
+        });
+        
         repository.save(ofertaDeServico);
 
         var uri = uriBuilder.path("/ofertas-servico/{id}")
@@ -104,57 +94,122 @@ public class OfertaDeServicoController {
         return ResponseEntity.created(uri).body(new DadosListagemOfertaDeServico(ofertaDeServico));
     }
 
+
+
     @GetMapping
-    public ResponseEntity<Page<DadosListagemOfertaDeServico>> listar(
-            @PageableDefault(size = 10, sort = {"titulo"}) Pageable paginacao) {
-        var page = repository.findAll(paginacao).map(DadosListagemOfertaDeServico::new);
-        return ResponseEntity.ok(page);
+    public List<DadosListagemOfertaDeServico> listar() {
+        List<OfertaDeServico> listaOfertaDeServicos = repository.findAll();
+        List<DadosListagemOfertaDeServico> listaDadosListagemOfertaDeServicos = new ArrayList<>();
+
+        for (OfertaDeServico ofertaDeServico : listaOfertaDeServicos) {
+            listaDadosListagemOfertaDeServicos.add(new DadosListagemOfertaDeServico(ofertaDeServico));
+        }
+
+        return listaDadosListagemOfertaDeServicos;
     }
+
+
 
     @GetMapping("/usuario")
-    public ResponseEntity<Page<DadosListagemOfertaDeServico>> listarPorUsuario(
-            UsernamePasswordAuthenticationToken userAuth,
-            @PageableDefault(size = 10) Pageable paginacao) {
+    public List<DadosListagemOfertaDeServico>  listarPorUsuario(UsernamePasswordAuthenticationToken userAuth) {
         var usuario = (Usuario) userAuth.getPrincipal();
-        var page = repository.findAllByUsuarioId(usuario.getId(), paginacao)
-                .map(DadosListagemOfertaDeServico::new);
-        return (ResponseEntity<Page<DadosListagemOfertaDeServico>>) ResponseEntity.ok(page);
+
+        List<OfertaDeServico> listaOfertaDeServicos = repository.findAllByUsuarioId(usuario.getId());
+        List<DadosListagemOfertaDeServico> listaDadosListagemOfertaDeServicos = new ArrayList<>();
+
+        for (OfertaDeServico ofertaDeServico : listaOfertaDeServicos) {
+            listaDadosListagemOfertaDeServicos.add(new DadosListagemOfertaDeServico(ofertaDeServico));
+        }
+
+        return listaDadosListagemOfertaDeServicos;
     }
 
+
+
     @GetMapping("/{id}")
-    public ResponseEntity detalhar(@PathVariable Long id) {
+    public ResponseEntity<DadosListagemOfertaDeServico> detalhar(@PathVariable Long id) {
         var ofertaDeServico = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosListagemOfertaDeServico(ofertaDeServico));
     }
+
+
 
     @PutMapping
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoOfertaDeServico dados,
-                                  UsernamePasswordAuthenticationToken userAuth) {
+    public ResponseEntity<?> atualizar(@RequestBody @Valid DadosAtualizacaoOfertaDeServico dados, UsernamePasswordAuthenticationToken userAuth) {
+        Gson gson = new Gson();
         var usuario = (Usuario) userAuth.getPrincipal();
-        var ofertaDeServico = repository.getReferenceById(dados.id());
+        Optional<OfertaDeServico> ofertaDeServicoOptional = repository.findById(dados.id());
 
-        if (!ofertaDeServico.getUsuario().getId().equals(usuario.getId())) {
-            return ResponseEntity.status(403).body("Não autorizado");
+        // Validacoes
+        if (ofertaDeServicoOptional.isEmpty()) {
+            return ResponseEntity.status(403).body(gson.toJson("A oferta de serviço com o id " + dados.id() + " não existe."));
         }
 
+        OfertaDeServico ofertaDeServico = ofertaDeServicoOptional.get();
+
+        if (!ofertaDeServico.getUsuario().getId().equals(usuario.getId())) {
+            return ResponseEntity.status(403).body(gson.toJson("Não autorizado"));
+        }
+
+        // Atualizando as informacoes gerais
         ofertaDeServico.atualizarInformacoes(dados);
+
+        List<Tecnologia> tecnologias = new ArrayList<>();
+        List<Habilidade> habilidades = new ArrayList<>();
+  
+        // Atualizando as tecnologias
+        for(Long tecnologiaId : dados.tecnologiasIds()) {
+            Optional<Tecnologia> tecnologiaOptional = tecnologiaRepository.findById(tecnologiaId);
+
+            if (tecnologiaOptional.isEmpty()) {
+                return ResponseEntity.status(403).body(gson.toJson("A tecnologia com id " + tecnologiaId + " não existe."));
+            } 
+
+            tecnologias.add(tecnologiaOptional.get());  
+        }
+
+        // Atualizando as habilidades
+        for(Long habilidadeId : dados.habilidadesIds()) {
+            Optional<Habilidade> habilidadeOptional = habilidadeRepository.findById(habilidadeId);
+
+            if (habilidadeOptional.isEmpty()) {
+                return ResponseEntity.status(403).body(gson.toJson("A habilidade com id " + habilidadeId + " não existe."));
+            } 
+
+            habilidades.add(habilidadeOptional.get());
+        }
+
+        ofertaDeServico.setHabilidades(habilidades);
+        ofertaDeServico.setTecnologias(tecnologias);
+
+        repository.save(ofertaDeServico);
 
         return ResponseEntity.ok(new DadosListagemOfertaDeServico(ofertaDeServico));
     }
 
+
+
+
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id,
-                                UsernamePasswordAuthenticationToken userAuth) {
+    public ResponseEntity<?> excluir(@PathVariable Long id, UsernamePasswordAuthenticationToken userAuth) {
+        Gson gson = new Gson();
         var usuario = (Usuario) userAuth.getPrincipal();
-        var ofertaDeServico = repository.getReferenceById(id);
+        Optional<OfertaDeServico> ofertaDeServicoOptional = repository.findById(id);
 
+       
+        if (ofertaDeServicoOptional.isEmpty()) {
+            return ResponseEntity.status(403).body(gson.toJson("A oferta de serviço com o id " + id + " não existe."));
+        }
+
+        OfertaDeServico ofertaDeServico = ofertaDeServicoOptional.get();
+     
         if (!ofertaDeServico.getUsuario().getId().equals(usuario.getId())) {
-            return ResponseEntity.status(403).body("Não autorizado");
+            return ResponseEntity.status(403).body(gson.toJson("Não autorizado."));
         }
 
         repository.delete(ofertaDeServico);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(gson.toJson("Oferta de serviço excluída com sucesso."));
     }
 }

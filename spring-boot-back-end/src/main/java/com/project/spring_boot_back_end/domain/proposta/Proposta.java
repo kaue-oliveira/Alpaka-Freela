@@ -21,22 +21,16 @@ public class Proposta {
     @Column(name = "proposta_id")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "autor_proposta_id", nullable = false)
+    private Usuario usuario;
+
     @Column(name = "descricao", length = 7000, nullable = false)
     private String descricao;
-
-    @Column(name = "valor", nullable = false)
-    private Double valor;
-
-    @Column(name = "mensagem", columnDefinition = "TEXT")
-    private String mensagem;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_proposta", nullable = false)
     private TipoProposta tipoProposta;
-
-    @ManyToOne
-    @JoinColumn(name = "autor_proposta_id", nullable = false)
-    private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "oferta_de_servico_id")
@@ -48,8 +42,6 @@ public class Proposta {
 
     public Proposta(DadosCadastroProposta dados, Usuario usuario) {
         this.descricao = dados.descricao();
-        this.valor = dados.valor();
-        this.mensagem = dados.mensagem();
         this.tipoProposta = dados.tipoProposta();
         this.usuario = usuario;
     }

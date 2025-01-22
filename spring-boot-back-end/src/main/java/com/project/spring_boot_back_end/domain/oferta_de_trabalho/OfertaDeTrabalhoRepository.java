@@ -4,11 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 public interface OfertaDeTrabalhoRepository extends JpaRepository<OfertaDeTrabalho, Long> {
-    Page<OfertaDeTrabalho> findAllByUsuarioId(Long usuarioId, Pageable pageable);
+    List<OfertaDeTrabalho> findAllByUsuarioId(Long usuarioId);
 }
 
 

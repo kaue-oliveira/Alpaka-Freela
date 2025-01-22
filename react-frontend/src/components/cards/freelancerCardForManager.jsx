@@ -3,7 +3,7 @@ import React from "react";
 import Images from "../fixed/images";
 
 
-const FreelancerCardForManager = ({ onDelete, onEdit, onVisualizeProposals, name, nickname, hourValue, description, skills, techs, profileImage }) => {
+const FreelancerCardForManager = ({ onDelete, onEdit, onVisualizeProposals, id, name, nickname, hourValue, description, skills, techs, profileImage }) => {
 
     return (
         <div style={styles.container}>
@@ -11,16 +11,11 @@ const FreelancerCardForManager = ({ onDelete, onEdit, onVisualizeProposals, name
                 <h3 style={styles.name}>{name}</h3>
                 <p style={styles.price}>Valor cobrado por hora: R$ {hourValue}</p>
             </div>
+            <div style={styles.username}>
+                <p style={{ fontWeight: "bold", margin: "0", marginBottom: "1%" }}>Oferta de número #{id} publicada por Você</p>
+            </div>
             <div style={styles.profileHeader}>
-                <img
-                    src={profileImage ? profileImage : Images.profileImage} // Substitua com a URL do ícone ou foto do perfil
-                    alt="Profile"
-                    style={styles.profileImage}
-                />
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <div style={styles.username}>
-                        Publicado por <p style={{ fontWeight: "bold", margin: "0", marginLeft: "0.5%" }}>{nickname}</p>
-                    </div>
+                <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
                     <p style={styles.description}>
                         {description}
                     </p>
@@ -68,7 +63,7 @@ const FreelancerCardForManager = ({ onDelete, onEdit, onVisualizeProposals, name
 
 const styles = {
     container: {
-        aspectRatio: "4 / 1" /* Proporção de largura para altura */,
+        aspectRatio: "5 / 1" /* Proporção de largura para altura */,
         border: "1px solid #000000",
         borderRadius: "8px",
         padding: "20px",
@@ -76,11 +71,14 @@ const styles = {
         fontFamily: "Arial, sans-serif",
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
         boxSizing: "border-box",
+        justifyContent: "space-between",
+        display: "flex",
+        flexDirection: "column"
     },
     profileHeader: {
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "start",
         marginBottom: "15px",
     },
     profileImage: {
@@ -103,7 +101,7 @@ const styles = {
         margin: 0,
     },
     username: {
-        fontSize: "14px",
+        fontSize: "15px",
         color: "#000000",
         margin: 0,
         display: "flex",
@@ -118,17 +116,21 @@ const styles = {
         fontSize: "14px",
         color: "#000000",
         marginBottom: "0",
-        height: "95px",
-        maxHeight: "95px",
+        height: "178px",
+        maxHeight: "178px",
         overflow: "hidden",
         textOverflow: "ellipsis",
+        wordWrap: "break-word",
+        wordBreak: "break-word",
+        whiteSpace: "normal",
+        width: "100%"
     },
     skills: {
         display: "flex",
         flexWrap: "wrap",
         gap: "8px",
         marginBottom: "10px",
-        height: "70px",
+        maxHeight: "70px",
         overflow: "hidden"
     },
     skillButton: {

@@ -1,7 +1,57 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import Images from "../fixed/images";
 
-const CompleteVisualizationJobCard = ({ onClose, title, name, username, description, payment, skills, profileImage }) => {
+const CompleteVisualizationJobCard = ({ onClose, id }) => {
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [payment, setPayment] = useState("");
+    const [name, setName] = useState("");
+    const [username, setUsername] = useState("");
+    const [techs, setTechs] = useState([]);
+    const [profileImage, setProfileImage] = useState("");
+
+    const backendDomain = process.env.BACKEND_DOMAIN;
+
+    useEffect(() => {
+        const fetchJobPost = async () => {
+            try {
+                const response = await fetch(backendDomain + '/ofertas-trabalho/' + id, {
+                    method: 'GET',
+                    credentials: "include",
+                });
+
+                const result = await response.json();
+
+                console.log(result);
+                
+                if (response.ok) {
+                    setTitle(result.titulo)
+                    setDescription(result.descricao);
+                    setPayment(result.pagamento)
+                    setName(result.nomeUsuario);
+                    setUsername(result.usernameUsuario);
+                    setProfileImage(result.profileImage);
+
+                    let tmpTechs = [];
+            
+                    for (let i = 0; i < result.tecnologias.length; i++) {
+                        tmpTechs.push(result.tecnologias[i].nome);
+                    }
+
+                    setTechs(tmpTechs);
+                } else {
+                    console.log("erro ao fazer fetch na oferta de trabalho buscada");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchJobPost();
+    }, []);
+
+
     return (
         <div style={styles.overlay}>
             <div style={styles.container}>
@@ -21,8 +71,8 @@ const CompleteVisualizationJobCard = ({ onClose, title, name, username, descript
                 <p style={styles.payment}>
                     <span style={styles.paymentAmount}>Pagamento: R$ {payment}</span>
                 </p>
-                <div style={styles.skills}>
-                    {skills.map((skill, index) => (
+                <div style={styles.techs}>
+                    {techs.map((skill, index) => (
                         <div style={styles.skillButton} key={index}>
                             {skill}
                         </div>
@@ -77,7 +127,7 @@ const styles = {
     },
     description: {
         fontSize: "14px",
-        color: "#444",
+        color: "#000000",
         lineHeight: "1.6",
         marginBottom: "10px",
         overflow: "auto",
@@ -94,7 +144,7 @@ const styles = {
         color: "green",
         fontWeight: "bold",
     },
-    skills: {
+    techs: {
         display: "flex",
         gap: "10px",
         flexWrap: "wrap",

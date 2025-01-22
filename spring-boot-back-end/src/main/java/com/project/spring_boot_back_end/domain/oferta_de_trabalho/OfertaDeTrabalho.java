@@ -48,7 +48,6 @@ public class OfertaDeTrabalho {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-
     @OneToMany(mappedBy = "ofertaDeTrabalho", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Proposta> propostas = new ArrayList<>();
 
@@ -82,4 +81,10 @@ public class OfertaDeTrabalho {
     public void adicionarTecnologia(Tecnologia tecnologia) {
         this.tecnologias.add(tecnologia);
     }
+
+    public void setTecnologias(List<Tecnologia> tecnologias) {
+        this.tecnologias = tecnologias;
+    }
+    
+    
 }

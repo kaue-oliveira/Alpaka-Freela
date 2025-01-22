@@ -1,8 +1,61 @@
 import React from "react";
-
+import { useEffect, useState } from "react";
 import Images from "../fixed/images";
 
-const CompleteVisualizationFreelancerCard = ({ onClose, name, nickname, hourValue, description, skills, techs, profileImage }) => {
+const CompleteVisualizationFreelancerCard = ({ onClose, id }) => {
+    const [name, setName] = useState("");
+    const [username, setUsername] = useState("");
+    const [hourValue, setHourValue] = useState("");
+    const [description, setDescription] = useState("");
+    const [techs, setTechs] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [profileImage, setProfileImage] = useState("");
+    
+    const backendDomain = process.env.BACKEND_DOMAIN;
+
+    useEffect(() => {
+        const fetchServicePost = async () => {
+            try {
+                const response = await fetch(backendDomain + '/ofertas-servico/' + id, {
+                    method: 'GET',
+                    credentials: "include",
+                });
+
+                const result = await response.json();
+
+                console.log(result);
+                
+                if (response.ok) {
+                    setName(result.nomeUsuario);
+                    setUsername(result.usernameUsuario);
+                    setHourValue(result.valorCobrado);
+                    setDescription(result.descricao);
+                    setProfileImage(result.profileImage);
+
+                    let tmpSkills = [];
+                    let tmpTechs = [];
+            
+                    for (let i = 0; i < result.habilidades.length; i++) {
+                        tmpSkills.push(result.habilidades[i].nome);
+                    }
+            
+                    for (let i = 0; i < result.tecnologias.length; i++) {
+                        tmpTechs.push(result.tecnologias[i].nome);
+                    }
+
+                    setSkills(tmpSkills);
+                    setTechs(tmpTechs);
+                } else {
+                    console.log("erro ao fazer fetch na oferta de servico buscada");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchServicePost();
+    }, []);
+
     return (
         <div style={styles.overlay}>
             <div style={styles.container}>
@@ -20,7 +73,7 @@ const CompleteVisualizationFreelancerCard = ({ onClose, name, nickname, hourValu
                 <div style={styles.profileHeader}>
                     <div style={{ display: "flex", flexDirection: "column" }}>
                         <div style={styles.username}>
-                            Publicado por <p style={{ fontWeight: "bold", margin: "0", marginLeft: "0.2%" }}>{nickname}</p>
+                            Publicado por <p style={{ fontWeight: "bold", margin: "0", marginLeft: "0.2%" }}>{username}</p>
                         </div>
                         <p style={styles.description}>
                             {description}
@@ -78,14 +131,15 @@ const styles = {
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
         boxSizing: "border-box",
         display: "flex",
-        alignItems: "flex-end",
+        alignItems: "flex-start",
         flexDirection: "column",
         justifyContent: "flex-start"
     },
     profileHeader: {
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "start",
+        marginTop: "10px",
         marginBottom: "15px",
         width: "100%"
     },
@@ -129,6 +183,9 @@ const styles = {
         maxHeight: "27vh",
         lineHeight: "1.5",
         paddingRight: "10px",
+        wordWrap: "break-word", 
+        wordBreak: "break-word",
+        whiteSpace: "normal" ,
     },
     skills: {
         display: "flex",

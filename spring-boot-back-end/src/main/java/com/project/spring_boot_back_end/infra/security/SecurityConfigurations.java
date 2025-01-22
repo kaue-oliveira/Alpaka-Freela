@@ -34,13 +34,9 @@ public class SecurityConfigurations {
         .cors(Customizer.withDefaults())
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and().authorizeHttpRequests()
-        .requestMatchers(HttpMethod.POST, "/login").permitAll()
         .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
-        .requestMatchers(HttpMethod.POST, "/password-reset/request").permitAll()
-        .requestMatchers(HttpMethod.POST, "/reset-password").permitAll()
-        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-        .requestMatchers(HttpMethod.POST, "/email/enviar").permitAll() // Permitir acesso ao endpoint de envio de
-                                                                       // e-mails
+        .requestMatchers(HttpMethod.POST, "/autenticacao/**").permitAll()
+        .requestMatchers(HttpMethod.POST, "/email/enviar").permitAll() // Permitir acesso ao endpoint de envio de e-mails
         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
         .anyRequest().authenticated()
         .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

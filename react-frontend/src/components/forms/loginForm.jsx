@@ -8,6 +8,7 @@ const LoginForm = ({ onSubmit }) => {
     const [incorrectUsername, setIncorrectUsername] = useState("");
     const [incorrectPassword, setIncorrectPassword] = useState("");
     const { auth, setAuth, userData, setUserData } = useContext(AuthContext);
+    const backendDomain = process.env.BACKEND_DOMAIN;
     const navigate = useNavigate();
 
     const handleSubmitForm = async (event) => {
@@ -37,7 +38,7 @@ const LoginForm = ({ onSubmit }) => {
             }
 
             try {
-                const response = await fetch('http://localhost:8080/login', {
+                const response = await fetch(backendDomain + '/autenticacao/login', {
                     method: 'POST',
                     credentials: "include", // Permite envio/recebimento de cookies
                     headers: {
@@ -46,8 +47,9 @@ const LoginForm = ({ onSubmit }) => {
                     body: JSON.stringify(data),
                 });
 
-                const result = await response.json();                
-
+                const result = await response.json();    
+                console.log(result);
+                         
                 if (response.ok) {
                     setAuth(true);
                     setUserData(result);
@@ -58,7 +60,7 @@ const LoginForm = ({ onSubmit }) => {
                 }
             } catch (error) {
                 console.log(error);
-                onSubmit(error);
+                alert(error);
             }
         }
     }

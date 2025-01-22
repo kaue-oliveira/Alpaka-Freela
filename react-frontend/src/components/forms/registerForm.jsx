@@ -9,6 +9,7 @@ const RegisterForm = ({ onSubmit }) => {
     const [incorrectPassword, setIncorrectPassword] = useState("");
     const [passwordNotEquals, setPasswordNotEquals] = useState("");
     const [incorrectEmail, setIncorrectEmail] = useState("");
+    const backendDomain = process.env.BACKEND_DOMAIN;
 
     const handleSubmitForm = async (event) => {
         event.preventDefault();
@@ -61,7 +62,7 @@ const RegisterForm = ({ onSubmit }) => {
             }
 
             try {
-                const response = await fetch('http://localhost:8080/usuario', {
+                const response = await fetch(backendDomain + '/usuario', {
                     method: 'POST',
                     credentials: "include", // Permite envio/recebimento de cookies
                     headers: {

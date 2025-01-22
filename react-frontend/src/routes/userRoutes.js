@@ -14,22 +14,18 @@ export const userRouter = createBrowserRouter([
     },
     {
         path: "/freelancer",
-        element: <Dashboard />,
+        element: <Dashboard defaultElement={"freelancer"}/>,
     },
     {
         path: "/trabalho",
-        element: <Dashboard />,
+        element: <Dashboard defaultElement={"trabalho"} />,
     },
     {
         path: "/conta",
-        element: <Dashboard />,
+        element: <Dashboard defaultElement={"conta"}/>,
     },
     {
         path: "/gerenciar-publicacoes",
-        element: <Dashboard />,
-    },
-    {
-        path: "/aaa",
-        element: <Dashboard />,
+        element: <Dashboard defaultElement={"gerenciar-publicacoes"}/>,
     },
 ]);

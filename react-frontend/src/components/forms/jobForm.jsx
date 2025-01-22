@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Images from "../fixed/images";
 import styled from "styled-components";
 
@@ -30,6 +30,7 @@ const ScrollContainerPurple = styled.div`
 const JobForm = ({ onClose, onSucess }) => {
     const [technologies, setTechnologies] = useState([]);
     const [techInput, setTechInput] = useState("");
+    const [techsToSelect, setTechsToSelect] = useState("");
 
     const [excedLengthErrorMessage, setExcedErrorMessage] = useState("");
     const [textAreaLettersQuantity, setTextAreaLettersQuantity] = useState(0);
@@ -37,8 +38,33 @@ const JobForm = ({ onClose, onSucess }) => {
     const [incorrectTechsErrorMessage, setIncorrectTechsErrorMessage] = useState("");
     const [incorrectPaymentErrorMessage, setIncorrectPaymentErrorMessage] = useState("");
     const [formErrorMessage, setFormErrorMessage] = useState("");
+    const backendDomain = process.env.BACKEND_DOMAIN;
 
-    const submitFormHandle = (event) => {
+    useEffect(() => {
+        const fetchTechs = async () => {
+            try {
+                const response = await fetch(backendDomain + '/tecnologias', {
+                    method: 'GET',
+                    credentials: "include",
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {        
+                    setTechsToSelect(result);
+                } else {
+                    console.log("erro ao fazer fetch nas tecnologias");
+
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchTechs();
+    }, []);
+
+    const submitFormHandle = async (event) => {
         event.preventDefault();
 
         let formData = {
@@ -76,11 +102,46 @@ const JobForm = ({ onClose, onSucess }) => {
 
         // tudo certo, formulario pode ser enviado para o backend
         if (!error) {
-            console.log(formData);
+            let tecnologiasIds = [];
 
-            setFormErrorMessage("Internal server error, try again.");
+            for (let i = 0; i < technologies.length; i++) {
+                for (let j = 0; j < techsToSelect.length; j++) {
+                    if (techsToSelect[j].nome === technologies[i]) {
+                        tecnologiasIds.push(techsToSelect[j].id);
+                    }
+                }
+            }
 
-            onSucess("Oferta de trabalho cadastrada com sucesso.");
+            const data = {
+                titulo: formData.title,
+                descricao: formData.description,
+                pagamento: formData.payment,
+                tecnologiasIds
+            }
+
+            try {
+                const response = await fetch(backendDomain + '/ofertas-trabalho', {
+                    method: 'POST',
+                    credentials: "include", // Permite envio/recebimento de cookies
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {          
+                    onSucess("Oferta de trabalho cadastrada com sucesso.");
+                    // newJobPost(result);
+                } else {
+                    console.log(result);
+                    onSubmit(result);
+                }
+            } catch (error) {
+                console.log(error);
+                alert(error);
+            }
         }
     }
 
@@ -183,15 +244,16 @@ const JobForm = ({ onClose, onSucess }) => {
         techList: {
             display: "flex",
             gap: "10px",
-            flexWrap: "wrap",
+            flexDirection: "column",
             marginTop: "15px",
             marginBottom: "15px",
             overflow: "auto",
-            maxHeight: "100px",
+            height: "200px",
             width: "40%"
         },
         techItem: {
             width: "90%",
+            // maxHeight: "20px",
             padding: "3px 5px",
             fontSize: "14px",
             backgroundColor: "#ead7ff",
@@ -282,7 +344,7 @@ const JobForm = ({ onClose, onSucess }) => {
                                 {/* TECNOLOGIAS DESEJADAS NO PROFISSIONAL */}
                                 <div style={{ flex: "1" }}>
                                     <label style={styles.label} htmlFor="technologies">
-                                        Selecione 3 Tecnologias
+                                        Selecione no máximo 3 Tecnologias
                                     </label>
                                     <div style={{ display: "flex", gap: "2.5%", width: "98%" }}>
                                         <select
@@ -291,28 +353,15 @@ const JobForm = ({ onClose, onSucess }) => {
                                             style={styles.input}
                                             onChange={(e) => setTechInput(e.target.value)}
                                         >
-                                            <option value="JavaScript">JavaScript</option>
-                                            <option value="React">React</option>
-                                            <option value="Node.js">Node.js</option>
-                                            <option value="Python">Python</option>
-                                            <option value="Django">Django</option>
-                                            <option value="Ruby on Rails">Ruby on Rails</option>
-                                            <option value="Java">Java</option>
-                                            <option value="Spring Boot">Spring Boot</option>
-                                            <option value="PHP">PHP</option>
-                                            <option value="Laravel">Laravel</option>
-                                            <option value="C#">C#</option>
-                                            <option value="ASP.NET">ASP.NET</option>
-                                            <option value="MySQL">MySQL</option>
-                                            <option value="PostgreSQL">PostgreSQL</option>
-                                            <option value="MongoDB">MongoDB</option>
-                                            <option value="GraphQL">GraphQL</option>
-                                            <option value="AWS">AWS</option>
-                                            <option value="Docker">Docker</option>
-                                            <option value="Kubernetes">Kubernetes</option>
-                                            <option value="Git">Git</option>
-                                            <option value="Terraform">Terraform</option>
-                                            <option value="Jenkins">Jenkins</option>
+                                            {techsToSelect && techsToSelect.length > 0 ? (
+                                                techsToSelect.map(tech => (
+                                                    <option value={tech.nome} key={tech.id} id={tech.id}>
+                                                        {tech.nome}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option disabled>Sem tecnologias disponíveis</option> // Se não houver techsToSelect, mostramos uma opção desabilitada
+                                            )}
                                         </select>
                                         <button
                                             type="button"

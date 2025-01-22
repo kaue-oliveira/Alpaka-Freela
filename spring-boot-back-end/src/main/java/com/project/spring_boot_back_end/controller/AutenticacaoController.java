@@ -1,20 +1,22 @@
 package com.project.spring_boot_back_end.controller;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import com.google.gson.Gson;
+import com.project.spring_boot_back_end.domain.email.EmailService;
 import com.project.spring_boot_back_end.domain.usuario.DadosAutenticacao;
+import com.project.spring_boot_back_end.domain.usuario.DadosUsuarioParaFrontend;
 import com.project.spring_boot_back_end.domain.usuario.Usuario;
 import com.project.spring_boot_back_end.domain.usuario.UsuarioRepository;
+import com.project.spring_boot_back_end.infra.exception.InvalidTokenException;
+import com.project.spring_boot_back_end.infra.security.PasswordResetRequest;
+import com.project.spring_boot_back_end.infra.security.PasswordResetService;
 import com.project.spring_boot_back_end.infra.security.TokenService;
-import com.project.spring_boot_back_end.models.DadosTokenJWT;
-import com.project.spring_boot_back_end.models.DadosUsuarioParaFrontend;
 
 import java.sql.SQLException;
-import java.util.Base64;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -24,11 +26,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequiredArgsConstructor
 @RestController
+@RequestMapping("/autenticacao")
 public class AutenticacaoController {
 
         @Autowired
@@ -39,6 +46,12 @@ public class AutenticacaoController {
 
         @Autowired
         private UsuarioRepository repository;
+
+        @Autowired
+        private EmailService emailService;
+
+        @Autowired
+        private PasswordResetService passwordResetService;
 
         @PostMapping("/login")
         public ResponseEntity<?> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados, HttpServletResponse response)
@@ -98,6 +111,47 @@ public class AutenticacaoController {
 
                 response.addHeader(HttpHeaders.SET_COOKIE, clearAuthCookie.toString());
                 return ResponseEntity.ok(gson.toJson("Usuário deslogado com sucesso."));
+        }
+
+        // Endpoint para solicitar o envio de um e-mail de redefinição de senha
+        @PostMapping("/redefinir-senha-gerar-email")
+        public ResponseEntity<String> redefinirSenha(@RequestParam(value = "email") String email) {
+                // Verificar se o usuário existe
+                Optional<Usuario> usuarioOptional = repository.findByEmail(email);
+
+                if (usuarioOptional.isEmpty()) {
+                        return ResponseEntity.badRequest().body("Usuário não encontrado com o e-mail fornecido.");
+                }
+
+                Usuario usuario = usuarioOptional.get(); 
+
+                // Verificar se o usuario eh um administrador
+                for (GrantedAuthority grantedAuthority : usuario.getAuthorities())
+                        if (grantedAuthority.toString().equals("ROLE_ADMIN"))
+                                return ResponseEntity.badRequest().body(
+                                                "A redefinição de senha não é permitida para usuários aministradores.");
+
+                // Gerar token para redefinição de senha
+                String token = tokenService.gerarToken(usuario);
+
+                // Enviar o e-mail
+                emailService.sendResetPasswordEmail(email, token);
+
+                return ResponseEntity.ok("E-mail de redefinição de senha enviado.");
+        }
+
+        @PostMapping("/redefinir-senha")
+        public ResponseEntity<?> resetPassword(
+                        @RequestParam String token,
+                        @RequestBody PasswordResetRequest request) throws InvalidTokenException {
+                try {
+                        passwordResetService.resetPassword(token, request.getNewPassword());
+                        return ResponseEntity.ok().body("Senha atualizada com sucesso");
+                } catch (InvalidTokenException e) {
+                        return ResponseEntity.badRequest().body("Token inválido ou expirado");
+                } catch (Exception e) {
+                        return ResponseEntity.internalServerError().body("Erro ao redefinir senha");
+                }
         }
 
 }

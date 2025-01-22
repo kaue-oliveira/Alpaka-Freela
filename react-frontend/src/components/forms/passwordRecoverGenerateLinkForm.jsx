@@ -4,6 +4,7 @@ import Images from "../fixed/images";
 
 const PasswordRecoverGenerateLink = ({ onSubmit }) => {
     const [incorrectEmail, setIncorrectEmail] = useState("");
+    const backendDomain = process.env.BACKEND_DOMAIN;
 
     const handleSubmitForm = async (event) => {
         event.preventDefault();
@@ -18,7 +19,7 @@ const PasswordRecoverGenerateLink = ({ onSubmit }) => {
 
         if (canSubmitForm) {
             try {
-                const response = await fetch(`http://localhost:8080/auth/redefinir-senha?email=${encodeURIComponent(emailForm)}`, {
+                const response = await fetch(backendDomain + `/autenticacao/redefinir-senha-gerar-email?email=${encodeURIComponent(emailForm)}`, {
                     method: 'POST',
                     credentials: "include", // Permite envio/recebimento de cookies
                 });

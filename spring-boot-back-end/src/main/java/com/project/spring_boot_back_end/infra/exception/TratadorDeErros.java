@@ -1,7 +1,7 @@
 package com.project.spring_boot_back_end.infra.exception;
 
 import jakarta.persistence.EntityNotFoundException;
-import com.project.spring_boot_back_end.domain.ValidacaoException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;

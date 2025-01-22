@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface TecnologiaRepository extends JpaRepository<Tecnologia, Long> {
     boolean existsByNome(String nome);
     List<Tecnologia> findByNomeContainingIgnoreCase(String nome);
+
+    @Override
+    List<Tecnologia> findAll();
 }

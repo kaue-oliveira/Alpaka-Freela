@@ -7,6 +7,7 @@ import Images from "../fixed/images";
 const PasswordRecoverForm = ({ onSubmit }) => {
     const [incorrectPassword, setIncorrectPassword] = useState("");
     const [passwordNotEquals, setPasswordNotEquals] = useState("");
+    const backendDomain = process.env.BACKEND_DOMAIN;
     const location = useLocation();
 
     const handleSubmitForm = async (event) => {
@@ -43,7 +44,7 @@ const PasswordRecoverForm = ({ onSubmit }) => {
             }
 
             try {
-                const response = await fetch(`http://localhost:8080/reset-password?token=${encodeURIComponent(token)}`, {
+                const response = await fetch(backendDomain + `/autenticacao/redefinir-senha?token=${encodeURIComponent(token)}`, {
                     method: 'POST',
                     credentials: "include", // Permite envio/recebimento de cookies
                     headers: {

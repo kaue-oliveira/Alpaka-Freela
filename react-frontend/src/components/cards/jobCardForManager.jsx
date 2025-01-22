@@ -7,23 +7,22 @@ const JobCardForManager = ({ onDelete, onEdit, onVisualizeProposals, jobData }) 
         <div style={styles.container}>
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0" }}>
                 <div>
-                    <h2 style={styles.title}>{jobData.title}</h2>
+                    <h2 style={styles.title}>{jobData.titulo}</h2>
                     <p style={styles.publisher}>
-                        Publicado por{" "}
-                        <strong>{jobData.username} ({jobData.name})</strong>
+                        <strong>Oferta de número #{jobData.id} publicada por você</strong>
                     </p>
                 </div>
-                <img style={{ width: "7%", height: "7%", borderRadius: "100%" }} src={jobData.profileImage ? jobData.profileImage : Images.profileImage} alt="" />
+                <img style={{ width: "50px", height: "50px", borderRadius: "100%" }} src={jobData.profileImage ? jobData.profileImage : Images.profileImage} alt="" />
             </div>
 
             <p style={styles.description}>
-                {jobData.description}
+                {jobData.descricao}
             </p>
             <p style={styles.payment}>
-                <span style={styles.paymentAmount}>Pagamento: R$ {jobData.payment}</span>
+                <span style={styles.paymentAmount}>Pagamento: R$ {jobData.pagamento}</span>
             </p>
             <div style={styles.techs}>
-                {jobData.techs.map((skill, index) => (
+                {jobData.tecnologias.map((skill, index) => (
                     <div style={styles.skillButton} key={index}>
                         {skill}
                     </div>

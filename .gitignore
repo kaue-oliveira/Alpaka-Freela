@@ -2,3 +2,6 @@ to-do-list
 TODOLIST.txt
 .vscode
 .idea
+node_modules
+package.json
+package-lock.json

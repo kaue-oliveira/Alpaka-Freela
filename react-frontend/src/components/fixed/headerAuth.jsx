@@ -2,16 +2,16 @@ import { useContext } from "react";
 import styles from "../../css/login.module.css";
 import { AuthContext } from "../../contexts/authContext";
 import { useNavigate } from "react-router-dom";
-
 import Images from "./images";
 
 export default function HeaderAuth() {
     const { setAuth, setUserData } = useContext(AuthContext);
     const navigate = useNavigate();
+    const backendDomain = process.env.BACKEND_DOMAIN;
 
     const handleLogoffButton = async () => {
         try {
-            const response = await fetch('http://localhost:8080/logoff', {
+            const response = await fetch(backendDomain + "/autenticacao/logoff", {
                 method: 'POST',
                 credentials: "include", // Permite envio/recebimento de cookies
             });
