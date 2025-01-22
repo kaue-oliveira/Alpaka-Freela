@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/authContext";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import Images from "../fixed/images";
 const LoginForm = ({ onSubmit }) => {
@@ -47,9 +48,9 @@ const LoginForm = ({ onSubmit }) => {
                     body: JSON.stringify(data),
                 });
 
-                const result = await response.json();    
+                const result = await response.json();
                 console.log(result);
-                         
+
                 if (response.ok) {
                     setAuth(true);
                     setUserData(result);
@@ -71,7 +72,8 @@ const LoginForm = ({ onSubmit }) => {
     }
 
     return (
-        <div style={{ width: "50%" }}>
+        <motion.div initial={{ opacity: 0, width: "500px" }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+
             <div
                 style={{
                     width: "100%",
@@ -202,7 +204,8 @@ const LoginForm = ({ onSubmit }) => {
                     </a>
                 </div>
             </div>
-        </div>
+
+        </motion.div>
     );
 };
 

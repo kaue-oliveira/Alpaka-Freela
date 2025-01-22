@@ -1,61 +1,63 @@
 import React from "react";
-
+import { motion } from "framer-motion";
 import Images from "../fixed/images";
 
 const FreelancerCard = ({ onContractProposal, onCompleteVisualization, name, nickname, hourValue, description, skills, techs, profileImage }) => {
 
     return (
-        <div style={styles.container}>
-            <div>
-                <div style={styles.profileDetails}>
-                    <h3 style={styles.name}>{name}</h3>
-                    <p style={styles.price}>Valor cobrado por hora: R$ {hourValue}</p>
-                </div>
-                <div style={styles.profileHeader}>
-                    <img
-                        src={profileImage ? profileImage : Images.profileImage} // Substitua com a URL do ícone ou foto do perfil
-                        alt="Profile"
-                        style={styles.profileImage}
-                    />
-                    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-                        <div style={styles.username}>
-                            Publicado por <p style={{ fontWeight: "bold", margin: "0", marginLeft: "0.5%" }}>{nickname}</p>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+            <div style={styles.container}>
+                <div>
+                    <div style={styles.profileDetails}>
+                        <h3 style={styles.name}>{name}</h3>
+                        <p style={styles.price}>Valor cobrado por hora: R$ {hourValue}</p>
+                    </div>
+                    <div style={styles.profileHeader}>
+                        <img
+                            src={profileImage ? profileImage : Images.profileImage} // Substitua com a URL do ícone ou foto do perfil
+                            alt="Profile"
+                            style={styles.profileImage}
+                        />
+                        <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                            <div style={styles.username}>
+                                Publicado por <p style={{ fontWeight: "bold", margin: "0", marginLeft: "0.5%" }}>{nickname}</p>
+                            </div>
+                            <p style={styles.description}>
+                                {description}
+                            </p>
                         </div>
-                        <p style={styles.description}>
-                            {description}
-                        </p>
+                    </div>
+                    <div style={styles.skills}>
+                        {skills && skills.map((skill, index) => (
+                            <div style={styles.skillButton} key={index}>
+                                {skill}
+                            </div>
+                        ))}
+                    </div>
+                    <div style={styles.techs}>
+                        {techs && techs.map((tech, index) => (
+                            <div style={styles.techButton} key={index}>
+                                {tech}
+                            </div>
+                        ))}
                     </div>
                 </div>
-                <div style={styles.skills}>
-                    {skills.map((skill, index) => (
-                        <div style={styles.skillButton} key={index}>
-                            {skill}
-                        </div>
-                    ))}
-                </div>
-                <div style={styles.techs}>
-                    {techs.map((tech, index) => (
-                        <div style={styles.techButton} key={index}>
-                            {tech}
-                        </div>
-                    ))}
+                <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
+                    <button
+                        style={styles.contractButton}
+                        onClick={onContractProposal}
+                    >
+                        Enviar uma proposta
+                    </button>
+                    <button
+                        style={styles.completeVisualizationButton}
+                        onClick={onCompleteVisualization}
+                    >
+                        Visualização completa
+                    </button>
                 </div>
             </div>
-            <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
-                <button
-                    style={styles.contractButton}
-                    onClick={onContractProposal}
-                >
-                    Enviar uma proposta
-                </button>
-                <button
-                    style={styles.completeVisualizationButton}
-                    onClick={onCompleteVisualization}
-                >
-                    Visualização completa
-                </button>
-            </div>
-        </div>
+        </motion.div>
     );
 };
 
@@ -118,9 +120,9 @@ const styles = {
         maxHeight: "95px",
         overflow: "hidden",
         textOverflow: "ellipsis",
-        wordWrap: "break-word", 
+        wordWrap: "break-word",
         wordBreak: "break-word",
-        whiteSpace: "normal" ,
+        whiteSpace: "normal",
     },
     skills: {
         display: "flex",

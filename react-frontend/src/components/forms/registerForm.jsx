@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 import Images from "../fixed/images";
 
@@ -79,7 +80,7 @@ const RegisterForm = ({ onSubmit }) => {
                 } else {
                     onSubmit("Ocorreu um erro ao criar conta. Tente novamente.");
                 }
-                
+
             } catch (error) {
                 onSubmit("Ocorreu um erro ao criar conta. Tente novamente.");
             }
@@ -97,7 +98,7 @@ const RegisterForm = ({ onSubmit }) => {
     }
 
     return (
-        <div style={{ width: "50%" }}>
+        <motion.div initial={{ opacity: 0, width: "500px" }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
             <div
                 style={{
                     width: "100%",
@@ -108,13 +109,13 @@ const RegisterForm = ({ onSubmit }) => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    justifyContent: "center",
+                    justifyContent: "end",
                     border: "1px solid black",
-                    height: "80vh",
+                    height: "auto",
                     boxShadow: "15px 15px 0px 0px rgba(212, 212, 212, 0.5)"
                 }}
             >
-                <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
+                <h1 style={{ textAlign: "center", marginTop: "10px", marginBottom: "20px" }}>
                     Criar conta
                 </h1>
                 <div
@@ -258,7 +259,7 @@ const RegisterForm = ({ onSubmit }) => {
                             fontWeight: "600",
                             textAlign: "start",
                             paddingLeft: "15px",
-                            boxShadow: "5px 5px 0px 0px rgba(212, 212, 212, 0.5)" 
+                            boxShadow: "5px 5px 0px 0px rgba(212, 212, 212, 0.5)"
                         }}
                     >
                         Registrar
@@ -274,13 +275,13 @@ const RegisterForm = ({ onSubmit }) => {
                         textDecoration: "none",
                         color: "#000000",
                         fontSize: "14px",
-                        marginTop: "2px"
+                        marginTop: "15px"
                     }}
                 >
                     Já possui uma conta? Clique aqui para se autenticar
                 </a>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

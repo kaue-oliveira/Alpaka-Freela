@@ -19,19 +19,23 @@ import SendServiceProposalForm from "../forms/sendServiceProposalForm";
 import CompleteVisualizationJobCard from "../cards/completeVisualizationJobCard";
 import Images from "../fixed/images";
 import MessageCard from "../cards/messageCard";
+import JobCardEmpty from "../cards/jobCardEmpty";
 
 export default function FindWorkArea() {
+    const [fetchingJobPosts, setFetchingJobPosts] = useState(false);
     const [isOverlayOpen, setIsOverlayOpen] = useState(false); // Controle do overlay
     const [overlayType, setOverlayType] = useState(""); // Tipo de overlay (contract_proposal ou post_service)
     const [overlayActiveCardId, setOverlayActiveId] = useState(0);
     const [sucessPopupMessage, setSucessPopupMessage] = useState("");
     const [jobPosts, setJobPosts] = useState([]);
-    const [sendingProposalTo, setSendingProposalTo] = useState(0); 
+    const [sendingProposalTo, setSendingProposalTo] = useState(0);
 
     const backendDomain = process.env.BACKEND_DOMAIN;
 
     useEffect(() => {
         const fetchJobPosts = async () => {
+            setFetchingJobPosts(true);
+
             try {
                 const response = await fetch(backendDomain + '/ofertas-trabalho', {
                     method: 'GET',
@@ -51,6 +55,8 @@ export default function FindWorkArea() {
             } catch (error) {
                 console.log(error);
             }
+
+            setFetchingJobPosts(false);
         }
 
         fetchJobPosts();
@@ -62,7 +68,7 @@ export default function FindWorkArea() {
     };
 
     const handleServiceProposalRequest = (ofertaId, usernameUsuario) => {
-        setSendingProposalTo({ofertaId, usernameUsuario})
+        setSendingProposalTo({ ofertaId, usernameUsuario })
         toggleOverlay("service_proposal");
         console.log("service_proposal");
     };
@@ -103,6 +109,10 @@ export default function FindWorkArea() {
                 onPost={handlePostJob}
             />
             <div className={styles["job-cards"]}>
+                {fetchingJobPosts &&
+                    Array.from({ length: 6 }).map((_, index) => (
+                        <JobCardEmpty key={index} />
+                    ))}
                 {jobPosts.map((job, index) => (
                     <JobCard
                         key={index}

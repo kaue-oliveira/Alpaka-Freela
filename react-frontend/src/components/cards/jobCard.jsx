@@ -1,49 +1,51 @@
 import React from "react";
 import Images from "../fixed/images";
-
+import { motion } from "framer-motion";
 
 const JobCard = ({ onServiceProposal, onCompleteVisualization, title, name, username, description, payment, skills, profileImage }) => {
     return (
-        <div style={styles.container}>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0" }}>
-                <div>
-                    <h2 style={styles.title}>{title}</h2>
-                    <p style={styles.publisher}>
-                        Publicado por{" "}
-                        <strong>{username} ({name})</strong>
-                    </p>
-                </div>
-                <img style={{ width: "50px", height: "50px", borderRadius: "100%" }} src={profileImage ? profileImage : Images.profileImage} alt="" />
-            </div>
-
-            <p style={styles.description}>
-                {description}
-            </p>
-            <p style={styles.payment}>
-                <span style={styles.paymentAmount}>Pagamento: R$ {payment}</span>
-            </p>
-            <div style={styles.skills}>
-                {skills.map((skill, index) => (
-                    <div style={styles.skillButton} key={index}>
-                        {skill}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+            <div style={styles.container}>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0" }}>
+                    <div>
+                        <h2 style={styles.title}>{title}</h2>
+                        <p style={styles.publisher}>
+                            Publicado por{" "}
+                            <strong>{username} ({name})</strong>
+                        </p>
                     </div>
-                ))}
+                    <img style={{ width: "50px", height: "50px", borderRadius: "100%" }} src={profileImage ? profileImage : Images.profileImage} alt="" />
+                </div>
+
+                <p style={styles.description}>
+                    {description}
+                </p>
+                <p style={styles.payment}>
+                    <span style={styles.paymentAmount}>Pagamento: R$ {payment}</span>
+                </p>
+                <div style={styles.skills}>
+                    {skills.map((skill, index) => (
+                        <div style={styles.skillButton} key={index}>
+                            {skill}
+                        </div>
+                    ))}
+                </div>
+                <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
+                    <button
+                        style={styles.proposalButton}
+                        onClick={onServiceProposal}
+                    >
+                        Fazer uma proposta
+                    </button>
+                    <button
+                        style={styles.completeVisualizationButton}
+                        onClick={onCompleteVisualization}
+                    >
+                        Visualização completa
+                    </button>
+                </div>
             </div>
-            <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
-                <button
-                    style={styles.proposalButton}
-                    onClick={onServiceProposal}
-                >
-                    Fazer uma proposta
-                </button>
-                <button
-                    style={styles.completeVisualizationButton}
-                    onClick={onCompleteVisualization}
-                >
-                    Visualização completa
-                </button>
-            </div>
-        </div>
+        </motion.div>
     );
 };
 

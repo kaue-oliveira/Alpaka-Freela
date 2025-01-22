@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Images from "../fixed/images";
+import { motion } from "framer-motion";
 
 const PasswordRecoverGenerateLink = ({ onSubmit }) => {
     const [incorrectEmail, setIncorrectEmail] = useState("");
@@ -39,7 +40,7 @@ const PasswordRecoverGenerateLink = ({ onSubmit }) => {
     }
 
     return (
-        <div style={{ width: "40%" }}>
+        <motion.div initial={{ opacity: 0, width: "500px" }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
             <div
                 style={{
                     width: "100%",
@@ -107,14 +108,15 @@ const PasswordRecoverGenerateLink = ({ onSubmit }) => {
                             fontWeight: "bold",
                             textAlign: "start",
                             paddingLeft: "15px",
-                            boxShadow: "5px 5px 0px 0px rgba(212, 212, 212, 0.5)" 
+                            boxShadow: "5px 5px 0px 0px rgba(212, 212, 212, 0.5)"
                         }}
                     >
                         Enviar link para o email
                     </button>
                 </form>
             </div>
-        </div>
+
+        </motion.div>
     );
 };
 

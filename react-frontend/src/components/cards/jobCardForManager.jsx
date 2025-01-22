@@ -1,56 +1,58 @@
 import React from "react";
 import Images from "../fixed/images";
-
+import { motion } from "framer-motion";
 
 const JobCardForManager = ({ onDelete, onEdit, onVisualizeProposals, jobData }) => {
     return (
-        <div style={styles.container}>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0" }}>
-                <div>
-                    <h2 style={styles.title}>{jobData.titulo}</h2>
-                    <p style={styles.publisher}>
-                        <strong>Oferta de número #{jobData.id} publicada por você</strong>
-                    </p>
-                </div>
-                <img style={{ width: "50px", height: "50px", borderRadius: "100%" }} src={jobData.profileImage ? jobData.profileImage : Images.profileImage} alt="" />
-            </div>
-
-            <p style={styles.description}>
-                {jobData.descricao}
-            </p>
-            <p style={styles.payment}>
-                <span style={styles.paymentAmount}>Pagamento: R$ {jobData.pagamento}</span>
-            </p>
-            <div style={styles.techs}>
-                {jobData.tecnologias.map((skill, index) => (
-                    <div style={styles.skillButton} key={index}>
-                        {skill}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+            <div style={styles.container}>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0" }}>
+                    <div>
+                        <h2 style={styles.title}>{jobData.titulo}</h2>
+                        <p style={styles.publisher}>
+                            <strong>Oferta de número #{jobData.id} publicada por você</strong>
+                        </p>
                     </div>
-                ))}
-            </div>
-            <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
-                {onVisualizeProposals && (
+                    <img style={{ width: "50px", height: "50px", borderRadius: "100%" }} src={jobData.profileImage ? jobData.profileImage : Images.profileImage} alt="" />
+                </div>
+
+                <p style={styles.description}>
+                    {jobData.descricao}
+                </p>
+                <p style={styles.payment}>
+                    <span style={styles.paymentAmount}>Pagamento: R$ {jobData.pagamento}</span>
+                </p>
+                <div style={styles.techs}>
+                    {jobData.tecnologias.map((skill, index) => (
+                        <div style={styles.skillButton} key={index}>
+                            {skill}
+                        </div>
+                    ))}
+                </div>
+                <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
+                    {onVisualizeProposals && (
+                        <button
+                            style={styles.completeVisualizationButton}
+                            onClick={onVisualizeProposals}
+                        >
+                            Propostas recebidas
+                        </button>
+                    )}
                     <button
                         style={styles.completeVisualizationButton}
-                        onClick={onVisualizeProposals}
+                        onClick={onEdit}
                     >
-                        Propostas recebidas
+                        Editar
                     </button>
-                )}
-                <button
-                    style={styles.completeVisualizationButton}
-                    onClick={onEdit}
-                >
-                    Editar
-                </button>
-                <button
-                    style={styles.completeVisualizationButton}
-                    onClick={onDelete}
-                >
-                    Excluir
-                </button>
+                    <button
+                        style={styles.completeVisualizationButton}
+                        onClick={onDelete}
+                    >
+                        Excluir
+                    </button>
+                </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

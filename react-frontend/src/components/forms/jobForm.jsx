@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Images from "../fixed/images";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 const ScrollContainerPurple = styled.div`
   overflow-y: auto;
@@ -50,7 +51,7 @@ const JobForm = ({ onClose, onSucess, newJobPost }) => {
 
                 const result = await response.json();
 
-                if (response.ok) {        
+                if (response.ok) {
                     setTechsToSelect(result);
                 } else {
                     console.log("erro ao fazer fetch nas tecnologias");
@@ -81,7 +82,7 @@ const JobForm = ({ onClose, onSucess, newJobPost }) => {
             setIncorrectPaymentErrorMessage("Você precisa digitar um número positivo.");
             error = true;
         }
-        
+
 
         // verificar titulo
         if (!formData.title || (formData.title.length < 5 || formData.title.length > 100)) {
@@ -131,8 +132,8 @@ const JobForm = ({ onClose, onSucess, newJobPost }) => {
                 });
 
                 const result = await response.json();
-                
-                if (response.ok) {          
+
+                if (response.ok) {
                     onSucess("Oferta de trabalho cadastrada com sucesso.");
                     newJobPost(result);
                 } else {
@@ -284,142 +285,144 @@ const JobForm = ({ onClose, onSucess, newJobPost }) => {
     };
 
     return (
-        <div style={styles.container}>
-            <div style={styles.form}>
-                <h1 style={styles.header}>Cadastrando oferta de trabalho</h1>
-                <form style={{ boxSizing: "border-box", height: "90%" }} onSubmit={submitFormHandle}>
-                    <div style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                        <ScrollContainerPurple>
-                            <div style={{ overflow: "auto", height: "97%" }}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+            <div style={styles.container}>
+                <div style={styles.form}>
+                    <h1 style={styles.header}>Cadastrando oferta de trabalho</h1>
+                    <form style={{ boxSizing: "border-box", height: "90%" }} onSubmit={submitFormHandle}>
+                        <div style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                            <ScrollContainerPurple>
+                                <div style={{ overflow: "auto", height: "97%" }}>
 
-                                {/* TITULO */}
-                                <label style={styles.label} htmlFor="title">
-                                    Titulo
-                                </label>
-                                <input
-                                    name="title"
-                                    id="title"
-                                    type="text"
-                                    placeholder="Titulo"
-                                    style={styles.input}
-                                    onChange={handleInputTitle}
-                                />
-                                <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
-                                    {incorrectTitleErrorMessage}
-                                </div>
-
-                                {/* DESCRICAO */}
-                                <label style={styles.label} htmlFor="description">
-                                    Descrição
-                                </label>
-                                <textarea
-                                    name="description"
-                                    id="description"
-                                    placeholder="Descrição"
-                                    style={styles.textarea}
-                                    onChange={handleDescription}
-                                />
-                                <p style={{ margin: "0" }}>{textAreaLettersQuantity} / 7000</p>
-                                <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
-                                    {excedLengthErrorMessage}
-                                </div>
-
-                                {/* VALOR PAGO PELO TRABALHO */}
-                                <label style={styles.label} htmlFor="title">
-                                    Valor pago pelo trabalho
-                                </label>
-                                <input
-                                    name="payment"
-                                    id="payment"
-                                    type="number"
-                                    step="0.01"
-                                    placeholder="Valor pago pelo trabalho"
-                                    style={styles.input}
-                                    min="0"
-                                    onChange={handleInputPayment}
-                                />
-                                <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
-                                    {incorrectPaymentErrorMessage}
-                                </div>
-
-                                {/* TECNOLOGIAS DESEJADAS NO PROFISSIONAL */}
-                                <div style={{ flex: "1" }}>
-                                    <label style={styles.label} htmlFor="technologies">
-                                        Selecione no máximo 3 Tecnologias
+                                    {/* TITULO */}
+                                    <label style={styles.label} htmlFor="title">
+                                        Titulo
                                     </label>
-                                    <div style={{ display: "flex", gap: "2.5%", width: "98%" }}>
-                                        <select
-                                            name="technologies"
-                                            id="technologies"
-                                            style={styles.input}
-                                            onChange={(e) => setTechInput(e.target.value)}
-                                        >
-                                            {techsToSelect && techsToSelect.length > 0 ? (
-                                                techsToSelect.map(tech => (
-                                                    <option value={tech.nome} key={tech.id} id={tech.id}>
-                                                        {tech.nome}
-                                                    </option>
-                                                ))
-                                            ) : (
-                                                <option disabled>Sem tecnologias disponíveis</option> // Se não houver techsToSelect, mostramos uma opção desabilitada
-                                            )}
-                                        </select>
-                                        <button
-                                            type="button"
-                                            onClick={handleAddTechnology}
-                                            style={styles.button}
-                                        >
-                                            Adicionar
-                                        </button>
+                                    <input
+                                        name="title"
+                                        id="title"
+                                        type="text"
+                                        placeholder="Titulo"
+                                        style={styles.input}
+                                        onChange={handleInputTitle}
+                                    />
+                                    <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
+                                        {incorrectTitleErrorMessage}
                                     </div>
-                                    <div style={styles.techList}>
-                                        {technologies.map((tech) => (
-                                            <div key={tech} style={styles.techItem}>
-                                                {tech}
-                                                <img
-                                                    src={Images.closeX}
-                                                    alt="close"
-                                                    style={{
-                                                        width: "15px",
-                                                        cursor: "pointer",
-                                                        marginLeft: "5%",
-                                                    }}
-                                                    onClick={() =>
-                                                        handleRemoveTechnology(tech)
-                                                    }
-                                                />
-                                            </div>
-                                        ))}
+
+                                    {/* DESCRICAO */}
+                                    <label style={styles.label} htmlFor="description">
+                                        Descrição
+                                    </label>
+                                    <textarea
+                                        name="description"
+                                        id="description"
+                                        placeholder="Descrição"
+                                        style={styles.textarea}
+                                        onChange={handleDescription}
+                                    />
+                                    <p style={{ margin: "0" }}>{textAreaLettersQuantity} / 7000</p>
+                                    <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
+                                        {excedLengthErrorMessage}
                                     </div>
-                                    <div style={{ color: "red", fontSize: "14px", height: "18px", }}>
-                                        {incorrectTechsErrorMessage}
+
+                                    {/* VALOR PAGO PELO TRABALHO */}
+                                    <label style={styles.label} htmlFor="title">
+                                        Valor pago pelo trabalho
+                                    </label>
+                                    <input
+                                        name="payment"
+                                        id="payment"
+                                        type="number"
+                                        step="0.01"
+                                        placeholder="Valor pago pelo trabalho"
+                                        style={styles.input}
+                                        min="0"
+                                        onChange={handleInputPayment}
+                                    />
+                                    <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
+                                        {incorrectPaymentErrorMessage}
+                                    </div>
+
+                                    {/* TECNOLOGIAS DESEJADAS NO PROFISSIONAL */}
+                                    <div style={{ flex: "1" }}>
+                                        <label style={styles.label} htmlFor="technologies">
+                                            Selecione no máximo 3 Tecnologias
+                                        </label>
+                                        <div style={{ display: "flex", gap: "2.5%", width: "98%" }}>
+                                            <select
+                                                name="technologies"
+                                                id="technologies"
+                                                style={styles.input}
+                                                onChange={(e) => setTechInput(e.target.value)}
+                                            >
+                                                {techsToSelect && techsToSelect.length > 0 ? (
+                                                    techsToSelect.map(tech => (
+                                                        <option value={tech.nome} key={tech.id} id={tech.id}>
+                                                            {tech.nome}
+                                                        </option>
+                                                    ))
+                                                ) : (
+                                                    <option disabled>Sem tecnologias disponíveis</option> // Se não houver techsToSelect, mostramos uma opção desabilitada
+                                                )}
+                                            </select>
+                                            <button
+                                                type="button"
+                                                onClick={handleAddTechnology}
+                                                style={styles.button}
+                                            >
+                                                Adicionar
+                                            </button>
+                                        </div>
+                                        <div style={styles.techList}>
+                                            {technologies.map((tech) => (
+                                                <div key={tech} style={styles.techItem}>
+                                                    {tech}
+                                                    <img
+                                                        src={Images.closeX}
+                                                        alt="close"
+                                                        style={{
+                                                            width: "15px",
+                                                            cursor: "pointer",
+                                                            marginLeft: "5%",
+                                                        }}
+                                                        onClick={() =>
+                                                            handleRemoveTechnology(tech)
+                                                        }
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div style={{ color: "red", fontSize: "14px", height: "18px", }}>
+                                            {incorrectTechsErrorMessage}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </ScrollContainerPurple>
+                            </ScrollContainerPurple>
 
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                            <button
-                                type="submit"
-                                style={{ ...styles.button, ...styles.submitButton }}
-                            >
-                                Cadastrar oferta de trabalho
-                            </button>
-                            <button
-                                type="button"
-                                style={{ ...styles.button, ...styles.cancelButton }}
-                                onClick={onClose}
-                            >
-                                Cancelar
-                            </button>
-                            <div style={{ color: "red", fontSize: "15px", marginLeft: "10px", height: "18px", }}>
-                                {formErrorMessage}
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <button
+                                    type="submit"
+                                    style={{ ...styles.button, ...styles.submitButton }}
+                                >
+                                    Cadastrar oferta de trabalho
+                                </button>
+                                <button
+                                    type="button"
+                                    style={{ ...styles.button, ...styles.cancelButton }}
+                                    onClick={onClose}
+                                >
+                                    Cancelar
+                                </button>
+                                <div style={{ color: "red", fontSize: "15px", marginLeft: "10px", height: "18px", }}>
+                                    {formErrorMessage}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

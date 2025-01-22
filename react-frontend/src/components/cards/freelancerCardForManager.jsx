@@ -1,63 +1,65 @@
 import React from "react";
-
+import { motion } from "framer-motion";
 import Images from "../fixed/images";
 
 
 const FreelancerCardForManager = ({ onDelete, onEdit, onVisualizeProposals, id, name, nickname, hourValue, description, skills, techs, profileImage }) => {
 
     return (
-        <div style={styles.container}>
-            <div style={styles.profileDetails}>
-                <h3 style={styles.name}>{name}</h3>
-                <p style={styles.price}>Valor cobrado por hora: R$ {hourValue}</p>
-            </div>
-            <div style={styles.username}>
-                <p style={{ fontWeight: "bold", margin: "0", marginBottom: "1%" }}>Oferta de número #{id} publicada por Você</p>
-            </div>
-            <div style={styles.profileHeader}>
-                <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-                    <p style={styles.description}>
-                        {description}
-                    </p>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+            <div style={styles.container}>
+                <div style={styles.profileDetails}>
+                    <h3 style={styles.name}>{name}</h3>
+                    <p style={styles.price}>Valor cobrado por hora: R$ {hourValue}</p>
+                </div>
+                <div style={styles.username}>
+                    <p style={{ fontWeight: "bold", margin: "0", marginBottom: "1%" }}>Oferta de número #{id} publicada por Você</p>
+                </div>
+                <div style={styles.profileHeader}>
+                    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                        <p style={styles.description}>
+                            {description}
+                        </p>
+                    </div>
+                </div>
+                <div style={styles.skills}>
+                    {skills.map((skill, index) => (
+                        <div style={styles.skillButton} key={index}>
+                            {skill}
+                        </div>
+                    ))}
+                </div>
+                <div style={styles.techs}>
+                    {techs.map((tech, index) => (
+                        <div style={styles.techButton} key={index}>
+                            {tech}
+                        </div>
+                    ))}
+                </div>
+                <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
+                    {onVisualizeProposals && (
+                        <button
+                            style={styles.contractButton}
+                            onClick={onVisualizeProposals}
+                        >
+                            Propostas recebidas
+                        </button>
+                    )}
+                    <button
+                        style={styles.completeVisualizationButton}
+                        onClick={onEdit}
+                    >
+                        Editar
+                    </button>
+                    <button
+                        style={styles.completeVisualizationButton}
+                        onClick={onDelete}
+                    >
+                        Excluir
+                    </button>
                 </div>
             </div>
-            <div style={styles.skills}>
-                {skills.map((skill, index) => (
-                    <div style={styles.skillButton} key={index}>
-                        {skill}
-                    </div>
-                ))}
-            </div>
-            <div style={styles.techs}>
-                {techs.map((tech, index) => (
-                    <div style={styles.techButton} key={index}>
-                        {tech}
-                    </div>
-                ))}
-            </div>
-            <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
-                {onVisualizeProposals && (
-                    <button
-                        style={styles.contractButton}
-                        onClick={onVisualizeProposals}
-                    >
-                        Propostas recebidas
-                    </button>
-                )}
-                <button
-                    style={styles.completeVisualizationButton}
-                    onClick={onEdit}
-                >
-                    Editar
-                </button>
-                <button
-                    style={styles.completeVisualizationButton}
-                    onClick={onDelete}
-                >
-                    Excluir
-                </button>
-            </div>
-        </div>
+        </motion.div>
     );
 };
 
