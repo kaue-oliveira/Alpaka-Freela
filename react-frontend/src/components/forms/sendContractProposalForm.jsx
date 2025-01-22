@@ -1,17 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../contexts/authContext";
 
-const SendContractProposalForm = ({ onClose, onSucess }) => {
+const SendContractProposalForm = ({ onClose, onSucess, serviceData }) => {
     const [textAreaLettersQuantity, setTextAreaLettersQuantity] = useState(0);
     const [excedLengthErrorMessage, setExcedErrorMessage] = useState("");
+    const { auth, setAuth, userData, setUserData } = useContext(AuthContext);
 
-    const handleSubmit = (event) => {
+    const backendDomain = process.env.BACKEND_DOMAIN;
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const proposalText = event.target.elements.proposal.value.trim();
+        let canSubmit = true;
 
-        if (proposalText && proposalText.length >= 100 && proposalText.length <= 7000) {
-            onSucess("Proposta de contrato enviada com sucesso.");
-        } else {
+        if (serviceData.usernameUsuario === userData.username) {
+            setExcedErrorMessage("Você não pode enviar uma proposta para si mesmo.");
+            canSubmit = false;
+        }
+   
+        if (proposalText.length < 100 || proposalText.length > 7000) {
             setExcedErrorMessage("Sua proposta deve ter no mínimo 100 e no máximo 7000 caracteres.");
+            canSubmit = false;
+        }
+
+        if (canSubmit) {
+            const TipoProposta = Object.freeze({
+                CONTRATACAO: "CONTRATACAO",
+                SERVICO: "SERVICO",
+            });            
+
+            const data = {
+                descricao: proposalText,
+                tipoProposta: TipoProposta.CONTRATACAO,
+                ofertaId: serviceData.ofertaId,
+            }
+
+            try {
+                const response = await fetch(backendDomain + '/propostas', {
+                    method: 'POST',
+                    credentials: "include",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                console.log(result);
+                
+                onSucess(result)
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
 

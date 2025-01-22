@@ -14,6 +14,7 @@ export default function FreelancerCardsForManager() {
     const [overlayType, setOverlayType] = useState(""); // Tipo de overlay (contract_proposal, post_service ou complete_view)
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
     const [sucessPopupMessage, setSucessPopupMessage] = useState("");
+
     const backendDomain = process.env.BACKEND_DOMAIN;
 
     useEffect(() => {
@@ -74,8 +75,8 @@ export default function FreelancerCardsForManager() {
         setOverlayType("edit");
     };
 
-    const handleVisualizeProposals = (index) => {
-        setCardToManager(index); // Define qual card será gerenciado
+    const handleVisualizeProposals = (id) => {
+        setCardToManager(id); // Define qual card será gerenciado
         toggleOverlay();
         setOverlayType("visualize");
     };
@@ -123,7 +124,7 @@ export default function FreelancerCardsForManager() {
                     index={index}
                     onDelete={() => handleDeleteRequest(freelancer.id)}
                     onEdit={() => handleEditRequest(freelancer.id)}
-                    onVisualizeProposals={() => handleVisualizeProposals(index)}
+                    onVisualizeProposals={() => handleVisualizeProposals(freelancer.id)}
                     id={freelancer.id}
                     name={freelancer.nomeUsuario}
                     nickname={freelancer.usernameUsuario}
@@ -161,7 +162,11 @@ export default function FreelancerCardsForManager() {
             )}
 
             {isOverlayOpen && overlayType === "visualize" && (
-                <ReceivedProposalsComponent onClose={() => toggleOverlay()} />
+                <ReceivedProposalsComponent 
+                    onClose={() => toggleOverlay()} 
+                    ofertaId={cardToManager}
+                    ofertaType={"CONTRATACAO"}
+                />
             )}
 
             {overlayType === "message_popup" && (

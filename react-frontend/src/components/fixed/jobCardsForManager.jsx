@@ -16,6 +16,7 @@ export default function JobCardsForManager() {
     const [overlayType, setOverlayType] = useState(""); // Tipo de overlay (contract_proposal, post_service ou complete_view)
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
     const [sucessPopupMessage, setSucessPopupMessage] = useState("");
+
     const backendDomain = process.env.BACKEND_DOMAIN;
 
     useEffect(() => {
@@ -33,14 +34,14 @@ export default function JobCardsForManager() {
 
                     for (let i = 0; i < postsData.length; i++) {
                         let tecnologias = [];
-                       
+
                         for (let j = 0; j < postsData[i].tecnologias.length; j++) {
                             tecnologias.push(postsData[i].tecnologias[j].nome);
                         }
-                
+
                         postsData[i].tecnologias = tecnologias;
                     }
-                    
+
                     setJobs(postsData);
                 } else {
                     console.log("erro ao fazer fetch nas ofertas de servico");
@@ -70,8 +71,8 @@ export default function JobCardsForManager() {
         setOverlayType("edit");
     };
 
-    const handleVisualizeProposals = (index) => {
-        setCardToManager(index); // Define qual card será gerenciado
+    const handleVisualizeProposals = (id) => {
+        setCardToManager(id); // Define qual card será gerenciado
         toggleOverlay();
         setOverlayType("visualize");
     };
@@ -81,7 +82,7 @@ export default function JobCardsForManager() {
         setSucessPopupMessage(message);
     }
 
-    const handleConfirmDelete = async () => { 
+    const handleConfirmDelete = async () => {
         if (cardToManager !== null) {
             try {
                 const response = await fetch(backendDomain + '/ofertas-trabalho/' + cardToManager, {
@@ -95,11 +96,11 @@ export default function JobCardsForManager() {
 
                 setOverlayType("message_popup");
                 setSucessPopupMessage(result);
-                
+
                 if (response.ok) {
                     setJobs(jobs.filter((job) => job.id !== cardToManager));
                     setCardToManager(null);
-                } 
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -120,7 +121,7 @@ export default function JobCardsForManager() {
                     index={index}
                     onDelete={() => handleDeleteRequest(job.id)}
                     onEdit={() => handleEditRequest(job.id)}
-                    onVisualizeProposals={() => handleVisualizeProposals(index)}
+                    onVisualizeProposals={() => handleVisualizeProposals(job.id)}
                     jobData={job}
                 />
             ))}
@@ -139,8 +140,8 @@ export default function JobCardsForManager() {
                     <EditJobForm
                         onClose={() => toggleOverlay()}
                         onSubmit={(message) => handleSucessForm(message)}
-                        onUpdatedService={(updatedServiceData) => 
-                            setJobs(jobs.map(job => 
+                        onUpdatedService={(updatedServiceData) =>
+                            setJobs(jobs.map(job =>
                                 job.id === updatedServiceData.id ? updatedServiceData : job
                             ))
                         }
@@ -150,7 +151,11 @@ export default function JobCardsForManager() {
             )}
 
             {isOverlayOpen && overlayType === "visualize" && (
-                <ReceivedProposalsComponent onClose={() => toggleOverlay()} />
+                <ReceivedProposalsComponent
+                    onClose={() => toggleOverlay()}
+                    ofertaId={cardToManager}
+                    ofertaType={"SERVICO"}
+                />
             )}
 
             {overlayType === "message_popup" && (
