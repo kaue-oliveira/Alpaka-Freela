@@ -16,6 +16,9 @@ export default function FindFreelancerArea() {
     const [overlayActiveCardId, setOverlayActiveCardId] = useState(0);
     const [sucessPopupMessage, setSucessPopupMessage] = useState("");
     const [servicePosts, setServicePosts] = useState([]);
+
+    const [sendingProposalTo, setSendingProposalTo] = useState(0); 
+
     const backendDomain = process.env.BACKEND_DOMAIN;
 
 
@@ -50,7 +53,8 @@ export default function FindFreelancerArea() {
         setOverlayType(type || ""); // Define o tipo do overlay, ou limpa se estiver fechando
     };
 
-    const handleContractProposalRequest = () => {
+    const handleContractProposalRequest = (ofertaId, usernameUsuario) => {
+        setSendingProposalTo({ofertaId, usernameUsuario})
         toggleOverlay("contract_proposal");
     };
 
@@ -98,7 +102,7 @@ export default function FindFreelancerArea() {
                 {servicePosts && servicePosts.map((servicePost, index) => (
                     <FreelancerCard
                         key={index}
-                        onContractProposal={handleContractProposalRequest}
+                        onContractProposal={() => handleContractProposalRequest(servicePost.id, servicePost.usernameUsuario)}
                         onCompleteVisualization={
                             () => handleCompleteVisualizationService(servicePost.id)
                         }
@@ -119,6 +123,7 @@ export default function FindFreelancerArea() {
                 <SendContractProposalForm
                     onClose={() => toggleOverlay()}
                     onSucess={(message) => handleSucessForm(message)}
+                    serviceData={sendingProposalTo}
                 />
             )}
             {isOverlayOpen && overlayType === "post_service" && (
