@@ -1,20 +1,5 @@
 package com.project.spring_boot_back_end.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-
-import com.google.gson.Gson;
-import com.project.spring_boot_back_end.domain.email.EmailService;
-import com.project.spring_boot_back_end.domain.usuario.DadosAutenticacao;
-import com.project.spring_boot_back_end.domain.usuario.DadosUsuarioParaFrontend;
-import com.project.spring_boot_back_end.domain.usuario.Usuario;
-import com.project.spring_boot_back_end.domain.usuario.UsuarioRepository;
-import com.project.spring_boot_back_end.infra.exception.InvalidTokenException;
-import com.project.spring_boot_back_end.infra.security.PasswordResetRequest;
-import com.project.spring_boot_back_end.infra.security.PasswordResetService;
-import com.project.spring_boot_back_end.infra.security.TokenService;
-
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -32,6 +17,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
+import com.project.spring_boot_back_end.domain.email.EmailService;
+import com.project.spring_boot_back_end.domain.usuario.DadosAutenticacao;
+import com.project.spring_boot_back_end.domain.usuario.DadosUsuarioParaFrontend;
+import com.project.spring_boot_back_end.domain.usuario.Usuario;
+import com.project.spring_boot_back_end.domain.usuario.UsuarioRepository;
+import com.project.spring_boot_back_end.infra.exception.InvalidTokenException;
+import com.project.spring_boot_back_end.infra.security.PasswordResetRequest;
+import com.project.spring_boot_back_end.infra.security.PasswordResetService;
+import com.project.spring_boot_back_end.infra.security.TokenService;
+
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
