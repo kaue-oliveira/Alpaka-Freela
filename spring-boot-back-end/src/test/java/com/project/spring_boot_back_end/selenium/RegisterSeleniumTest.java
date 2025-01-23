@@ -13,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.Duration;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.JavascriptExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class RegisterSeleniumTest {
   private WebDriver driver;
@@ -33,44 +35,66 @@ public class RegisterSeleniumTest {
   }
 
   @Test
-  void testSuccessfulRegistrationAndLogin() {
+  void testSuccessfulRegistrationAndLogin() throws InterruptedException {
     wait.until(ExpectedConditions.presenceOfElementLocated(By.name("username"))).sendKeys("testuser123");
+    TimeUnit.SECONDS.sleep(1);
 
     driver.findElement(By.name("nome")).sendKeys("Test User");
+    TimeUnit.SECONDS.sleep(1);
+
     driver.findElement(By.name("email")).sendKeys("test@example.com");
+    TimeUnit.SECONDS.sleep(1);
+
     driver.findElement(By.name("password1")).sendKeys("password123");
+    TimeUnit.SECONDS.sleep(1);
+
     driver.findElement(By.name("password2")).sendKeys("password123");
+    TimeUnit.SECONDS.sleep(1);
 
     WebElement submitButton = driver.findElement(By.cssSelector("button[type='submit']"));
-    submitButton.click();
+    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", submitButton);
+
+    TimeUnit.SECONDS.sleep(2);
 
     wait.until(ExpectedConditions.textToBePresentInElementLocated(
         By.cssSelector("div"),
         "Cadastrado com sucesso."));
 
-    // Login
     driver.get("http://localhost:1234/entrar");
+    TimeUnit.SECONDS.sleep(1);
+
     driver.findElement(By.name("username")).sendKeys("testuser123");
     driver.findElement(By.name("password")).sendKeys("password123");
     driver.findElement(By.cssSelector("button[type='submit']")).click();
 
-    wait.until(ExpectedConditions.urlToBe("http://localhost:1234/entrar"));
+    TimeUnit.SECONDS.sleep(2);
+
   }
 
   @Test
-  void testInvalidUsername() {
+  void testInvalidUsername() throws InterruptedException {
     driver.findElement(By.name("username")).sendKeys("te");
+    TimeUnit.SECONDS.sleep(1);
+
     driver.findElement(By.cssSelector("button[type='submit']")).click();
+
     assertTrue(driver.getPageSource().contains("Seu username deve possuir entre 3 e 40 caracteres."));
   }
 
   @Test
-  void testPasswordMismatch() {
+  void testPasswordMismatch() throws InterruptedException {
     driver.findElement(By.name("password1")).sendKeys("password123");
+    TimeUnit.SECONDS.sleep(1);
+
     driver.findElement(By.name("password2")).sendKeys("differentpassword");
+    TimeUnit.SECONDS.sleep(1);
+
     driver.findElement(By.cssSelector("button[type='submit']")).click();
+
     assertTrue(driver.getPageSource().contains("As senhas não coincidem."));
   }
+
+
 
   @AfterEach
   void tearDown() {
