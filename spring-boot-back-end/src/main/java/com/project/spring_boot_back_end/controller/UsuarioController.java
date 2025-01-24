@@ -1,48 +1,30 @@
 package com.project.spring_boot_back_end.controller;
 
-import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.project.spring_boot_back_end.domain.usuario.*;
-import com.project.spring_boot_back_end.infra.exception.ValidacaoException;
-import com.project.spring_boot_back_end.infra.security.SecurityFilter;
 import com.project.spring_boot_back_end.infra.security.TokenService;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
-import org.apache.catalina.User;
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -70,17 +52,12 @@ public class UsuarioController {
 
     Gson gson = new Gson();
     var usuario = new Usuario(dados);
-    String userDirectory = Paths.get("").toAbsolutePath().toString();
-
-    File fileImage = new File(userDirectory + "/../images/profile-image.png");
-    Blob blobImage = new SerialBlob(Files.readAllBytes(fileImage.toPath()));
 
     if (dados.senha().length() < 8 || dados.senha().length() > 20) {
       return ResponseEntity.badRequest().body(gson.toJson("Sua senha deve possuir no mínimo 8 e no máximo 20 caracteres."));
     }
 
     usuario.setSenha(passwordEncoder.encode(dados.senha())); // Criptografando a senha
-    usuario.setProfileImage(blobImage); // Imagem de perfil padrao
 
     Usuario usuarioBusca = (Usuario) repository.findByUsername(dados.username());
 
@@ -210,7 +187,7 @@ public class UsuarioController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity detalhar(@PathVariable Long id) {
+  public ResponseEntity<?> detalhar(@PathVariable Long id) {
     var usuario = repository.getReferenceById(id);
     return ResponseEntity.ok(new DadosDetalhamentoUsuario(usuario));
   }
@@ -250,8 +227,6 @@ public class UsuarioController {
     }
 
     List<Usuario> usuarios = repository.findAll();
-
-    System.out.println(usuarios.get(45).getId());
 
     List<DadosUsuarioParaFrontend> dadosUsuarioParaFrontends = new ArrayList<>();
 

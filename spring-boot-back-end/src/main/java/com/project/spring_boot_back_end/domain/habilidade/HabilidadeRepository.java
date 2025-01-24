@@ -9,7 +9,4 @@ import org.springframework.stereotype.Repository;
 public interface HabilidadeRepository extends JpaRepository<Habilidade, Long> {
     boolean existsByNome(String nome);
     List<Habilidade> findByNomeContainingIgnoreCase(String nome);
-
-    @Override
-    List<Habilidade> findAll();
 }

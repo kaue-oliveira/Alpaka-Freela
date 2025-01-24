@@ -14,12 +14,19 @@ import com.project.spring_boot_back_end.domain.oferta_de_servico.OfertaDeServico
 import com.project.spring_boot_back_end.domain.oferta_de_trabalho.OfertaDeTrabalho;
 import com.project.spring_boot_back_end.domain.proposta.Proposta;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
+
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
 @Table(name = "usuarios")
 @Entity(name = "Usuario")
@@ -61,6 +68,7 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Proposta> propostas = new ArrayList<>();
 
+    // Construtor para criar um usuário normal
     public Usuario(DadosCadastroUsuario dados) {
         this.ativo = true;
         this.nome = dados.nome();
@@ -68,6 +76,17 @@ public class Usuario implements UserDetails {
         this.username = dados.username();
         this.senha = dados.senha();
         this.grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
+    }
+
+    // Construtor para criar um usuário com uma role em especifico
+    public Usuario(DadosCadastroUsuario dados, String role) {
+        this.ativo = true;
+        this.nome = dados.nome();
+        this.email = dados.email();
+        this.username = dados.username();
+        this.senha = dados.senha();
+        this.grantedAuthority = new SimpleGrantedAuthority(role);
+        setDefaultImage();
     }
 
     public void atualizarInformacoes(DadosAtualizacaoUsuarios dados) {
@@ -89,6 +108,25 @@ public class Usuario implements UserDetails {
 
     public void excluir() {
         this.ativo = false;
+    }
+
+    private void setDefaultImage() {
+        String userDirectory = Paths.get("").toAbsolutePath().toString();
+        File fileImage = new File(userDirectory + "/../images/profile-image.png");
+        Blob blobImage = null;
+        
+        try {
+            blobImage = new SerialBlob(Files.readAllBytes(fileImage.toPath()));
+        } catch (SerialException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (blobImage != null)
+            profileImage = blobImage;
     }
 
     //

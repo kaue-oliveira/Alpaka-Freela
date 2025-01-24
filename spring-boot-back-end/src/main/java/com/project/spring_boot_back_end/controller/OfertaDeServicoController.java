@@ -52,9 +52,6 @@ public class OfertaDeServicoController {
         Gson gson = new Gson();
         var usuario = (Usuario) userAuth.getPrincipal();
 
-        System.out.println(dados.tecnologiasIds());
-        System.out.println(dados.habilidadesIds());
-
         if (dados.tecnologiasIds() == null || dados.habilidadesIds() == null || dados.descricao() == null || dados.valorCobrado() == null) {
             return ResponseEntity.status(401).body(gson.toJson("Dados inválidos."));
         }

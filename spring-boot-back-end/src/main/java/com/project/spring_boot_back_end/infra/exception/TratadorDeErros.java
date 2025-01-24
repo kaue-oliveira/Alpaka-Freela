@@ -17,43 +17,43 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class TratadorDeErros {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity tratarErro404() {
+    public ResponseEntity<?> tratarErro404() {
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity tratarErro400(MethodArgumentNotValidException ex) {
+    public ResponseEntity<?>  tratarErro400(MethodArgumentNotValidException ex) {
         var erros = ex.getFieldErrors();
         return ResponseEntity.badRequest().body(erros.stream().map(DadosErroValidacao::new).toList());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity tratarErro400(HttpMessageNotReadableException ex) {
+    public ResponseEntity<?>  tratarErro400(HttpMessageNotReadableException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     @ExceptionHandler(ValidacaoException.class)
-    public ResponseEntity tratarErroRegraDeNegocio(ValidacaoException ex) {
+    public ResponseEntity<?>  tratarErroRegraDeNegocio(ValidacaoException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity tratarErroBadCredentials() {
+    public ResponseEntity<?>  tratarErroBadCredentials() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public static ResponseEntity tratarErroAuthentication() {
+    public static ResponseEntity<?>  tratarErroAuthentication() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Falha na autenticação");
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity tratarErroAcessoNegado() {
+    public ResponseEntity<?>  tratarErroAcessoNegado() {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado");
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity tratarErro500(Exception ex) {
+    public ResponseEntity<?>  tratarErro500(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro: " +ex.getLocalizedMessage());
     }
 

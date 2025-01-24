@@ -1,6 +1,5 @@
 package com.project.spring_boot_back_end.infra.security;
 
-import com.project.spring_boot_back_end.domain.usuario.Usuario;
 import com.project.spring_boot_back_end.domain.usuario.UsuarioRepository;
 
 import jakarta.servlet.FilterChain;

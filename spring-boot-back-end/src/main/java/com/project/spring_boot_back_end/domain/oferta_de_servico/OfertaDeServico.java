@@ -6,24 +6,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.project.spring_boot_back_end.domain.habilidade.Habilidade;
 import com.project.spring_boot_back_end.domain.oferta_de_servico.OfertaDeServico;
-import com.project.spring_boot_back_end.domain.oferta_de_trabalho.OfertaDeTrabalho;
 import com.project.spring_boot_back_end.domain.proposta.Proposta;
 import com.project.spring_boot_back_end.domain.usuario.Usuario;
 import com.project.spring_boot_back_end.domain.tecnologia.Tecnologia;
 
-import java.lang.annotation.Repeatable;
 import java.math.BigDecimal;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -86,7 +76,7 @@ public class OfertaDeServico {
 
     public boolean contemTecnologia(Tecnologia tecnologia) {
         for (Tecnologia t : tecnologias) {
-            if (tecnologia.getNome().equals(tecnologia.getNome())) {
+            if (t.getNome().equals(tecnologia.getNome())) {
                 return true;
             }
         }
