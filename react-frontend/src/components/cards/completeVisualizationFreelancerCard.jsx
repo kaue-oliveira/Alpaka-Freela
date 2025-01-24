@@ -211,7 +211,7 @@ const styles = {
         paddingRight: "10px",
         wordWrap: "break-word",
         wordBreak: "break-word",
-        whiteSpace: "normal",
+        whiteSpace: "pre-wrap",
     },
     skills: {
         display: "flex",

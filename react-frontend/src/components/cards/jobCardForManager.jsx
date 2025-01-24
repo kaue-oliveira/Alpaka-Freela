@@ -91,7 +91,10 @@ const styles = {
         marginBottom: "10px",
         height: "180px",
         maxHeight: "180px",
-        overflow: "hidden"
+        overflow: "hidden",
+        wordWrap: "break-word",
+        wordBreak: "break-word",
+        whiteSpace: "pre-wrap",
     },
     payment: {
         fontSize: "16px",

@@ -122,7 +122,7 @@ const styles = {
         textOverflow: "ellipsis",
         wordWrap: "break-word",
         wordBreak: "break-word",
-        whiteSpace: "normal",
+        whiteSpace: "pre-wrap",
     },
     skills: {
         display: "flex",
