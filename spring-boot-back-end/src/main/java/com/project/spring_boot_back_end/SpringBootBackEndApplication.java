@@ -237,15 +237,15 @@ public class SpringBootBackEndApplication implements CommandLineRunner{
 
                     // Criando e salvando OfertaDeTrabalho
                     OfertaDeTrabalho ofertaDeTrabalho = new OfertaDeTrabalho(
-                            new DadosCadastroOfertaDeTrabalho(titulo, descricao, pagamento, tecnologiasIds), usuarios.get(faker.number().numberBetween(0, 9))
+                            new DadosCadastroOfertaDeTrabalho(titulo, descricao, pagamento/*, tecnologiasIds*/), usuarios.get(faker.number().numberBetween(0, 9))
                     );
 
-                    for (Long id : tecnologiasIds) {
-                        var tec = tecnologiaRepository.findById(id);
+                    // for (Long id : tecnologiasIds) {
+                    //     var tec = tecnologiaRepository.findById(id);
 
-                        if (tec.isPresent())
-                            ofertaDeTrabalho.adicionarTecnologia(tec.get());
-                    }
+                    //     if (tec.isPresent())
+                    //         ofertaDeTrabalho.adicionarTecnologia(tec.get());
+                    // }
 
                     System.out.println("new job offer");
 

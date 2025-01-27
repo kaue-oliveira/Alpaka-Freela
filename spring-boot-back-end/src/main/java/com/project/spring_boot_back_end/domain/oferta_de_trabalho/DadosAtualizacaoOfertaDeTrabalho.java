@@ -10,6 +10,6 @@ public record DadosAtualizacaoOfertaDeTrabalho(
     Long id,
     String titulo,
     String descricao,
-    BigDecimal pagamento,
-    List<Long> tecnologiasIds
+    BigDecimal pagamento
+    // List<Long> tecnologiasIds
 ) {}

@@ -12,7 +12,7 @@ public record DadosListagemOfertaDeTrabalho(
     BigDecimal pagamento,
     String nomeUsuario,
     String usernameUsuario,
-    List<DadosListagemTecnologia> tecnologias,
+    // List<DadosListagemTecnologia> tecnologias,
     String profileImage
 ) {
     public DadosListagemOfertaDeTrabalho(OfertaDeTrabalho oferta) {
@@ -22,7 +22,7 @@ public record DadosListagemOfertaDeTrabalho(
              oferta.getPagamento(),
              oferta.getUsuario().getNome(),
              oferta.getUsuario().getUsername(),
-             oferta.getTecnologias().stream().map(DadosListagemTecnologia::new).toList(),
+            //  oferta.getTecnologias().stream().map(DadosListagemTecnologia::new).toList(),
              oferta.getUsuario().getProfileImageInBase64());
     }
 }

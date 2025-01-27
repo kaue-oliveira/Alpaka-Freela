@@ -29,8 +29,8 @@ public class Tecnologia {
     @Column(name = "nome", length = 40, nullable = false, unique = true)
     private String nome;
 
-    @ManyToMany(mappedBy = "tecnologias")
-    private List<OfertaDeTrabalho> ofertasDeTrabalho = new ArrayList<>();
+    // @ManyToMany(mappedBy = "tecnologias")
+    // private List<OfertaDeTrabalho> ofertasDeTrabalho = new ArrayList<>();
 
     @ManyToMany(mappedBy = "tecnologias")
     private List<OfertaDeServico> ofertasDeServico = new ArrayList<>();

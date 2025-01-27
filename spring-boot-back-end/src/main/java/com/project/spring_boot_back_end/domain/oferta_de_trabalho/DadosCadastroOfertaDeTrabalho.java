@@ -19,8 +19,8 @@ public record DadosCadastroOfertaDeTrabalho(
 
     @NotNull
     @Positive
-    BigDecimal pagamento,
+    BigDecimal pagamento
 
-    List<Long> tecnologiasIds
+    // List<Long> tecnologiasIds
 ) {}
 
