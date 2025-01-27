@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import com.project.spring_boot_back_end.domain.oferta_de_trabalho.OfertaDeTrabalho;
 import com.project.spring_boot_back_end.domain.proposta.Proposta;
 import com.project.spring_boot_back_end.domain.usuario.Usuario;
-import com.project.spring_boot_back_end.domain.tecnologia.Tecnologia;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -42,13 +41,13 @@ public class OfertaDeTrabalho {
     @OneToMany(mappedBy = "ofertaDeTrabalho", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Proposta> propostas = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-        name = "oferta_de_trabalho_tecnologias",
-        joinColumns = @JoinColumn(name = "oferta_de_trabalho_id"),
-        inverseJoinColumns = @JoinColumn(name = "tecnologia_id")
-    )
-    private List<Tecnologia> tecnologias = new ArrayList<>();
+    // @ManyToMany
+    // @JoinTable(
+    //     name = "oferta_de_trabalho_tecnologias",
+    //     joinColumns = @JoinColumn(name = "oferta_de_trabalho_id"),
+    //     inverseJoinColumns = @JoinColumn(name = "tecnologia_id")
+    // )
+    // private List<Tecnologia> tecnologias = new ArrayList<>();
 
     public OfertaDeTrabalho(DadosCadastroOfertaDeTrabalho dados, Usuario usuario) {
         this.titulo = dados.titulo();
@@ -69,13 +68,13 @@ public class OfertaDeTrabalho {
         }
     }
 
-    public void adicionarTecnologia(Tecnologia tecnologia) {
-        this.tecnologias.add(tecnologia);
-    }
+    // public void adicionarTecnologia(Tecnologia tecnologia) {
+    //     this.tecnologias.add(tecnologia);
+    // }
 
-    public void setTecnologias(List<Tecnologia> tecnologias) {
-        this.tecnologias = tecnologias;
-    }
+    // public void setTecnologias(List<Tecnologia> tecnologias) {
+    //     this.tecnologias = tecnologias;
+    // }
     
     
 }

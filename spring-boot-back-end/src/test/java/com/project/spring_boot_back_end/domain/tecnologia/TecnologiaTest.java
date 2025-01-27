@@ -24,7 +24,7 @@ public class TecnologiaTest {
         System.out.println("Testando criação da tecnologia com nome...");
         assertEquals("Java", tecnologia.getNome());
         assertNull(tecnologia.getId());
-        assertNotNull(tecnologia.getOfertasDeTrabalho());
+        // assertNotNull(tecnologia.getOfertasDeTrabalho());
         assertNotNull(tecnologia.getOfertasDeServico());
         System.out.println("Teste de criação da tecnologia concluído com sucesso");
     }
@@ -32,7 +32,7 @@ public class TecnologiaTest {
     @Test
     void testEmptyCollectionsOnNewTecnologia() {
         System.out.println("Testando coleções vazias na nova tecnologia...");
-        assertTrue(tecnologia.getOfertasDeTrabalho().isEmpty());
+        // assertTrue(tecnologia.getOfertasDeTrabalho().isEmpty());
         assertTrue(tecnologia.getOfertasDeServico().isEmpty());
         System.out.println("Teste de coleções vazias concluído com sucesso");
     }
@@ -43,7 +43,7 @@ public class TecnologiaTest {
         Tecnologia tecnologiaVazia = new Tecnologia();
         assertNull(tecnologiaVazia.getId());
         assertNull(tecnologiaVazia.getNome());
-        assertNotNull(tecnologiaVazia.getOfertasDeTrabalho());
+        // assertNotNull(tecnologiaVazia.getOfertasDeTrabalho());
         assertNotNull(tecnologiaVazia.getOfertasDeServico());
         System.out.println("Teste do construtor sem argumentos concluído com sucesso");
     }
@@ -53,17 +53,17 @@ public class TecnologiaTest {
         System.out.println("Testando o construtor com todos os argumentos...");
         Long id = 1L;
         String nome = "JavaScript";
-        List<OfertaDeTrabalho> ofertasTrabalho = new ArrayList<>();
+        // List<OfertaDeTrabalho> ofertasTrabalho = new ArrayList<>();
         List<OfertaDeServico> ofertasServico = new ArrayList<>();
 
-        Tecnologia tecnologiaAll = new Tecnologia(id, nome, ofertasTrabalho, ofertasServico);
+        Tecnologia tecnologiaAll = new Tecnologia(id, nome, /*ofertasTrabalho, */ofertasServico);
         
         System.out.println("Tecnologia criada com ID: " + tecnologiaAll.getId());
         System.out.println("Tecnologia criada com nome: " + tecnologiaAll.getNome());
         
         assertEquals(id, tecnologiaAll.getId());
         assertEquals(nome, tecnologiaAll.getNome());
-        assertEquals(ofertasTrabalho, tecnologiaAll.getOfertasDeTrabalho());
+        // assertEquals(ofertasTrabalho, tecnologiaAll.getOfertasDeTrabalho());
         assertEquals(ofertasServico, tecnologiaAll.getOfertasDeServico());
         System.out.println("Teste do construtor com todos os argumentos concluído com sucesso");
     }

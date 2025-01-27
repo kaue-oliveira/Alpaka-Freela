@@ -4,11 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
@@ -207,16 +203,8 @@ public class SpringBootBackEndApplication implements CommandLineRunner{
 
                 // criando algumas postagens fakes de ofertas de trabalho por usuario
                 for (int j = 0; j < 50; j++) {
-                    // IDs variam de 1 a 97 - gerando 3 IDs aleatórios para tecnologias
-                    List<Long> tecnologiasIds = faker.lorem()
-                            .words(3)
-                            .stream()
-                            .map(word -> (long) faker.number().numberBetween(1, 97))
-                            .toList();
-
-                            String titulo = faker.lorem().sentence();
-                            titulo = titulo.length() > 100 ? titulo.substring(0, 100) : titulo;
-
+                    String titulo = faker.lorem().sentence();
+                    titulo = titulo.length() > 100 ? titulo.substring(0, 100) : titulo;
                     String descricao = "";
 
                     try {
@@ -237,15 +225,15 @@ public class SpringBootBackEndApplication implements CommandLineRunner{
 
                     // Criando e salvando OfertaDeTrabalho
                     OfertaDeTrabalho ofertaDeTrabalho = new OfertaDeTrabalho(
-                            new DadosCadastroOfertaDeTrabalho(titulo, descricao, pagamento, tecnologiasIds), usuarios.get(faker.number().numberBetween(0, 9))
+                            new DadosCadastroOfertaDeTrabalho(titulo, descricao, pagamento/*, tecnologiasIds*/), usuarios.get(faker.number().numberBetween(0, 9))
                     );
 
-                    for (Long id : tecnologiasIds) {
-                        var tec = tecnologiaRepository.findById(id);
+                    // for (Long id : tecnologiasIds) {
+                    //     var tec = tecnologiaRepository.findById(id);
 
-                        if (tec.isPresent())
-                            ofertaDeTrabalho.adicionarTecnologia(tec.get());
-                    }
+                    //     if (tec.isPresent())
+                    //         ofertaDeTrabalho.adicionarTecnologia(tec.get());
+                    // }
 
                     System.out.println("new job offer");
 

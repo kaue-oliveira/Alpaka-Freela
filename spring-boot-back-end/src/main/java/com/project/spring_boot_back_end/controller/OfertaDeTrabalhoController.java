@@ -6,15 +6,12 @@ import com.project.spring_boot_back_end.domain.oferta_de_trabalho.DadosCadastroO
 import com.project.spring_boot_back_end.domain.oferta_de_trabalho.DadosListagemOfertaDeTrabalho;
 import com.project.spring_boot_back_end.domain.oferta_de_trabalho.OfertaDeTrabalho;
 import com.project.spring_boot_back_end.domain.oferta_de_trabalho.OfertaDeTrabalhoRepository;
-import com.project.spring_boot_back_end.domain.tecnologia.Tecnologia;
-import com.project.spring_boot_back_end.domain.tecnologia.TecnologiaRepository;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +29,8 @@ public class OfertaDeTrabalhoController {
     @Autowired
     private OfertaDeTrabalhoRepository repository;
 
-    @Autowired
-    private TecnologiaRepository tecnologiaRepository;
+    // @Autowired
+    // private TecnologiaRepository tecnologiaRepository;
 
     @PostMapping
     @Transactional
@@ -41,24 +38,24 @@ public class OfertaDeTrabalhoController {
             UriComponentsBuilder uriBuilder,
             UsernamePasswordAuthenticationToken userAuth) {
 
-        Gson gson = new Gson();
+        // Gson gson = new Gson();
         var usuario = (Usuario) userAuth.getPrincipal();
         var ofertaDeTrabalho = new OfertaDeTrabalho(dados, usuario);
 
         // Validacao de dados
-        if (dados.tecnologiasIds() == null || dados.descricao() == null || dados.pagamento() == null) {
-            return ResponseEntity.status(401).body(gson.toJson("Dados inválidos."));
-        }
+        // if (dados.tecnologiasIds() == null || dados.descricao() == null || dados.pagamento() == null) {
+        //     return ResponseEntity.status(401).body(gson.toJson("Dados inválidos."));
+        // }
 
-        if (dados.tecnologiasIds().size() < 1 || dados.tecnologiasIds().size() > 3) {
-            return ResponseEntity.status(401)
-                    .body(gson.toJson("Número de tecnologias cadastradas deve ser maior que 1 e menor que 3."));
-        }
+        // if (dados.tecnologiasIds().size() < 1 || dados.tecnologiasIds().size() > 3) {
+        //     return ResponseEntity.status(401)
+        //             .body(gson.toJson("Número de tecnologias cadastradas deve ser maior que 1 e menor que 3."));
+        // }
 
-        dados.tecnologiasIds().forEach(tecId -> {
-            var tecnologia = tecnologiaRepository.getReferenceById(tecId);
-            ofertaDeTrabalho.adicionarTecnologia(tecnologia);
-        });
+        // dados.tecnologiasIds().forEach(tecId -> {
+        //     var tecnologia = tecnologiaRepository.getReferenceById(tecId);
+        //     ofertaDeTrabalho.adicionarTecnologia(tecnologia);
+        // });
 
         repository.save(ofertaDeTrabalho);
 
@@ -128,20 +125,20 @@ public class OfertaDeTrabalhoController {
 
         ofertaDeTrabalho.atualizarInformacoes(dados);
 
-        List<Tecnologia> tecnologias = new ArrayList<>();
+        // List<Tecnologia> tecnologias = new ArrayList<>();
 
-        // Atualizando as tecnologias
-        for(Long tecnologiaId : dados.tecnologiasIds()) {
-            Optional<Tecnologia> tecnologiaOptional = tecnologiaRepository.findById(tecnologiaId);
+        // // Atualizando as tecnologias
+        // for(Long tecnologiaId : dados.tecnologiasIds()) {
+        //     Optional<Tecnologia> tecnologiaOptional = tecnologiaRepository.findById(tecnologiaId);
 
-            if (tecnologiaOptional.isEmpty()) {
-                return ResponseEntity.status(403).body(gson.toJson("A tecnologia com id " + tecnologiaId + " não existe."));
-            } 
+        //     if (tecnologiaOptional.isEmpty()) {
+        //         return ResponseEntity.status(403).body(gson.toJson("A tecnologia com id " + tecnologiaId + " não existe."));
+        //     } 
 
-            tecnologias.add(tecnologiaOptional.get());  
-        }
+        //     tecnologias.add(tecnologiaOptional.get());  
+        // }
 
-        ofertaDeTrabalho.setTecnologias(tecnologias);
+        // ofertaDeTrabalho.setTecnologias(tecnologias);
 
         repository.save(ofertaDeTrabalho);
 

@@ -1,7 +1,6 @@
 package com.project.spring_boot_back_end.domain.oferta_de_trabalho;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,8 +18,8 @@ public record DadosCadastroOfertaDeTrabalho(
 
     @NotNull
     @Positive
-    BigDecimal pagamento,
+    BigDecimal pagamento
 
-    List<Long> tecnologiasIds
+    // List<Long> tecnologiasIds
 ) {}
 
