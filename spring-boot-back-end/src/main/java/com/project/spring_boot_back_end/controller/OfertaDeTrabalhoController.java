@@ -38,14 +38,14 @@ public class OfertaDeTrabalhoController {
             UriComponentsBuilder uriBuilder,
             UsernamePasswordAuthenticationToken userAuth) {
 
-        // Gson gson = new Gson();
+        Gson gson = new Gson();
         var usuario = (Usuario) userAuth.getPrincipal();
         var ofertaDeTrabalho = new OfertaDeTrabalho(dados, usuario);
 
-        // Validacao de dados
-        // if (dados.tecnologiasIds() == null || dados.descricao() == null || dados.pagamento() == null) {
-        //     return ResponseEntity.status(401).body(gson.toJson("Dados inválidos."));
-        // }
+        //Validacao de dados
+        if (/*dados.tecnologiasIds() == null || */dados.descricao() == null || dados.pagamento() == null) {
+            return ResponseEntity.status(401).body(gson.toJson("Dados inválidos."));
+        }
 
         // if (dados.tecnologiasIds().size() < 1 || dados.tecnologiasIds().size() > 3) {
         //     return ResponseEntity.status(401)
@@ -55,7 +55,7 @@ public class OfertaDeTrabalhoController {
         // dados.tecnologiasIds().forEach(tecId -> {
         //     var tecnologia = tecnologiaRepository.getReferenceById(tecId);
         //     ofertaDeTrabalho.adicionarTecnologia(tecnologia);
-        // });
+        //});
 
         repository.save(ofertaDeTrabalho);
 
