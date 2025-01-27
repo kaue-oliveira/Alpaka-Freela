@@ -79,7 +79,7 @@ const CompleteVisualizationFreelancerCard = ({ onClose, id }) => {
                             />
                         </div>
                         <div style={styles.profileHeader}>
-                            <div style={{ display: "flex", flexDirection: "column" }}>
+                            <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
                                 <div style={styles.username}>
                                     Publicado por <p style={{ fontWeight: "bold", margin: "0", marginLeft: "0.2%" }}>{username}</p>
                                 </div>

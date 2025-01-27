@@ -2,7 +2,7 @@ import React from "react";
 import Images from "../fixed/images";
 import { motion } from "framer-motion";
 
-const JobCard = ({ onServiceProposal, onCompleteVisualization, title, name, username, description, payment, skills, profileImage }) => {
+const JobCard = ({ onServiceProposal, onCompleteVisualization, title, name, username, description, payment, profileImage }) => {
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
             <div style={styles.container}>
@@ -23,13 +23,6 @@ const JobCard = ({ onServiceProposal, onCompleteVisualization, title, name, user
                 <p style={styles.payment}>
                     <span style={styles.paymentAmount}>Pagamento: R$ {payment}</span>
                 </p>
-                <div style={styles.skills}>
-                    {skills.map((skill, index) => (
-                        <div style={styles.skillButton} key={index}>
-                            {skill}
-                        </div>
-                    ))}
-                </div>
                 <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
                     <button
                         style={styles.proposalButton}
@@ -92,22 +85,6 @@ const styles = {
     paymentAmount: {
         color: "green",
         fontWeight: "bold",
-    },
-    skills: {
-        display: "flex",
-        gap: "10px",
-        flexWrap: "wrap",
-        margin: "10px 0",
-    },
-    skillButton: {
-        padding: "8px 12px",
-        backgroundColor: "#ead7ff",
-        color: "#000000",
-        border: "1px solid #000000",
-        borderRadius: "5px",
-        cursor: "pointer",
-        fontSize: "12px",
-        fontWeight: "800",
     },
     proposalButton: {
         padding: "10px 20px",

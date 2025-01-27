@@ -33,15 +33,10 @@ const EditJobForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
     const [jobId, setJobId] = useState("");
     const [payment, setPayment] = useState("");
     const [description, setDescription] = useState("");
-    const [technologies, setTechnologies] = useState([]);
-
-    const [techInput, setTechInput] = useState("");
-    const [techsToSelect, setTechsToSelect] = useState("");
 
     const [excedLengthErrorMessage, setExcedErrorMessage] = useState("");
     const [textAreaLettersQuantity, setTextAreaLettersQuantity] = useState();
     const [incorrectTitleErrorMessage, setIncorrectTitleErrorMessage] = useState("");
-    const [incorrectTechsErrorMessage, setIncorrectTechsErrorMessage] = useState("");
     const [incorrectPaymentErrorMessage, setIncorrectPaymentErrorMessage] = useState("");
     const [formErrorMessage, setFormErrorMessage] = useState("");
 
@@ -63,14 +58,6 @@ const EditJobForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
                     setPayment(result.pagamento);
                     setDescription(result.descricao);
                     setTextAreaLettersQuantity(result.descricao.length);
-
-                    let tmpTechs = [];
-
-                    for (let i = 0; i < result.tecnologias.length; i++) {
-                        tmpTechs.push(result.tecnologias[i].nome);
-                    }
-
-                    setTechnologies(tmpTechs);
                 } else {
                     console.log("erro ao fazer fetch na oferta de servico buscada");
                 }
@@ -82,30 +69,6 @@ const EditJobForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
         fetchJobData();
     }, []);
 
-    useEffect(() => {
-        const fetchTechs = async () => {
-            try {
-                const response = await fetch(backendDomain + '/tecnologias', {
-                    method: 'GET',
-                    credentials: "include",
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    setTechsToSelect(result);
-                } else {
-                    console.log("erro ao fazer fetch nas tecnologias");
-
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        fetchTechs();
-    }, []);
-
     const submitFormHandle = async (event) => {
         event.preventDefault();
 
@@ -113,7 +76,6 @@ const EditJobForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
             title: event.target.title.value,
             description: event.target.description.value,
             payment: event.target.payment.value,
-            technologies,
         };
 
         let error = false;
@@ -136,30 +98,13 @@ const EditJobForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
             error = true;
         }
 
-        // verificar tecnologias
-        if (!technologies || (technologies.length < 1 || technologies.length > 3)) {
-            setIncorrectTechsErrorMessage("Você precisa selecionar entre 1 e 3 tecnologias.");
-            error = true;
-        }
-
         // tudo certo, formulario pode ser enviado para o backend
         if (!error) {
-            let tecnologiasIds = [];
-
-            for (let i = 0; i < technologies.length; i++) {
-                for (let j = 0; j < techsToSelect.length; j++) {
-                    if (techsToSelect[j].nome === technologies[i]) {
-                        tecnologiasIds.push(techsToSelect[j].id);
-                    }
-                }
-            }
-
             const data = {
                 id: jobId,
                 titulo: formData.title,
                 descricao: formData.description,
                 pagamento: formData.payment,
-                tecnologiasIds
             }
 
             try {
@@ -177,14 +122,6 @@ const EditJobForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
                 if (response.ok) {
                     onSubmit("Oferta de trabalho atualizada com sucesso.");
                     let resultData = result;
-
-                    let tecnologias = [];
-
-                    for (let j = 0; j < resultData.tecnologias.length; j++) {
-                        tecnologias.push(resultData.tecnologias[j].nome);
-                    }
-
-                    resultData.tecnologias = tecnologias;
 
                     console.log(resultData);
 
@@ -224,18 +161,6 @@ const EditJobForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
         if (payment < 0) {
             setIncorrectPaymentErrorMessage("Você precisa digitar um número positivo.");
         }
-    };
-
-    const handleAddTechnology = () => {
-        if (techInput && !technologies.includes(techInput)) {
-            setTechnologies([...technologies, techInput]);
-            setTechInput("");
-            setIncorrectTechsErrorMessage("");
-        }
-    };
-
-    const handleRemoveTechnology = (tech) => {
-        setTechnologies(technologies.filter((t) => t !== tech));
     };
 
     const styles = {
@@ -295,29 +220,6 @@ const EditJobForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
             border: "1px solid #000",
             boxSizing: "border-box",
             resize: "none"
-        },
-        techList: {
-            display: "flex",
-            gap: "10px",
-            flexDirection: "column",
-            marginTop: "15px",
-            marginBottom: "15px",
-            overflow: "auto",
-            height: "200px",
-            width: "40%"
-        },
-        techItem: {
-            width: "90%",
-            // maxHeight: "20px",
-            padding: "3px 5px",
-            fontSize: "14px",
-            backgroundColor: "#ead7ff",
-            borderRadius: "5px",
-            display: "flex",
-            alignItems: "center",
-            border: "1px solid #000",
-            fontWeight: "500",
-            justifyContent: "space-between"
         },
         button: {
             padding: "10px 20px",
@@ -398,60 +300,6 @@ const EditJobForm = ({ onClose, onSubmit, onUpdatedService, id }) => {
                                     />
                                     <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
                                         {incorrectPaymentErrorMessage}
-                                    </div>
-
-                                    {/* TECNOLOGIAS DESEJADAS NO PROFISSIONAL */}
-                                    <div style={{ flex: "1" }}>
-                                        <label style={styles.label} htmlFor="technologies">
-                                            Selecione no máximo 3 Tecnologias
-                                        </label>
-                                        <div style={{ display: "flex", gap: "2.5%", width: "98%" }}>
-                                            <select
-                                                name="technologies"
-                                                id="technologies"
-                                                style={styles.input}
-                                                onChange={(e) => setTechInput(e.target.value)}
-                                            >
-                                                {techsToSelect && techsToSelect.length > 0 ? (
-                                                    techsToSelect.map(tech => (
-                                                        <option value={tech.nome} key={tech.id} id={tech.id}>
-                                                            {tech.nome}
-                                                        </option>
-                                                    ))
-                                                ) : (
-                                                    <option disabled>Sem tecnologias disponíveis</option> // Se não houver techsToSelect, mostramos uma opção desabilitada
-                                                )}
-                                            </select>
-                                            <button
-                                                type="button"
-                                                onClick={handleAddTechnology}
-                                                style={styles.button}
-                                            >
-                                                Adicionar
-                                            </button>
-                                        </div>
-                                        <div style={styles.techList}>
-                                            {technologies.map((tech) => (
-                                                <div key={tech} style={styles.techItem}>
-                                                    {tech}
-                                                    <img
-                                                        src={Images.closeX}
-                                                        alt="close"
-                                                        style={{
-                                                            width: "15px",
-                                                            cursor: "pointer",
-                                                            marginLeft: "5%",
-                                                        }}
-                                                        onClick={() =>
-                                                            handleRemoveTechnology(tech)
-                                                        }
-                                                    />
-                                                </div>
-                                            ))}
-                                        </div>
-                                        <div style={{ color: "red", fontSize: "14px", height: "18px", }}>
-                                            {incorrectTechsErrorMessage}
-                                        </div>
                                     </div>
                                 </div>
                             </ScrollContainerPurple>

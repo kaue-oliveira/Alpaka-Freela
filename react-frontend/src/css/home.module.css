@@ -913,6 +913,7 @@ body {
 }
 
 .job-cards {
+    width: 100%;
     margin-top: 2.5%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));

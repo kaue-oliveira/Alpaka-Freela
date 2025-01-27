@@ -76,6 +76,7 @@ public class Usuario implements UserDetails {
         this.username = dados.username();
         this.senha = dados.senha();
         this.grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
+        setDefaultImage();
     }
 
     // Construtor para criar um usuário com uma role em especifico

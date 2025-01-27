@@ -27,13 +27,6 @@ const JobCardForManager = ({ onDelete, onEdit, onVisualizeProposals, jobData }) 
                 <p style={styles.payment}>
                     <span style={styles.paymentAmount}>Pagamento: R$ {jobData.pagamento}</span>
                 </p>
-                <div style={styles.techs}>
-                    {jobData.tecnologias.map((skill, index) => (
-                        <div style={styles.skillButton} key={index}>
-                            {skill}
-                        </div>
-                    ))}
-                </div>
                 <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
                     {onVisualizeProposals && (
                         <button
@@ -104,22 +97,6 @@ const styles = {
     paymentAmount: {
         color: "green",
         fontWeight: "bold",
-    },
-    techs: {
-        display: "flex",
-        gap: "10px",
-        flexWrap: "wrap",
-        margin: "10px 0",
-    },
-    skillButton: {
-        padding: "8px 12px",
-        backgroundColor: "#ead7ff",
-        color: "#000000",
-        border: "1px solid #000000",
-        borderRadius: "5px",
-        cursor: "pointer",
-        fontSize: "12px",
-        fontWeight: "800",
     },
     proposalButton: {
         padding: "10px 20px",
