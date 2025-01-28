@@ -56,6 +56,7 @@ public class EmailService {
         }
     }
 
+
     private String buildEmailBody(String email, String token) {
         return String.format("""
             {
@@ -67,8 +68,10 @@ public class EmailService {
                     "email": "%s"
                 }],
                 "subject": "Redefinição de senha",
-                "text": "Clique no link para redefinir sua senha: http://localhost:1234/recuperar-senha?token=%s"
+                "html": "<!DOCTYPE html><html><head><style>body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }.email-container { max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }.header { font-size: 24px; font-weight: bold; margin-bottom: 20px; text-align: center; color: #333333; }.content { font-size: 16px; color: #666666; line-height: 1.6; }.button { display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: rgb(170, 240, 209); color: #333333; font-weight: 600; text-decoration: none; border-radius: 4px; }.footer { margin-top: 20px; font-size: 12px; color: #999999; text-align: center; }</style></head><body><div class='email-container'><div class='header'>Redefinição de Senha</div><div class='content'><p>Olá,</p><p>Você solicitou a redefinição de sua senha. Clique no botão abaixo para continuar:</p><a href='http://localhost:1234/recuperar-senha?token=%s' class='button'>Redefinir Senha</a><p>Se você não solicitou esta alteração, ignore este e-mail.</p></div><div class='footer'>Este é um e-mail automático. Por favor, não responda.</div></div></body></html>"
             }""", email, token);
+
+            
     }
 
     private Request buildRequest(String emailBody) {

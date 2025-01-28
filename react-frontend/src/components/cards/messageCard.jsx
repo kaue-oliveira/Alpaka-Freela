@@ -1,20 +1,23 @@
 import React from "react";
+// import { motion } from "framer-motion";
 
 const MessageCard = ({ onClose, message }) => {
     return (
-        <div style={styles.overlay}>
-            <div style={styles.container}>
-                <p style={styles.description}>
-                    {message}
-                </p>
-                <button
-                    style={styles.button}
-                    onClick={onClose}
-                >
-                    Fechar
-                </button>
+        // <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+            <div style={styles.overlay}>
+                <div style={styles.container}>
+                    <p style={styles.description}>
+                        {message}
+                    </p>
+                    <button
+                        style={styles.button}
+                        onClick={onClose}
+                    >
+                        Fechar
+                    </button>
+                </div>
             </div>
-        </div>
+        // </motion.div>
     );
 };
 

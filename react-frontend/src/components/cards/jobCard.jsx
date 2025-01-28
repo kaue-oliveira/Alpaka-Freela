@@ -1,49 +1,44 @@
 import React from "react";
 import Images from "../fixed/images";
+import { motion } from "framer-motion";
 
-
-const JobCard = ({ onServiceProposal, onCompleteVisualization, title, name, username, description, payment, skills, profileImage }) => {
+const JobCard = ({ onServiceProposal, onCompleteVisualization, title, name, username, description, payment, profileImage }) => {
     return (
-        <div style={styles.container}>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0" }}>
-                <div>
-                    <h2 style={styles.title}>{title}</h2>
-                    <p style={styles.publisher}>
-                        Publicado por{" "}
-                        <strong>{username} ({name})</strong>
-                    </p>
-                </div>
-                <img style={{ width: "50px", height: "50px", borderRadius: "100%" }} src={profileImage ? profileImage : Images.profileImage} alt="" />
-            </div>
-
-            <p style={styles.description}>
-                {description}
-            </p>
-            <p style={styles.payment}>
-                <span style={styles.paymentAmount}>Pagamento: R$ {payment}</span>
-            </p>
-            <div style={styles.skills}>
-                {skills.map((skill, index) => (
-                    <div style={styles.skillButton} key={index}>
-                        {skill}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+            <div style={styles.container}>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0" }}>
+                    <div>
+                        <h2 style={styles.title}>{title}</h2>
+                        <p style={styles.publisher}>
+                            Publicado por{" "}
+                            <strong>{username} ({name})</strong>
+                        </p>
                     </div>
-                ))}
+                    <img style={{ width: "50px", height: "50px", borderRadius: "100%" }} src={profileImage ? profileImage : Images.profileImage} alt="" />
+                </div>
+
+                <p style={styles.description}>
+                    {description}
+                </p>
+                <p style={styles.payment}>
+                    <span style={styles.paymentAmount}>Pagamento: R$ {payment}</span>
+                </p>
+                <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
+                    <button
+                        style={styles.proposalButton}
+                        onClick={onServiceProposal}
+                    >
+                        Fazer uma proposta
+                    </button>
+                    <button
+                        style={styles.completeVisualizationButton}
+                        onClick={onCompleteVisualization}
+                    >
+                        Visualização completa
+                    </button>
+                </div>
             </div>
-            <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>
-                <button
-                    style={styles.proposalButton}
-                    onClick={onServiceProposal}
-                >
-                    Fazer uma proposta
-                </button>
-                <button
-                    style={styles.completeVisualizationButton}
-                    onClick={onCompleteVisualization}
-                >
-                    Visualização completa
-                </button>
-            </div>
-        </div>
+        </motion.div>
     );
 };
 
@@ -77,7 +72,10 @@ const styles = {
         marginBottom: "10px",
         height: "180px",
         maxHeight: "180px",
-        overflow: "hidden"
+        overflow: "hidden",
+        wordWrap: "break-word",
+        wordBreak: "break-word",
+        whiteSpace: "pre-wrap",
     },
     payment: {
         fontSize: "16px",
@@ -87,22 +85,6 @@ const styles = {
     paymentAmount: {
         color: "green",
         fontWeight: "bold",
-    },
-    skills: {
-        display: "flex",
-        gap: "10px",
-        flexWrap: "wrap",
-        margin: "10px 0",
-    },
-    skillButton: {
-        padding: "8px 12px",
-        backgroundColor: "#ead7ff",
-        color: "#000000",
-        border: "1px solid #000000",
-        borderRadius: "5px",
-        cursor: "pointer",
-        fontSize: "12px",
-        fontWeight: "800",
     },
     proposalButton: {
         padding: "10px 20px",

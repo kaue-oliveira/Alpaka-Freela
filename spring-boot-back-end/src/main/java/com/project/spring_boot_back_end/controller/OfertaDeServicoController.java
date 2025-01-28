@@ -6,15 +6,11 @@ import com.project.spring_boot_back_end.domain.tecnologia.TecnologiaRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,9 +52,6 @@ public class OfertaDeServicoController {
         Gson gson = new Gson();
         var usuario = (Usuario) userAuth.getPrincipal();
 
-        System.out.println(dados.tecnologiasIds());
-        System.out.println(dados.habilidadesIds());
-
         if (dados.tecnologiasIds() == null || dados.habilidadesIds() == null || dados.descricao() == null || dados.valorCobrado() == null) {
             return ResponseEntity.status(401).body(gson.toJson("Dados inválidos."));
         }
@@ -69,8 +62,8 @@ public class OfertaDeServicoController {
         }
 
         // validar dados
-        if (dados.habilidadesIds().size() < 6 || dados.habilidadesIds().size() > 30) {
-            return ResponseEntity.status(401).body(gson.toJson("Número de habilidades cadastradas deve ser igual maior que 6 e menor que 30."));
+        if (dados.habilidadesIds().size() < 5 || dados.habilidadesIds().size() > 30) {
+            return ResponseEntity.status(401).body(gson.toJson("Número de habilidades cadastradas deve ser igual maior que 5 e menor que 30."));
         }
 
         OfertaDeServico ofertaDeServico = new OfertaDeServico(dados, usuario);
@@ -148,7 +141,8 @@ public class OfertaDeServicoController {
 
         OfertaDeServico ofertaDeServico = ofertaDeServicoOptional.get();
 
-        if (!ofertaDeServico.getUsuario().getId().equals(usuario.getId())) {
+        // Se nao for o autor ou admin tentando atualizar a oferta
+        if (!ofertaDeServico.getUsuario().getId().equals(usuario.getId()) && !usuario.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
             return ResponseEntity.status(403).body(gson.toJson("Não autorizado"));
         }
 
@@ -205,8 +199,9 @@ public class OfertaDeServicoController {
 
         OfertaDeServico ofertaDeServico = ofertaDeServicoOptional.get();
      
-        if (!ofertaDeServico.getUsuario().getId().equals(usuario.getId())) {
-            return ResponseEntity.status(403).body(gson.toJson("Não autorizado."));
+        // Se nao for o autor ou admin tentando excluir a oferta
+        if (!ofertaDeServico.getUsuario().getId().equals(usuario.getId()) && !usuario.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+            return ResponseEntity.status(403).body(gson.toJson("Não autorizado.") );
         }
 
         repository.delete(ofertaDeServico);

@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import com.project.spring_boot_back_end.domain.oferta_de_servico.OfertaDeServico;
-import com.project.spring_boot_back_end.domain.oferta_de_trabalho.OfertaDeTrabalho;
 
 import java.util.ArrayList;
 import java.util.List;

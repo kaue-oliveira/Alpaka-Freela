@@ -9,21 +9,24 @@ import SendContractProposalForm from "../forms/sendContractProposalForm";
 import CompleteVisualizationFreelancerCard from "../cards/completeVisualizationFreelancerCard";
 import Images from "../fixed/images";
 import MessageCard from "../cards/messageCard";
+import FreelancerCardEmpty from "../cards/freelancerCardEmpty";
 
 export default function FindFreelancerArea() {
+    const [fetchingServicePosts, setFetchingServicePosts] = useState(false);
     const [isOverlayOpen, setIsOverlayOpen] = useState(false); // Controle do overlay
     const [overlayType, setOverlayType] = useState(""); // Tipo de overlay (contract_proposal, post_service ou complete_view)
     const [overlayActiveCardId, setOverlayActiveCardId] = useState(0);
     const [sucessPopupMessage, setSucessPopupMessage] = useState("");
     const [servicePosts, setServicePosts] = useState([]);
 
-    const [sendingProposalTo, setSendingProposalTo] = useState(0); 
+    const [sendingProposalTo, setSendingProposalTo] = useState(0);
 
     const backendDomain = process.env.BACKEND_DOMAIN;
 
-
     useEffect(() => {
         const fetchServicePosts = async () => {
+            setFetchingServicePosts(true);
+
             try {
                 const response = await fetch(backendDomain + '/ofertas-servico', {
                     method: 'GET',
@@ -35,7 +38,7 @@ export default function FindFreelancerArea() {
                 if (response.ok) {
                     setServicePosts([]);
                     for (let i = 0; i < result.length; i++) {
-                        handleNewServicePost(result[i]);
+                        handleNewServicePost(result[i]);  
                     }
                 } else {
                     console.log("erro ao fazer fetch nas ofertas de servico");
@@ -43,6 +46,8 @@ export default function FindFreelancerArea() {
             } catch (error) {
                 console.log(error);
             }
+
+            setFetchingServicePosts(false);
         }
 
         fetchServicePosts();
@@ -54,7 +59,7 @@ export default function FindFreelancerArea() {
     };
 
     const handleContractProposalRequest = (ofertaId, usernameUsuario) => {
-        setSendingProposalTo({ofertaId, usernameUsuario})
+        setSendingProposalTo({ ofertaId, usernameUsuario })
         toggleOverlay("contract_proposal");
     };
 
@@ -84,9 +89,12 @@ export default function FindFreelancerArea() {
             tecnologias.push(postData.tecnologias[i].nome);
         }
 
+
         postData.habilidades = habilidades;
         postData.tecnologias = tecnologias;
 
+        console.log(postData);
+        
         setServicePosts((prevPosts) => [...prevPosts, postData]);
     };
 
@@ -99,6 +107,10 @@ export default function FindFreelancerArea() {
                 onPost={handlePostService}
             />
             <div className={styles["freelancer-cards"]}>
+                {fetchingServicePosts &&
+                    Array.from({ length: 6 }).map((_, index) => (
+                        <FreelancerCardEmpty key={index} />
+                    ))}
                 {servicePosts && servicePosts.map((servicePost, index) => (
                     <FreelancerCard
                         key={index}

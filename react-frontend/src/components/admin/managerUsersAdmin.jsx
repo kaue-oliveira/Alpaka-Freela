@@ -8,21 +8,49 @@ import MessageCard from "../cards/messageCard";
 import ReceivedProposalsComponent from "../cards/receivedProposalsComponent";
 import { motion } from 'framer-motion';
 import HeaderAreaSwitcher from "../fixed/headerAreaSwitcher";
+import MessageCard from "../cards/messageCard";
 
 export default function ManagerUsersAdmin() {
-    const [freelancers, setFreelancers] = useState([]); // card a ser gerenciado
-    const [cardToManager, setCardToManager] = useState(0); // card a ser gerenciado
-    const [overlayType, setOverlayType] = useState(""); // Tipo de overlay (contract_proposal, post_service ou complete_view)
+    const [users, setUsers] = useState([]);
+    const [cardToManager, setCardToManager] = useState(0);
+    const [overlayType, setOverlayType] = useState("");
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
     const [sucessPopupMessage, setSucessPopupMessage] = useState("");
+
+    const backendDomain = process.env.BACKEND_DOMAIN;
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch(backendDomain + '/usuario/listar-todos', {
+                    method: 'GET',
+                    credentials: "include",
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    setUsers(result);
+                } else {
+                    console.log(result);
+                    alert(result);
+                }
+            } catch (error) {
+                console.log(error);
+                alert(error);
+            }
+        }
+
+        fetchUsers();
+    }, []);
 
     const toggleOverlay = () => {
         setIsOverlayOpen(!isOverlayOpen);
         setOverlayType("");
     };
 
-    const handleDeleteRequest = (index) => {
-        setCardToManager(index); // Define qual card será gerenciado
+    const handleDeleteRequest = (id) => {
+        setCardToManager(id); // Define qual card será gerenciado
         toggleOverlay();
         setOverlayType("delete");
     };
@@ -44,13 +72,30 @@ export default function ManagerUsersAdmin() {
         setSucessPopupMessage(message);
     }
 
-    const handleConfirmDelete = () => {
+    const handleConfirmDelete = async () => {
         if (cardToManager !== null) {
-            setFreelancers(freelancers.filter((_, i) => i !== cardToManager));
-            setCardToManager(null);
+            try {
+                console.log(cardToManager);
 
-            setOverlayType("message_popup");
-            setSucessPopupMessage("Oferta de serviço excluida com sucesso.");
+                const response = await fetch(backendDomain + '/usuario/' + cardToManager, {
+                    method: 'DELETE',
+                    credentials: "include",
+                });
+
+                const result = await response.json();
+
+
+                if (response.ok) {
+                    setUsers(users.filter(user => user.id !== cardToManager));
+                    setCardToManager(null);
+                } 
+  
+                setOverlayType("message_popup");
+                setSucessPopupMessage(result);
+            } catch (error) {
+                console.log(error);
+                alert(error);
+            }
         }
     };
 
@@ -59,59 +104,16 @@ export default function ManagerUsersAdmin() {
         toggleOverlay();
     };
 
-    useEffect(() => {
-        setFreelancers([
-            {
-                name: "Paulo Henrique dos Anjos Silveira",
-                nickname: "silveiraprecheco69",
-                email: "paulohenriquelvs20@gmail.com"
-            },
-            {
-                name: "Paulo Henrique dos Anjos Silveira",
-                nickname: "silveiraprecheco69",
-                email: "paulohenriquelvs20@gmail.com"
-            },
-            {
-                name: "Paulo Henrique dos Anjos Silveira",
-                nickname: "silveiraprecheco69",
-                email: "paulohenriquelvs20@gmail.com"
-            },
-            {
-                name: "Paulo Henrique dos Anjos Silveira",
-                nickname: "silveiraprecheco69",
-                email: "paulohenriquelvs20@gmail.com"
-            },
-            {
-                name: "Paulo Henrique dos Anjos Silveira",
-                nickname: "silveiraprecheco69",
-                email: "paulohenriquelvs20@gmail.com"
-            }
-        ]);
-    }, []);
-
-
-
-    // <div className={styles["edit-account-form-container"]}>
-    //     {renderCurrentComponent()}
-    // </div>
-
-
-
     return (
 
         <div className={styles["middle-space"]}>
             <div className={styles["users-cards"]} style={{ marginTop: "0" }}>
-                {freelancers.map((freelancer, index) => (
+                {users && users.map((user, index) => (
                     <UserCardForManager
                         key={index}
                         index={index}
-                        onDelete={() => handleDeleteRequest(index)}
-                        onEdit={() => handleEditRequest(index)}
-                        onVisualizeProposals={() => handleVisualizeProposals(index)}
-                        name={freelancer.name}
-                        nickname={freelancer.nickname}
-                        profileImage={freelancer.profileImage}
-                        email={freelancer.email}
+                        onDelete={() => handleDeleteRequest(user.id)}
+                        userData={user}
                     />
                 ))}
 
@@ -125,31 +127,13 @@ export default function ManagerUsersAdmin() {
                     </motion.div>
                 )}
 
-                {isOverlayOpen && overlayType === "edit" && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
-                        <EditServiceForm
-                            onClose={() => toggleOverlay()}
-                            onSucess={(message) => handleSucessForm(message)}
-                            freelancerCard={freelancers[cardToManager]}
-                        />
-                    </motion.div>
-                )}
-
-                {isOverlayOpen && overlayType === "visualize" && (
-                    <ReceivedProposalsComponent onClose={() => toggleOverlay()} />
-                )}
 
                 {overlayType === "message_popup" && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
-                        <MessageCard
-                            onClose={() => toggleOverlay()}
-                            message={sucessPopupMessage}
-                        />
-                    </motion.div>
+                    <MessageCard
+                        onClose={() => toggleOverlay()}
+                        message={sucessPopupMessage}
+                    />
                 )}
-
-
-
             </div >
         </div>
 

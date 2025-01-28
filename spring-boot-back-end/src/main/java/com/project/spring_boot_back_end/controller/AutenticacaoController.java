@@ -38,120 +38,121 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/autenticacao")
 public class AutenticacaoController {
 
-        @Autowired
-        private AuthenticationManager manager;
+    @Autowired
+    private AuthenticationManager manager;
 
-        @Autowired
-        private TokenService tokenService;
+    @Autowired
+    private TokenService tokenService;
 
-        @Autowired
-        private UsuarioRepository repository;
+    @Autowired
+    private UsuarioRepository repository;
 
-        @Autowired
-        private EmailService emailService;
+    @Autowired
+    private EmailService emailService;
 
-        @Autowired
-        private PasswordResetService passwordResetService;
+    @Autowired
+    private PasswordResetService passwordResetService;
 
-        @PostMapping("/login")
-        public ResponseEntity<?> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados, HttpServletResponse response)
-                        throws SQLException {
-                var authenticationToken = new UsernamePasswordAuthenticationToken(dados.username(), dados.senha());
-                Authentication authentication = null;
-                Gson gson = new Gson();
+    @PostMapping("/login")
+    public ResponseEntity<?> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados, HttpServletResponse response)
+            throws SQLException {
+        var authenticationToken = new UsernamePasswordAuthenticationToken(dados.username(), dados.senha());
+        Authentication authentication = null;
+        Gson gson = new Gson();
 
-                Usuario buscarUsuario = (Usuario) repository.findByUsername(dados.username());
+        Usuario buscarUsuario = (Usuario) repository.findByUsername(dados.username());
 
-                if (buscarUsuario == null) {
-                        return ResponseEntity.status(401).body(gson.toJson("Usuário não encontrado."));
-                }
-
-                try {
-                        authentication = manager.authenticate(authenticationToken);
-                } catch (AuthenticationException e) {
-                        return ResponseEntity.status(401).body(gson.toJson("Senha incorreta."));
-                }
-
-                if (authentication == null)
-                        return ResponseEntity.status(401).body(gson.toJson("Senha incorreta."));
-
-                var userData = (Usuario) authentication.getPrincipal();
-
-                // Criando token de autenticacao
-                var tokenJWT = tokenService.gerarToken(userData);
-
-                // Criando um cookie que armazenará o token de autenticação
-                ResponseCookie authCookie = ResponseCookie.from("auth", tokenJWT)
-                                .httpOnly(true)
-                                .secure(false)
-                                .path("/")
-                                .maxAge(2592000) // Um mês tem 720 horas, 43.200 minutos e 2.592.000 segundos
-                                .build();
-
-                // Adicionando o cookie criado na resposta que sera devolvida ao frontend
-                response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
-
-                // Enviando alguns dados do novo usuário autenticado ao frontend
-                return ResponseEntity.ok(new DadosUsuarioParaFrontend(userData.getNome(), userData.getUsername(),
-                                userData.getEmail(), userData.getAuthorities().toString(),
-                                userData.getProfileImageInBase64()));
+        if (buscarUsuario == null) {
+            return ResponseEntity.status(401).body(gson.toJson("Usuário não encontrado."));
         }
 
-        @PostMapping("/logoff")
-        public ResponseEntity<String> efetuarLogoff(HttpServletResponse response) {
-                Gson gson = new Gson();
-
-                // Criando um cookie que armazenará o token de autenticação
-                ResponseCookie clearAuthCookie = ResponseCookie.from("auth", "deleted")
-                                .httpOnly(true)
-                                .secure(false)
-                                .path("/")
-                                .maxAge(0)
-                                .build();
-
-                response.addHeader(HttpHeaders.SET_COOKIE, clearAuthCookie.toString());
-                return ResponseEntity.ok(gson.toJson("Usuário deslogado com sucesso."));
+        try {
+            authentication = manager.authenticate(authenticationToken);
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(401).body(gson.toJson("Senha incorreta."));
         }
 
-        // Endpoint para solicitar o envio de um e-mail de redefinição de senha
-        @PostMapping("/redefinir-senha-gerar-email")
-        public ResponseEntity<String> redefinirSenha(@RequestParam(value = "email") String email) {
-                // Verificar se o usuário existe
-                Optional<Usuario> usuarioOptional = repository.findByEmail(email);
+        if (authentication == null)
+            return ResponseEntity.status(401).body(gson.toJson("Senha incorreta."));
 
-                if (usuarioOptional.isEmpty()) {
-                        return ResponseEntity.badRequest().body("Usuário não encontrado com o e-mail fornecido.");
-                }
+        var userData = (Usuario) authentication.getPrincipal();
 
-                Usuario usuario = usuarioOptional.get(); 
+        // Criando token de autenticacao
+        var tokenJWT = tokenService.gerarToken(userData);
 
-                // Verificar se o usuario eh um administrador
-                for (GrantedAuthority grantedAuthority : usuario.getAuthorities())
-                        if (grantedAuthority.toString().equals("ROLE_ADMIN"))
-                                return ResponseEntity.badRequest().body(
-                                                "A redefinição de senha não é permitida para usuários aministradores.");
+        // Criando um cookie que armazenará o token de autenticação
+        ResponseCookie authCookie = ResponseCookie.from("auth", tokenJWT)
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(2592000) // Um mês tem 720 horas, 43.200 minutos e 2.592.000 segundos
+                .build();
 
-                // Gerar token para redefinição de senha
-                String token = tokenService.gerarToken(usuario);
+        // Adicionando o cookie criado na resposta que sera devolvida ao frontend
+        response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
 
-                // Enviar o e-mail
-                emailService.sendResetPasswordEmail(email, token);
+        // Enviando alguns dados do novo usuário autenticado ao frontend
+        return ResponseEntity.ok(new DadosUsuarioParaFrontend(userData.getId(), userData.getNome(),
+                userData.getUsername(),
+                userData.getEmail(), userData.getAuthorities().toString(),
+                userData.getProfileImageInBase64()));
+    }
 
-                return ResponseEntity.ok("E-mail de redefinição de senha enviado.");
+    @PostMapping("/logoff")
+    public ResponseEntity<String> efetuarLogoff(HttpServletResponse response) {
+        Gson gson = new Gson();
+
+        // Criando um cookie que armazenará o token de autenticação
+        ResponseCookie clearAuthCookie = ResponseCookie.from("auth", "deleted")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, clearAuthCookie.toString());
+        return ResponseEntity.ok(gson.toJson("Usuário deslogado com sucesso."));
+    }
+
+    // Endpoint para solicitar o envio de um e-mail de redefinição de senha
+    @PostMapping("/redefinir-senha-gerar-email")
+    public ResponseEntity<String> redefinirSenha(@RequestParam(value = "email") String email) {
+        // Verificar se o usuário existe
+        Optional<Usuario> usuarioOptional = repository.findByEmail(email);
+
+        if (usuarioOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body("Usuário não encontrado com o e-mail fornecido.");
         }
 
-        @PostMapping("/redefinir-senha")
-        public ResponseEntity<?> resetPassword(
-                        @RequestParam String token,
-                        @RequestBody PasswordResetRequest request) throws InvalidTokenException {
-                try {
-                        passwordResetService.resetPassword(token, request.getNewPassword());
-                        return ResponseEntity.ok().body("Senha atualizada com sucesso");
-                } catch (InvalidTokenException e) {
-                        return ResponseEntity.badRequest().body("Token inválido ou expirado");
-                } catch (Exception e) {
-                        return ResponseEntity.internalServerError().body("Erro ao redefinir senha");
-                }
+        Usuario usuario = usuarioOptional.get();
+
+        // Verificar se o usuario eh um administrador
+        for (GrantedAuthority grantedAuthority : usuario.getAuthorities())
+            if (grantedAuthority.toString().equals("ROLE_ADMIN"))
+                return ResponseEntity.badRequest().body(
+                        "A redefinição de senha não é permitida para usuários aministradores.");
+
+        // Gerar token para redefinição de senha
+        String token = tokenService.gerarToken(usuario);
+
+        // Enviar o e-mail
+        emailService.sendResetPasswordEmail(email, token);
+
+        return ResponseEntity.ok("E-mail de redefinição de senha enviado.");
+    }
+
+    @PostMapping("/redefinir-senha")
+    public ResponseEntity<?> resetPassword(
+            @RequestParam String token,
+            @RequestBody PasswordResetRequest request) throws InvalidTokenException {
+        try {
+            passwordResetService.resetPassword(token, request.getNewPassword());
+            return ResponseEntity.ok().body("Senha atualizada com sucesso");
+        } catch (InvalidTokenException e) {
+            return ResponseEntity.badRequest().body("Token inválido ou expirado");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Erro ao redefinir senha");
         }
+    }
 
 }

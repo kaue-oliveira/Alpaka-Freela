@@ -30,6 +30,7 @@ A plataforma Alpaka Freela oferece uma interface simples e objetiva para usuári
 ### Estrutura de Diretórios
 ```
 ├── docs
+|   ├── banco_de_dados
 │   ├── diagramas
 │   ├── documentos
 │   └── padroes-adotados
@@ -39,7 +40,9 @@ A plataforma Alpaka Freela oferece uma interface simples e objetiva para usuári
 │   ├── index.js
 │   ├── package.json
 │   ├── package-lock.json
-│   ├── README.md
+│   ├── app.js
+│   ├── index.js
+│   ├── tailwind.config.js
 │   └── src
 │
 ├── spring-boot-back-end

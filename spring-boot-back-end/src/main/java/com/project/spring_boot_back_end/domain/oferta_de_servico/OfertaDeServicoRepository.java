@@ -8,7 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OfertaDeServicoRepository extends JpaRepository<OfertaDeServico, Long> {
     List<OfertaDeServico> findAllByUsuarioId(Long usuarioId);
-    
-    @Override
-    List<OfertaDeServico> findAll();
 }

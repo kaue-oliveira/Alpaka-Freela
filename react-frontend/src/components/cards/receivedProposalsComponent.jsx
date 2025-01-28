@@ -25,6 +25,8 @@ function ReceivedProposalsComponent({ onClose, ofertaId, ofertaType }) {
 
                 if (response.ok) {
                     setProposals(result);
+                    console.log(result);
+                    
                 } else {
                     console.log("erro ao fazer fetch nas ofertas de servico");
                 }
@@ -35,8 +37,6 @@ function ReceivedProposalsComponent({ onClose, ofertaId, ofertaType }) {
 
         fetchReceivedProposals();
     }, []);
-
-
 
     return (
         <div style={styles.overlay}>
@@ -69,12 +69,12 @@ function ReceivedProposalsComponent({ onClose, ofertaId, ofertaType }) {
                                 >
                                     <span>
                                         <strong>
-                                            #{proposal.id} | {proposal.TipoProposta === "SERVICO" ? "Proposta de serviço" : "Proposta de contratação"}
+                                            #{proposal.id} | {proposal.tipoProposta === "SERVICO" ? "Proposta de serviço" : "Proposta de contratação"}
                                         </strong>{" "}
                                         recebida de <strong>{proposal.dadosRecebedor.name} - {proposal.dadosRecebedor.username}</strong>
                                     </span>
-                                    <div style={{ maxHeight: "30vh", overflow: "auto" }}>
-                                        <p style={{ width: "98%", wordWrap: "break-word", wordBreak: "break-word", whiteSpace: "normal" }}>{proposal.descricao}</p>
+                                    <div style={{ maxHeight: "30vh", overflow: "auto", width: "100%" }}>
+                                        <p style={{ width: "100%", wordWrap: "break-word", wordBreak: "break-word", whiteSpace: "pre-wrap" }}>{proposal.descricao}</p>
                                     </div>
                                 </div>
                             ))

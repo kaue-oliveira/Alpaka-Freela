@@ -31,17 +31,6 @@ export default function JobCardsForManager() {
 
                 if (response.ok) {
                     let postsData = result;
-
-                    for (let i = 0; i < postsData.length; i++) {
-                        let tecnologias = [];
-
-                        for (let j = 0; j < postsData[i].tecnologias.length; j++) {
-                            tecnologias.push(postsData[i].tecnologias[j].nome);
-                        }
-
-                        postsData[i].tecnologias = tecnologias;
-                    }
-
                     setJobs(postsData);
                 } else {
                     console.log("erro ao fazer fetch nas ofertas de servico");
@@ -92,8 +81,6 @@ export default function JobCardsForManager() {
 
                 const result = await response.json();
 
-                console.log(result);
-
                 setOverlayType("message_popup");
                 setSucessPopupMessage(result);
 
@@ -115,7 +102,7 @@ export default function JobCardsForManager() {
 
     return (
         <div className={styles["job-cards"]}>
-            {jobs.map((job, index) => (
+            {jobs && jobs.map((job, index) => (
                 <JobCardForManager
                     key={index}
                     index={index}
@@ -125,6 +112,12 @@ export default function JobCardsForManager() {
                     jobData={job}
                 />
             ))}
+
+            {jobs.length === 0 && (
+                <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
+                    <h2 style={{color: "#3a3a3a", fontWeight: "500"}}>Não existem ofertas de trabalho cadastradas por você.</h2>
+                </div>
+            )}
 
             {isOverlayOpen && overlayType === "delete" && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>

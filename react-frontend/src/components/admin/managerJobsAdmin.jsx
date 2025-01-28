@@ -17,19 +17,47 @@ export default function ManagerJobsAdmin() {
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
     const [sucessPopupMessage, setSucessPopupMessage] = useState("");
 
+    const backendDomain = process.env.BACKEND_DOMAIN;
+
+    useEffect(() => {
+        const fetchJobs = async () => {
+            try {
+                const response = await fetch(backendDomain + '/ofertas-trabalho', {
+                    method: 'GET',
+                    credentials: "include",
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    let jobs = result;
+                    setJobs(jobs);
+                } else {
+                    console.log(result);
+                    setSucessPopupMessage(result)
+                }
+            } catch (error) {
+                console.log(error);
+                alert(error);
+            }
+        }
+
+        fetchJobs();
+    }, []);
+
     const toggleOverlay = () => {
         setIsOverlayOpen(!isOverlayOpen);
         setOverlayType("");
     };
 
-    const handleDeleteRequest = (index) => {
-        setCardToManager(index); // Define qual card será gerenciado
+    const handleDeleteRequest = (id) => {
+        setCardToManager(id); // Define qual card será gerenciado
         toggleOverlay();
         setOverlayType("delete");
     };
 
-    const handleEditRequest = (index) => {
-        setCardToManager(index); // Define qual card será gerenciado
+    const handleEditRequest = (id) => {
+        setCardToManager(id); // Define qual card será gerenciado
         toggleOverlay();
         setOverlayType("edit");
     };
@@ -45,13 +73,28 @@ export default function ManagerJobsAdmin() {
         setSucessPopupMessage(message);
     }
 
-    const handleConfirmDelete = () => {
+    const handleConfirmDelete = async () => {
         if (cardToManager !== null) {
-            setJobs(jobs.filter((_, i) => i !== cardToManager));
-            setCardToManager(null);
+            try {
+                const response = await fetch(backendDomain + '/ofertas-trabalho/' + cardToManager, {
+                    method: 'DELETE',
+                    credentials: "include",
+                });
 
-            setOverlayType("message_popup");
-            setSucessPopupMessage("Oferta de trabalho excluida com sucesso.");
+                const result = await response.json();
+
+                console.log(result);
+
+                setOverlayType("message_popup");
+                setSucessPopupMessage(result);
+
+                if (response.ok) {
+                    setJobs(jobs.filter((job) => job.id !== cardToManager));
+                    setCardToManager(null);
+                }
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
 
@@ -60,50 +103,6 @@ export default function ManagerJobsAdmin() {
         toggleOverlay();
     };
 
-
-
-    useEffect(() => {
-        setJobs([
-            {
-                title: "Programador Frontend",
-                name: "Paulo Henrique Ribeiro Alves",
-                username: "paulohenrique64",
-                description: "Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores.",
-                payment: 560,
-                techs: ["C++", "Figma", "C#"],
-                profileImage: Images.imagePaulo
-            },
-            {
-                title: "Programador Frontend",
-                name: "Paulo Henrique Ribeiro Alves",
-                username: "paulohenrique64",
-                description: "Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores.",
-                payment: 560,
-                techs: ["C++", "Figma", "C#"]
-            },
-            {
-                title: "Programador Frontend",
-                name: "Paulo Henrique Ribeiro Alves",
-                username: "paulohenrique64",
-                description: "Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores.",
-                payment: 560,
-                techs: ["C++", "Figma", "C#"]
-            },
-            {
-                title: "Programador Frontend",
-                name: "Paulo Henrique Ribeiro Alves",
-                username: "paulohenrique64",
-                description: "Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. Somos uma empresa apaixonada por tecnologia e focada em criar soluções eficientes e escaláveis para nossos clientes. Atualmente, estamos em busca de um Desenvolvedor Frontend com habilidades sólidas em HTML, CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores. CSS e Angular para integrar nossa equipe e contribuir com projetos inovadores.",
-                payment: 560,
-                techs: ["C++", "Figma", "C#"]
-            },
-        ]);
-    }, []);
-
-
-
-
-
     return (
         <div className={styles["middle-space"]}>
             <div className={styles["job-cards"]} style={{ marginTop: "0" }}>
@@ -111,8 +110,8 @@ export default function ManagerJobsAdmin() {
                     <JobCardForManager
                         key={index}
                         index={index}
-                        onDelete={() => handleDeleteRequest(index)}
-                        onEdit={() => handleEditRequest(index)}
+                        onDelete={() => handleDeleteRequest(job.id)}
+                        onEdit={() => handleEditRequest(job.id)}
                         jobData={job}
                     />
                 ))}
@@ -130,8 +129,13 @@ export default function ManagerJobsAdmin() {
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
                         <EditJobForm
                             onClose={() => toggleOverlay()}
-                            onSucess={(message) => handleSucessForm(message)}
-                            jobData={jobs[cardToManager]}
+                            onSubmit={(message) => handleSucessForm(message)}
+                            onUpdatedService={(updatedServiceData) =>
+                                setJobs(jobs.map(job =>
+                                    job.id === updatedServiceData.id ? updatedServiceData : job
+                                ))
+                            }
+                            id={cardToManager}
                         />
                     </motion.div>
                 )}

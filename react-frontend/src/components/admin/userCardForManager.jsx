@@ -3,20 +3,21 @@ import React from "react";
 import Images from "../fixed/images";
 
 
-const UserCardForManager = ({ onDelete, name, nickname, email, profileImage }) => {
+const UserCardForManager = ({ onDelete, userData }) => {
 
     return (
         <div style={styles.container}>
             <div style={styles.profileHeader}>
                 <img
-                    src={profileImage ? profileImage : Images.profileImage} // Substitua com a URL do ícone ou foto do perfil
+                    src={userData.profileImage} // Substitua com a URL do ícone ou foto do perfil
                     alt="Profile"
                     style={styles.profileImage}
                 />
                 <div style={styles.profileDetails}>
-                    <div style={{ display: "flex", width: "100%" }}><p style={{ fontWeight: "bold", margin: "0",}}>Nome: </p>{name}</div>
-                    <div style={{ display: "flex", width: "100%" }}><p style={{ fontWeight: "bold", margin: "0"}}>Username: </p>{nickname}</div>
-                    <div style={{ display: "flex", width: "100%" }}><p style={{ fontWeight: "bold", margin: "0" }}>Email: </p>{email}</div>
+                <div style={{ display: "flex", width: "100%" }}><p style={{ fontWeight: "bold", margin: "0",}}>Id: </p>{userData.id}</div>
+                    <div style={{ display: "flex", width: "100%" }}><p style={{ fontWeight: "bold", margin: "0",}}>Nome: </p>{userData.name}</div>
+                    <div style={{ display: "flex", width: "100%" }}><p style={{ fontWeight: "bold", margin: "0"}}>Username: </p>{userData.username}</div>
+                    <div style={{ display: "flex", width: "100%" }}><p style={{ fontWeight: "bold", margin: "0" }}>Email: </p>{userData.email}</div>
                 </div>
             </div>
             <div style={{ display: "flex", flexDirection: "row", gap: "2%" }}>

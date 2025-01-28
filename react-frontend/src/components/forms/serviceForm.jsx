@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Images from "../fixed/images";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 const ScrollContainerPurple = styled.div`
   overflow-y: auto;
@@ -55,7 +56,7 @@ const ServiceForm = ({ onClose, onSucess, newServicePost }) => {
                 const result = await response.json();
 
                 if (response.ok) {
-                    setSkillsToSelect(result);      
+                    setSkillsToSelect(result);
                 } else {
                     console.log("erro ao fazer fetch nas habilidades");
                 }
@@ -92,7 +93,7 @@ const ServiceForm = ({ onClose, onSucess, newServicePost }) => {
         if (techInput && !technologies.includes(techInput)) {
             setTechnologies([...technologies, techInput]);
             console.log(techInput);
-            
+
             setTechInput("");
             setIncorrectTechsErrorMessage("");
         }
@@ -125,8 +126,8 @@ const ServiceForm = ({ onClose, onSucess, newServicePost }) => {
             error = true;
         }
 
-        if (skills.length < 6 || skills.length > 30) {
-            setIncorrectSkillsErrorMessage("Você precisa selecionar um número entre 6 e 30 de habilidades.");
+        if (skills.length < 5 || skills.length > 30) {
+            setIncorrectSkillsErrorMessage("Você precisa selecionar um número entre 5 e 30 de habilidades.");
             error = true;
         }
 
@@ -135,7 +136,7 @@ const ServiceForm = ({ onClose, onSucess, newServicePost }) => {
             let habilidadesIds = [];
 
             for (let i = 0; i < technologies.length; i++) {
-                for (let j = 0; j < techsToSelect.length; j++) {       
+                for (let j = 0; j < techsToSelect.length; j++) {
                     if (techsToSelect[j].nome === technologies[i]) {
                         tecnologiasIds.push(techsToSelect[j].id);
                     }
@@ -174,7 +175,7 @@ const ServiceForm = ({ onClose, onSucess, newServicePost }) => {
                     newServicePost(result);
                 } else {
                     console.log(result);
-                    onSubmit(result);
+                    setFormErrorMessage(result);
                 }
             } catch (error) {
                 console.log(error);
@@ -315,182 +316,184 @@ const ServiceForm = ({ onClose, onSucess, newServicePost }) => {
     };
 
     return (
-        <div style={styles.container}>
-            <div style={styles.form}>
-                <h1 style={styles.header}>Cadastrando oferta de serviço</h1>
-                <form style={{ boxSizing: "border-box", height: "90%" }} onSubmit={submitFormHandle}>
-                    <div style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                        <ScrollContainerPurple>
-                            <div style={{ overflow: "auto", height: "97%" }}>
-                                <label style={styles.label} htmlFor="title">
-                                    Valor cobrado por hora
-                                </label>
-                                <input
-                                    name="hourValue"
-                                    id="hour-value"
-                                    type="number"
-                                    step="0.01"
-                                    placeholder="Valor cobrado por hora"
-                                    style={styles.input}
-                                    min="0"
-                                    onChange={handleInputValue}
-                                />
-                                <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
-                                    {incorrectValueErrorMessage}
-                                </div>
-                                <label style={styles.label} htmlFor="description">
-                                    Descrição
-                                </label>
-                                <textarea
-                                    name="description"
-                                    id="description"
-                                    placeholder="Descrição"
-                                    style={styles.textarea}
-                                    onChange={handleDescription}
-                                />
-                                <p style={{ margin: "0" }}>{textAreaLettersQuantity} / 7000</p>
-                                <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
-                                    {excedLengthErrorMessage}
-                                </div>
-
-                                {/* Tecnologias */}
-                                <div style={{ flex: "1" }}>
-                                    <label style={styles.label} htmlFor="technologies">
-                                        Selecione 3 Tecnologias
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+            <div style={styles.container}>
+                <div style={styles.form}>
+                    <h1 style={styles.header}>Cadastrando oferta de serviço</h1>
+                    <form style={{ boxSizing: "border-box", height: "90%" }} onSubmit={submitFormHandle}>
+                        <div style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                            <ScrollContainerPurple>
+                                <div style={{ overflow: "auto", height: "97%" }}>
+                                    <label style={styles.label} htmlFor="title">
+                                        Valor cobrado por hora
                                     </label>
-                                    <div style={{ display: "flex", gap: "2.5%", width: "98%" }}>
-                                        <select
-                                            name="technologies"
-                                            id="technologies"
-                                            style={styles.input}
-                                            onChange={(e) => setTechInput(e.target.value)}
-                                        >
-                                            {techsToSelect && techsToSelect.length > 0 ? (
-                                                techsToSelect.map(tech => (
-                                                    <option value={tech.nome} key={tech.id} id={tech.id}>
-                                                        {tech.nome}
-                                                    </option>
-                                                ))
-                                            ) : (
-                                                <option disabled>Sem tecnologias disponíveis</option> // Se não houver techsToSelect, mostramos uma opção desabilitada
-                                            )}
-                                        </select>
-                                        <button
-                                            type="button"
-                                            onClick={handleAddTechnology}
-                                            style={styles.button}
-                                        >
-                                            Adicionar
-                                        </button>
+                                    <input
+                                        name="hourValue"
+                                        id="hour-value"
+                                        type="number"
+                                        step="0.01"
+                                        placeholder="Valor cobrado por hora"
+                                        style={styles.input}
+                                        min="0"
+                                        onChange={handleInputValue}
+                                    />
+                                    <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
+                                        {incorrectValueErrorMessage}
                                     </div>
-                                    <div style={styles.techList}>
-                                        {technologies.map((tech) => (
-                                            <div key={tech} style={styles.techItem}>
-                                                {tech}
-                                                <img
-                                                    src={Images.closeX}
-                                                    alt="close"
-                                                    style={{
-                                                        width: "15px",
-                                                        cursor: "pointer",
-                                                        marginLeft: "5%",
-                                                    }}
-                                                    onClick={() =>
-                                                        handleRemoveTechnology(tech)
-                                                    }
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div style={{ color: "red", fontSize: "14px", height: "18px", }}>
-                                        {incorrectTechsErrorMessage}
-                                    </div>
-                                </div>
-
-                                {/* Linha separadora */}
-                                <div style={{
-                                    width: "98%",
-                                    height: "1px",
-                                    backgroundColor: "#000",
-                                    margin: "20px 0" // Espaçamento vertical
-                                }}></div>
-
-                                <div style={{ flex: "1" }}>
-                                    {/* Habilidades */}
-                                    <label style={styles.label} htmlFor="skills">
-                                        Selecione até 30 habilidades
+                                    <label style={styles.label} htmlFor="description">
+                                        Descrição
                                     </label>
-                                    <div style={{ display: "flex", flexDirection: "row", gap: "2.5%", width: "98%" }}>
-                                        <select
-                                            name="skills"
-                                            id="skills"
-                                            style={styles.input}
-                                            onChange={(e) => setSkillInput(e.target.value)}
-                                        >
-                                            {skillsToSelect && skillsToSelect.length > 0 ? (
-                                                skillsToSelect.map(skill => (
-                                                    <option value={skill.nome} key={skill.id} id={skill.id}>
-                                                        {skill.nome}
-                                                    </option>
-                                                ))
-                                            ) : (
-                                                <option disabled>Sem habilidades disponíveis</option> // Se não houver skillsToSelect, mostramos uma opção desabilitada
-                                            )}
-                                        </select>
-                                        <button
-                                            type="button"
-                                            onClick={handleAddSkill}
-                                            style={styles.button}
-                                        >
-                                            Adicionar
-                                        </button>
+                                    <textarea
+                                        name="description"
+                                        id="description"
+                                        placeholder="Descrição"
+                                        style={styles.textarea}
+                                        onChange={handleDescription}
+                                    />
+                                    <p style={{ margin: "0" }}>{textAreaLettersQuantity} / 7000</p>
+                                    <div style={{ color: "red", fontSize: "14px", marginTop: "5px", marginBottom: "5px", height: "18px", }}>
+                                        {excedLengthErrorMessage}
                                     </div>
-                                    <div style={styles.techList}>
-                                        {skills.map((skill) => (
-                                            <div key={skill} style={styles.techItem}>
-                                                {skill}
-                                                <img
-                                                    src={Images.closeX}
-                                                    alt="close"
-                                                    style={{
-                                                        width: "15px",
-                                                        cursor: "pointer",
-                                                        marginLeft: "5%",
-                                                    }}
-                                                    onClick={() => handleRemoveSkill(skill)}
-                                                />
-                                            </div>
-                                        ))}
+
+                                    {/* Tecnologias */}
+                                    <div style={{ flex: "1" }}>
+                                        <label style={styles.label} htmlFor="technologies">
+                                            Selecione 3 Tecnologias
+                                        </label>
+                                        <div style={{ display: "flex", gap: "2.5%", width: "98%" }}>
+                                            <select
+                                                name="technologies"
+                                                id="technologies"
+                                                style={styles.input}
+                                                onChange={(e) => setTechInput(e.target.value)}
+                                            >
+                                                {techsToSelect && techsToSelect.length > 0 ? (
+                                                    techsToSelect.map(tech => (
+                                                        <option value={tech.nome} key={tech.id} id={tech.id}>
+                                                            {tech.nome}
+                                                        </option>
+                                                    ))
+                                                ) : (
+                                                    <option disabled>Sem tecnologias disponíveis</option> // Se não houver techsToSelect, mostramos uma opção desabilitada
+                                                )}
+                                            </select>
+                                            <button
+                                                type="button"
+                                                onClick={handleAddTechnology}
+                                                style={styles.button}
+                                            >
+                                                Adicionar
+                                            </button>
+                                        </div>
+                                        <div style={styles.techList}>
+                                            {technologies.map((tech) => (
+                                                <div key={tech} style={styles.techItem}>
+                                                    {tech}
+                                                    <img
+                                                        src={Images.closeX}
+                                                        alt="close"
+                                                        style={{
+                                                            width: "15px",
+                                                            cursor: "pointer",
+                                                            marginLeft: "5%",
+                                                        }}
+                                                        onClick={() =>
+                                                            handleRemoveTechnology(tech)
+                                                        }
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div style={{ color: "red", fontSize: "14px", height: "18px", }}>
+                                            {incorrectTechsErrorMessage}
+                                        </div>
                                     </div>
-                                    <div style={{ color: "red", fontSize: "14px", height: "18px", }}>
-                                        {incorrectSkillsErrorMessage}
+
+                                    {/* Linha separadora */}
+                                    <div style={{
+                                        width: "98%",
+                                        height: "1px",
+                                        backgroundColor: "#000",
+                                        margin: "20px 0" // Espaçamento vertical
+                                    }}></div>
+
+                                    <div style={{ flex: "1" }}>
+                                        {/* Habilidades */}
+                                        <label style={styles.label} htmlFor="skills">
+                                            Selecione no mínimo 5 e no máximo 30 habilidades
+                                        </label>
+                                        <div style={{ display: "flex", flexDirection: "row", gap: "2.5%", width: "98%" }}>
+                                            <select
+                                                name="skills"
+                                                id="skills"
+                                                style={styles.input}
+                                                onChange={(e) => setSkillInput(e.target.value)}
+                                            >
+                                                {skillsToSelect && skillsToSelect.length > 0 ? (
+                                                    skillsToSelect.map(skill => (
+                                                        <option value={skill.nome} key={skill.id} id={skill.id}>
+                                                            {skill.nome}
+                                                        </option>
+                                                    ))
+                                                ) : (
+                                                    <option disabled>Sem habilidades disponíveis</option> // Se não houver skillsToSelect, mostramos uma opção desabilitada
+                                                )}
+                                            </select>
+                                            <button
+                                                type="button"
+                                                onClick={handleAddSkill}
+                                                style={styles.button}
+                                            >
+                                                Adicionar
+                                            </button>
+                                        </div>
+                                        <div style={styles.techList}>
+                                            {skills.map((skill) => (
+                                                <div key={skill} style={styles.techItem}>
+                                                    {skill}
+                                                    <img
+                                                        src={Images.closeX}
+                                                        alt="close"
+                                                        style={{
+                                                            width: "15px",
+                                                            cursor: "pointer",
+                                                            marginLeft: "5%",
+                                                        }}
+                                                        onClick={() => handleRemoveSkill(skill)}
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div style={{ color: "red", fontSize: "14px", height: "18px", }}>
+                                            {incorrectSkillsErrorMessage}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </ScrollContainerPurple>
+                            </ScrollContainerPurple>
 
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                            <button
-                                type="submit"
-                                style={{ ...styles.button, ...styles.submitButton }}
-                            >
-                                Cadastrar
-                            </button>
-                            <button
-                                type="button"
-                                style={{ ...styles.button, ...styles.cancelButton }}
-                                onClick={onClose}
-                            >
-                                Cancelar
-                            </button>
-                            <div style={{ color: "red", fontSize: "15px", marginLeft: "10px", height: "18px", }}>
-                                {formErrorMessage}
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <button
+                                    type="submit"
+                                    style={{ ...styles.button, ...styles.submitButton }}
+                                >
+                                    Cadastrar
+                                </button>
+                                <button
+                                    type="button"
+                                    style={{ ...styles.button, ...styles.cancelButton }}
+                                    onClick={onClose}
+                                >
+                                    Cancelar
+                                </button>
+                                <div style={{ color: "red", fontSize: "15px", marginLeft: "10px", height: "18px", }}>
+                                    {formErrorMessage}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

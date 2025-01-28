@@ -1,7 +1,6 @@
 package com.project.spring_boot_back_end.domain.oferta_de_servico;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.List;
 
 import com.project.spring_boot_back_end.domain.habilidade.DadosListagemHabilidade;

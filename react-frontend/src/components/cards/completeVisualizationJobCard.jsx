@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Images from "../fixed/images";
+import { motion } from "framer-motion";
 
 const CompleteVisualizationJobCard = ({ onClose, id }) => {
     const [title, setTitle] = useState("");
@@ -10,11 +11,14 @@ const CompleteVisualizationJobCard = ({ onClose, id }) => {
     const [username, setUsername] = useState("");
     const [techs, setTechs] = useState([]);
     const [profileImage, setProfileImage] = useState("");
+    const [fetchingData, setFetchingData] = useState(false);
 
     const backendDomain = process.env.BACKEND_DOMAIN;
 
     useEffect(() => {
         const fetchJobPost = async () => {
+            setFetchingData(true);
+
             try {
                 const response = await fetch(backendDomain + '/ofertas-trabalho/' + id, {
                     method: 'GET',
@@ -24,7 +28,7 @@ const CompleteVisualizationJobCard = ({ onClose, id }) => {
                 const result = await response.json();
 
                 console.log(result);
-                
+
                 if (response.ok) {
                     setTitle(result.titulo)
                     setDescription(result.descricao);
@@ -34,7 +38,7 @@ const CompleteVisualizationJobCard = ({ onClose, id }) => {
                     setProfileImage(result.profileImage);
 
                     let tmpTechs = [];
-            
+
                     for (let i = 0; i < result.tecnologias.length; i++) {
                         tmpTechs.push(result.tecnologias[i].nome);
                     }
@@ -46,6 +50,8 @@ const CompleteVisualizationJobCard = ({ onClose, id }) => {
             } catch (error) {
                 console.log(error);
             }
+
+            setFetchingData(false);
         }
 
         fetchJobPost();
@@ -53,40 +59,44 @@ const CompleteVisualizationJobCard = ({ onClose, id }) => {
 
 
     return (
-        <div style={styles.overlay}>
-            <div style={styles.container}>
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0" }}>
-                    <div>
-                        <h2 style={styles.title}>{title}</h2>
-                        <p style={styles.publisher}>
-                            Publicado por{" "}
-                            <strong>{username} ({name})</strong>
-                        </p>
-                    </div>
-                    <img style={{ width: "4%", height: "4%", borderRadius: "100%" }} src={profileImage ? profileImage : Images.profileImage} alt="" />
-                </div>
-                <p style={styles.description}>
-                    {description}
-                </p>
-                <p style={styles.payment}>
-                    <span style={styles.paymentAmount}>Pagamento: R$ {payment}</span>
-                </p>
-                <div style={styles.techs}>
-                    {techs.map((skill, index) => (
-                        <div style={styles.skillButton} key={index}>
-                            {skill}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+            <div style={styles.overlay}>
+                {!fetchingData && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} style={styles.container}>
+                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0" }}>
+                            <div>
+                                <h2 style={styles.title}>{title}</h2>
+                                <p style={styles.publisher}>
+                                    Publicado por{" "}
+                                    <strong>{username} ({name})</strong>
+                                </p>
+                            </div>
+                            <img style={{ width: "50px", height: "50px", borderRadius: "100%" }} src={profileImage ? profileImage : Images.profileImage} alt="" />
                         </div>
-                    ))}
-                </div>
-                <div
-                    style={{ display: "flex", flexDirection: "row", gap: "2%" }}
-                >
-                    <button style={styles.proposalButton} onClick={onClose}>
-                        Fechar
-                    </button>
-                </div>
+                        <p style={styles.description}>
+                            {description}
+                        </p>
+                        <p style={styles.payment}>
+                            <span style={styles.paymentAmount}>Pagamento: R$ {payment}</span>
+                        </p>
+                        <div style={styles.techs}>
+                            {techs.map((skill, index) => (
+                                <div style={styles.skillButton} key={index}>
+                                    {skill}
+                                </div>
+                            ))}
+                        </div>
+                        <div
+                            style={{ display: "flex", flexDirection: "row", gap: "2%" }}
+                        >
+                            <button style={styles.proposalButton} onClick={onClose}>
+                                Fechar
+                            </button>
+                        </div>
+                    </motion.div>
+                )}
             </div>
-        </div>
+        </motion.div>
     );
 };
 
@@ -134,6 +144,9 @@ const styles = {
         maxHeight: "350px",
         lineHeight: "1.5",
         paddingRight: "10px",
+        wordWrap: "break-word",
+        wordBreak: "break-word",
+        whiteSpace: "pre-wrap",
     },
     payment: {
         fontSize: "16px",

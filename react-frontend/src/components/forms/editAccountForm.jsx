@@ -120,7 +120,7 @@ const EditAccountForm = ({ onSucess }) => {
                 if (!response.ok) {
                     console.log(response.body.values[0]);
 
-                    handleFormSubmit("Ocorreu um erro ao tentar atualizar seus dados de registro. Por favor tente novamente.");
+                    handleFormSubmit(result);
                 }
 
                 // onSucess("Dados de registro atualizados com sucesso.");
@@ -234,36 +234,44 @@ const EditAccountForm = ({ onSucess }) => {
                         alignItems: "flex-start",
                     }}
                 >
-                    <img
-                        src={exposeImage ? exposeImage : userData.profileImage}
-                        alt="Foto do perfil"
-                        style={{
-                            width: "110px",
-                            height: "110px",
-                            borderRadius: "50%",
-                            marginBottom: "10px",
-                        }}
-                    />
-                    <label
-                        style={{
-                            display: "block",
-                            padding: "10px",
-                            cursor: "pointer",
-                            width: "auto",
-                            textAlign: "center",
-                            backgroundColor: "#f0f0f0",
-                            border: "1px solid #000000",
-                            borderRadius: "4px",
-                            boxSizing: "border-box",
-                            fontSize: "14px",
-                            color: "#333",
-                            fontWeight: "bold",
-                            transition: "all 0.3s",
-                        }}
-                        htmlFor="fileInput"
-                    >
-                        Selecionar imagem
-                    </label>
+                    <div>
+                        <img
+                            src={exposeImage ? exposeImage : userData.profileImage}
+                            alt="Foto do perfil"
+                            style={{
+                                width: "110px",
+                                height: "110px",
+                                borderRadius: "50%",
+                                marginBottom: "10px",
+                                // border: "1px solid #000000",
+                            }}
+                        />
+                        <label
+                            style={{
+                                display: "block",
+                                padding: "10px",
+                                cursor: "pointer",
+                                width: "auto",
+                                textAlign: "center",
+                                backgroundColor: "#e7e5fd",
+                                border: "1px solid #000000",
+                                borderRadius: "4px",
+                                boxSizing: "border-box",
+                                fontSize: "14px",
+                                color: "#000000",
+                                fontWeight: "bold",
+                                transition: "all 0.3s",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "5px"
+                            }}
+                            htmlFor="fileInput"
+                        >
+
+                            <img src={Images.iconUpload} alt="" style={{ width: "17px" }} />
+                            Selecionar imagem
+                        </label>
+                    </div>
                     <input
                         name="image"
                         id="fileInput"
