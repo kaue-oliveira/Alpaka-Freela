@@ -43,7 +43,7 @@ public class OfertaDeTrabalhoController {
         var ofertaDeTrabalho = new OfertaDeTrabalho(dados, usuario);
 
         //Validacao de dados
-        if (/*dados.tecnologiasIds() == null || */dados.descricao() == null || dados.pagamento() == null) {
+        if (dados.descricao() == null || dados.pagamento() == null) {
             return ResponseEntity.status(401).body(gson.toJson("Dados inválidos."));
         }
 

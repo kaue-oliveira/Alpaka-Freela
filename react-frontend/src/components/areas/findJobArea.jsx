@@ -89,14 +89,6 @@ export default function FindWorkArea() {
     }
 
     const handleNewJobPost = (postData) => {
-        let tecnologias = [];
-
-        for (let i = 0; i < postData.tecnologias.length; i++) {
-            tecnologias.push(postData.tecnologias[i].nome);
-        }
-
-        postData.tecnologias = tecnologias;
-
         setJobPosts((prevPosts) => [...prevPosts, postData]);
     };
 
@@ -123,7 +115,6 @@ export default function FindWorkArea() {
                         username={job.usernameUsuario}
                         description={job.descricao}
                         payment={job.pagamento}
-                        skills={job.tecnologias}
                         profileImage={job.profileImage}
                     />
                 ))}

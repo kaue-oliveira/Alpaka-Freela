@@ -63,6 +63,9 @@ const styles = {
         backgroundColor: "#fff",
         fontFamily: "Arial, sans-serif",
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between"
     },
     title: {
         fontSize: "20px",
@@ -70,6 +73,10 @@ const styles = {
         fontWeight: "bold",
         marginBottom: "10px",
         marginTop: "0px",
+        overflow: "hidden",
+        wordWrap: "break-word",
+        wordBreak: "break-word",
+        whiteSpace: "pre-wrap",
     },
     publisher: {
         fontSize: "14px",

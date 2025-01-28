@@ -31,17 +31,6 @@ export default function ManagerJobsAdmin() {
 
                 if (response.ok) {
                     let jobs = result;
-
-                    for (let i = 0; i < jobs.length; i++) {
-                        let tecnologias = [];
-
-                        for (let j = 0; j < jobs[i].tecnologias.length; j++) {
-                            tecnologias.push(jobs[i].tecnologias[j].nome);
-                        }
-
-                        jobs[i].tecnologias = tecnologias;
-                    }
-
                     setJobs(jobs);
                 } else {
                     console.log(result);

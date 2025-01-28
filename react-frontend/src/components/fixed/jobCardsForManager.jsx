@@ -31,17 +31,6 @@ export default function JobCardsForManager() {
 
                 if (response.ok) {
                     let postsData = result;
-
-                    for (let i = 0; i < postsData.length; i++) {
-                        let tecnologias = [];
-
-                        for (let j = 0; j < postsData[i].tecnologias.length; j++) {
-                            tecnologias.push(postsData[i].tecnologias[j].nome);
-                        }
-
-                        postsData[i].tecnologias = tecnologias;
-                    }
-
                     setJobs(postsData);
                 } else {
                     console.log("erro ao fazer fetch nas ofertas de servico");
@@ -125,7 +114,9 @@ export default function JobCardsForManager() {
             ))}
 
             {jobs.length === 0 && (
-                <h2 style={{color: "#3a3a3a", fontWeight: "500"}}>Não existem ofertas de trabalho cadastradas por você.</h2>
+                <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
+                    <h2 style={{color: "#3a3a3a", fontWeight: "500"}}>Não existem ofertas de trabalho cadastradas por você.</h2>
+                </div>
             )}
 
             {isOverlayOpen && overlayType === "delete" && (
